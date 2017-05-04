@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Poppertech Calculator</title>
+
+    <link href="styles/bootstrap.css" rel="stylesheet" />
+    <link href="styles/bootstrap-theme.css" rel="stylesheet" />
+    <link href="styles/site.css" rel="stylesheet" />
+
+    <script src="scripts/angular.js"></script>
+
+</head>
+<body ng-app="poppertechCalculatorApp">
+
+    <div ng-controller="mockupController as vm"
+         class="container">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="page-header">Probability of Success</h2>
+            </div>
+        </div>
+
+        <div class="panel-group">
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h3>Dashboard</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Probability of Meeting Cash Needs</h4>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Investment Amounts</h4>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Cash Flow Forecast</h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4 text-center">
+                            <area-chart chart-data="{{vm.probabilityChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                                        chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40"
+                                        chart-fill-color="darkblue" />
+                        </div>
+
+                        <div class="col-sm-4 text-center">
+                            <pie-chart chart-data="{{vm.portfolioChartData}}" chart-width="350" chart-height="215"
+                                       chart-path-offset="10" chart-label-offset="40" chart-top-margin="0"
+                                       chart-left-margin="0" />
+                        </div>
+
+                        <div class="col-sm-4 text-center">
+                            <area-chart chart-data="{{vm.cashChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                                        chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40"
+                                        chart-fill-color="darkred" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Cash Flow Forecast</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th ng-repeat="forecast in vm.editProperties.cashForecast">
+                                            {{forecast.title}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td ng-repeat="forecast in vm.editProperties.cashForecast">
+                                            <input ng-model="forecast.data" class="form-control" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Investment Forecast</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                            <h4 class="text-left">1. Choose a variable to forecast</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-4 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect gdp" ng-click="vm.showAlert('GDP')" />
+                                <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect stocks" />
+                                <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect bonds" />
+
+                                <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.showAlert('GDP')">US GDP Growth</text>
+                                <text x="290" y="30" class="rect-text stocks">US Stocks</text>
+                                <text x="290" y="130" class="rect-text bonds">US Bonds</text>
+
+                                <polyline points="150,75 200,75 200,25 250,25" class="connector" />
+                                <polyline points="150,75 200,75 200,125 250,125" class="connector" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4 class="text-left">2. Forecast investment results based on parent outcome</h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <select class="form-control">
+                                <option value="value">US GDP Growth Left Tail</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Forecast Scenarios</h4>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Forecast Distribution</h4>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Forecast Statistics</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr ng-repeat="forecast in vm.conditionalForecast">
+                                        <td>{{forecast.title}}</td>
+                                        <td>
+                                            <input type="text" class="form-control" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-sm-4 text-center">
+                            <multi-colored-area-chart chart-data="{{vm.conditionalForecastChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                                                      chart-right-margin="10" chart-bottom-margin="50" chart-left-margin="50" />
+                        </div>
+
+                        <div class="col-sm-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr ng-repeat="stat in vm.conditionalStats">
+                                        <td>{{stat.title}}</td>
+                                        <td>{{stat.value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-default btn-sm pull-left">
+                                <h4 class="text-left">
+                                    3. Simulate investment results
+                                </h4>
+                            </button>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Histogram of simulated investment results</h4>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <h4 class="text-center">Statistics for simulated investment results</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4"></div>
+
+                        <div class="col-sm-4">
+
+                            <column-chart chart-data="{{vm.histogramChartData}}" chart-width="350" chart-height="215"
+                                          chart-top-margin="20" chart-right-margin="0" chart-bottom-margin="50"
+                                          chart-left-margin="40" />
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th ng-repeat="stat in vm.investmentStats[0].statistics">
+                                            {{stat.title}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="investmentStat in vm.investmentStats">
+                                        <td>{{investmentStat.investment}}</td>
+                                        <td ng-repeat="stat in investmentStat.statistics">
+                                            {{stat.value}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Portfolio Optimization</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
+                                <input type="number" class="form-control" name="LowerBoundTextBox">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
+                                <input type="number" class="form-control" id="UpperBoundTextBox">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="MinimumLotTextBox">Minimum Lot Size:</label>
+                                <input type="number" class="form-control" id="MinimumLotTextBox">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-3 col-sm-offset-9">
+                            <button type="submit" class="btn btn-default btn-lg">Calculate</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="scripts/d3.js"></script>
+    <script src="scripts/controller.js"></script>
+    <script src="scripts/d3-pie-chart-dir.js"></script>
+    <script src="scripts/d3-area-chart-dir.js"></script>
+    <script src="scripts/d3-column-chart-dir.js"></script>
+    <script src="scripts/d3-multi-colored-area-chart-dir.js"></script>
+
+</body>
+</html>

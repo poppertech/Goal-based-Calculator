@@ -1,0 +1,49 @@
+﻿.level1-rect {
+    fill: rgb(100, 100, 200);
+    stroke-width: 3;
+    stroke: rgb(0,0,0);
+}
+
+.level2-rect {
+    fill: rgb(100, 200, 100);
+    stroke-width: 3;
+    stroke: rgb(0,0,0);
+}
+
+.connector {
+    fill: none;
+    stroke: black;
+    stroke-width: 3;
+}
+
+.rect-text {
+    font-weight: bold;
+}
+
+.list-group {
+    list-style: decimal inside;
+}
+
+.list-group-item {
+    display: list-item;
+}
+
+.bar {
+    fill: darkblue;
+}
+
+.axis--x path {
+    display: none;
+}
+
+.tick text {
+    font-size: 16px;
+}
+
+.row svg{
+    overflow:visible;
+}
+
+.pie-chart-label{
+    font-weight: bold;
+}
