@@ -112,13 +112,13 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-4 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect gdp" ng-click="vm.showAlert('GDP')" />
-                                <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect stocks" />
-                                <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect bonds" />
+                                <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal gdp" ng-click="vm.selectVariable('gdp')" ng-class="vm.gdpClass"/>
+                                <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal stocks" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
+                                <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal bonds" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
 
-                                <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.showAlert('GDP')">US GDP Growth</text>
-                                <text x="290" y="30" class="rect-text stocks">US Stocks</text>
-                                <text x="290" y="130" class="rect-text bonds">US Bonds</text>
+                                <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.selectVariable('gdp')">US GDP Growth</text>
+                                <text x="290" y="30" class="rect-text stocks" ng-click="vm.selectVariable('stocks')">US Stocks</text>
+                                <text x="290" y="130" class="rect-text bonds" ng-click="vm.selectVariable('bonds')">US Bonds</text>
 
                                 <polyline points="150,75 200,75 200,25 250,25" class="connector" />
                                 <polyline points="150,75 200,75 200,125 250,125" class="connector" />
@@ -134,8 +134,12 @@
 
                     <div class="row">
                         <div class="form-group col-sm-3">
-                            <select class="form-control">
-                                <option value="value">US GDP Growth Left Tail</option>
+                            <select class="form-control"
+                                    ng-disabled="!vm.selectedVariable"
+                                    ng-model="vm.forecastRegion" 
+                                    ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
+                                    ng-options="option.value as option.text for option in vm.forecastRegionOptions">
+                                <option value="">Select Forecast Region</option>
                             </select>
                         </div>
                     </div>
@@ -161,10 +165,10 @@
                         <div class="form-group col-sm-4">
                             <table class="table table-striped">
                                 <tbody>
-                                    <tr ng-repeat="forecast in vm.conditionalForecast">
+                                    <tr ng-repeat="forecast in vm.selectedForecast">
                                         <td>{{forecast.title}}</td>
                                         <td>
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="forecast.value" />
                                         </td>
                                     </tr>
                                 </tbody>

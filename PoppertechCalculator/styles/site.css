@@ -1,13 +1,20 @@
-﻿.level1-rect {
-    fill: rgb(100, 100, 200);
+﻿.rect-normal{
     stroke-width: 3;
     stroke: rgb(0,0,0);
 }
 
+.rect-selected{
+    stroke-width: 4;
+    stroke: orange; 
+}
+
+.level1-rect {
+    fill: rgb(100, 100, 200);
+
+}
+
 .level2-rect {
     fill: rgb(100, 200, 100);
-    stroke-width: 3;
-    stroke: rgb(0,0,0);
 }
 
 .connector {
