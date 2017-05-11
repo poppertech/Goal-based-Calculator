@@ -4,6 +4,8 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     vm = this;
 
+    vm.reset = reset;
+
     activate()
 
     function activate() {
@@ -21,11 +23,11 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     function initCashForecast(cashForecast) {
         var numYears = 10;
         for (var year = 0; year < numYears + 1; year++) {
-            cashForecast.push({ title: 'Year ' + year, data: 0 });
+            cashForecast.push({ date: 'Year ' + year, value: 0 });
         }
     }
 
-    function initConditionForecasts() {
+    function initConditionalForecasts() {
         vm.editProperties.conditionalForecasts = {
             gdp: {
                 leftTail: [
@@ -126,19 +128,19 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     ];
 
     vm.probabilityChartData = [
-        { date: "Year 1", close: 194.93 },
-        { date: "Year 2", close: 90.75 },
-        { date: "Year 3", close: 214.01 },
-        { date: "Year 4", close: 329.57 },
-        { date: "Year 5", close: 411.23 }
+        { date: "Year 1", value: 194.93 },
+        { date: "Year 2", value: 90.75 },
+        { date: "Year 3", value: 214.01 },
+        { date: "Year 4", value: 329.57 },
+        { date: "Year 5", value: 411.23 }
     ];
 
     vm.cashChartData = [
-        { date: "Year 1", close: 194.93 },
-        { date: "Year 2", close: 90.75 },
-        { date: "Year 3", close: 214.01 },
-        { date: "Year 4", close: 329.57 },
-        { date: "Year 5", close: 411.23 }
+        { date: "Year 1", value: 194.93 },
+        { date: "Year 2", value: 90.75 },
+        { date: "Year 3", value: 214.01 },
+        { date: "Year 4", value: 329.57 },
+        { date: "Year 5", value: 411.23 }
     ];
 
     vm.investmentStats = [
@@ -159,11 +161,11 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     }
 
     vm.conditionalForecastChartData = [
-        { date: "Year 1", close: 194.93 },
-        { date: "Year 2", close: 90.75 },
-        { date: "Year 3", close: 214.01 },
-        { date: "Year 4", close: 329.57 },
-        { date: "Year 5", close: 411.23 }
+        { x: 40, y: 0 },
+        { x: 75, y: .57 },
+        { x: 100, y: 2.10 },
+        { x: 130, y: 1 },
+        { x: 150, y: 0 }
     ];
 
     vm.conditionalStats = [
@@ -207,5 +209,9 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
         return angular.fromJson($window.localStorage.getItem('editProperties'));
     }
 
+    function reset() {
+        $window.localStorage.removeItem('editProperties');
+        activate();
+    }
 
 }]);

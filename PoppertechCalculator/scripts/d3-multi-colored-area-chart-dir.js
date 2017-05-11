@@ -21,17 +21,20 @@
             var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-            var xValues = data.map(function (d) { return d.date; });
-            var x = d3.scalePoint().domain(xValues).range([0, width]);
+            var xValues = data.map(function (d) { return d.x; });
+
+            var x = d3.scaleLinear()
+                .domain([d3.min(xValues), d3.max(xValues)])
+                .range([0, width]);
 
             var y = d3.scaleLinear().rangeRound([height, 0]);
 
             var area = d3.area()
-                .x(function (d) { return x(d.date); })
-                .y1(function (d) { return y(d.close); });
+                .x(function (d) { return x(d.x); })
+                .y1(function (d) { return y(d.y); });
        
 
-            y.domain([0, d3.max(data, function (d) { return d.close; })]);
+            y.domain([0, d3.max(data, function (d) { return d.y; })]);
             area.y0(y(0));
 
             var xAxis = d3.axisBottom(x).ticks(xValues.length);

@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="col-sm-4 text-center">
-                            <area-chart chart-data="{{vm.cashChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                            <area-chart chart-data="{{vm.editProperties.cashForecast}}" chart-width="350" chart-height="215" chart-top-margin="20"
                                         chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40"
                                         chart-fill-color="darkred" />
                         </div>
@@ -78,14 +78,14 @@
                                 <thead>
                                     <tr>
                                         <th ng-repeat="forecast in vm.editProperties.cashForecast">
-                                            {{forecast.title}}
+                                            {{forecast.date}}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td ng-repeat="forecast in vm.editProperties.cashForecast">
-                                            <input ng-model="forecast.data" class="form-control" />
+                                            <input ng-model="forecast.value" class="form-control" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -286,6 +286,7 @@
 
                         <div class="col-sm-3 col-sm-offset-9">
                             <button type="submit" class="btn btn-default btn-lg">Calculate</button>
+                            <button type="button" class="btn btn-danger btn-lg" ng-click="vm.reset()">Reset</button>
                         </div>
 
                     </div>
