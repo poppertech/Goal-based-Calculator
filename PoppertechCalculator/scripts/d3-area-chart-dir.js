@@ -13,7 +13,7 @@
         link: function (scope, element, attrs) {
 
             activate();
-            scope.$watch('chartData', redraw)
+            scope.$watch('chartData', redraw);
 
             function activate() {
                 var svg = d3.select(element[0]).append("svg").attr("width", scope.chartWidth).attr("height", scope.chartHeight);

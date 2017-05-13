@@ -111,6 +111,7 @@
     <Content Include="scripts\d3.js" />
     <Content Include="scripts\d3.min.js" />
     <Content Include="scripts\forecast-graph-calculations-svc.js" />
+    <Content Include="scripts\moment-calculations-svc.js" />
     <Content Include="styles\bootstrap-theme.css" />
     <Content Include="styles\bootstrap-theme.min.css" />
     <Content Include="styles\bootstrap.css" />

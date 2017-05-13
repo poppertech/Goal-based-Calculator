@@ -112,7 +112,7 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-4 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal gdp" ng-click="vm.selectVariable('gdp')" ng-class="vm.gdpClass"/>
+                                <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal gdp" ng-click="vm.selectVariable('gdp')" ng-class="vm.gdpClass" />
                                 <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal stocks" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
                                 <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal bonds" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
 
@@ -136,7 +136,7 @@
                         <div class="form-group col-sm-3">
                             <select class="form-control"
                                     ng-disabled="!vm.selectedVariable"
-                                    ng-model="vm.forecastRegion" 
+                                    ng-model="vm.forecastRegion"
                                     ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
                                     ng-options="option.value as option.text for option in vm.forecastRegionOptions">
                                 <option value="">Select Forecast Region</option>
@@ -299,6 +299,8 @@
 
     <script src="scripts/d3.js"></script>
     <script src="scripts/controller.js"></script>
+    <script src="scripts/forecast-graph-calculations-svc.js"></script>
+    <script src="scripts/moment-calculations-svc.js"></script>
     <script src="scripts/d3-pie-chart-dir.js"></script>
     <script src="scripts/d3-area-chart-dir.js"></script>
     <script src="scripts/d3-column-chart-dir.js"></script>
