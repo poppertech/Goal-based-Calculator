@@ -8,6 +8,7 @@
     <link href="styles/site.css" rel="stylesheet" />
 
     <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-resource.js"></script>
 
 </head>
 <body ng-app="poppertechCalculatorApp">
@@ -177,7 +178,7 @@
 
                         <div class="col-sm-4 text-center">
                             <multi-colored-area-chart chart-data="{{vm.conditionalForecastChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
-                                                      chart-right-margin="10" chart-bottom-margin="50" chart-left-margin="50" />
+                                                      chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40" />
                         </div>
 
                         <div class="col-sm-4">
@@ -185,7 +186,7 @@
                                 <tbody>
                                     <tr ng-repeat="stat in vm.conditionalStats">
                                         <td>{{stat.title}}</td>
-                                        <td>{{stat.value}}</td>
+                                        <td>{{stat.value | number: 2}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -301,6 +302,7 @@
     <script src="scripts/controller.js"></script>
     <script src="scripts/forecast-graph-calculations-svc.js"></script>
     <script src="scripts/moment-calculations-svc.js"></script>
+    <script src="scripts/simulation-api.svc.js"></script>
     <script src="scripts/d3-pie-chart-dir.js"></script>
     <script src="scripts/d3-area-chart-dir.js"></script>
     <script src="scripts/d3-column-chart-dir.js"></script>

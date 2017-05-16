@@ -9,7 +9,7 @@
     var mean, stdev, skew, kurt;
 
     svc.calculateStats = calculateStats;
-    svc.getMean = function () { return mean; }
+    svc.getMean = function () {return mean;}
     svc.getStdev = function () { return stdev };
     svc.getSkew = function () { return skew; }
     svc.getKurt = function () { return kurt; }

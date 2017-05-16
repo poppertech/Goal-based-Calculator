@@ -1,11 +1,26 @@
-﻿var app = angular.module('poppertechCalculatorApp', []);
+﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-angular.module('poppertechCalculatorApp').controller('mockupController', ['$scope', '$window', 'forecastGraphCalculationsSvc', 'momentCalculationsSvc', function ($scope, $window, forecastGraphCalculationsSvc, momentCalculationsSvc) {
+// TODO: build the simulation
+// TODO: add inputs for portfolio holdings
+
+angular.module('poppertechCalculatorApp').controller('mockupController', ['$scope', '$window', 'forecastGraphCalculationsSvc', 'momentCalculationsSvc', 'simulationApiSvc', function ($scope, $window, forecastGraphCalculationsSvc, momentCalculationsSvc, simulationApiSvc) {
 
     vm = this;
 
     vm.reset = reset;
     vm.selectVariable = selectVariable;
+
+    simulationApiSvc.postSimulations().then(postSimulationsSuccess, postSimulationsFailure)
+
+    simulationApiSvc.getSimulations().then(postSimulationsSuccess, postSimulationsFailure)
+
+    function postSimulationsSuccess(response) {
+        var x = response;
+    }
+
+    function postSimulationsFailure(err) {
+        var x = err;
+    }
 
     activate()
 
@@ -22,7 +37,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
         initConditionalStats(vm.selectedForecast);
 
         $scope.$watch(function () { return vm.editProperties }, setLocalStorage, true);
-        //$scope.$watch(function () { return vm.selectedForecast }, calculateForecastGraph, true);
+        $scope.$watch(function () { return vm.selectedForecast }, calculateForecastGraph, true);
     }
 
     function initCashForecast(cashForecast) {
@@ -34,7 +49,6 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     function initSelectedConditionalForecast() {
         vm.selectVariable('gdp');
-        vm.selectedForecast = vm.selectedVariable['leftTail'];
         calculateForecastGraph(vm.selectedForecast);
     }
 
@@ -68,28 +82,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     function initConditionalForecasts() {
         vm.editProperties.conditionalForecasts = {
             gdp: {
-                leftTail: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
-                ],
-                leftNormal: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
-                ],
-                rightNormal: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
-                ],
-                rightTail: [
+                forecast: [
                 { title: "Minimum", value: 40 },
                 { title: "Worst Case", value: 75 },
                 { title: "Most Likely", value: 100 },
@@ -99,62 +92,62 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
             },
             stocks: {
                 leftTail: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 20 },
+                { title: "Worst Case", value: 40 },
+                { title: "Most Likely", value: 80 },
+                { title: "Best Case", value: 100 },
+                { title: "Maximum", value: 120 }
                 ],
                 leftNormal: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 30 },
+                { title: "Worst Case", value: 60 },
+                { title: "Most Likely", value: 90 },
+                { title: "Best Case", value: 110 },
+                { title: "Maximum", value: 130 }
                 ],
                 rightNormal: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 50 },
+                { title: "Worst Case", value: 90 },
+                { title: "Most Likely", value: 110 },
+                { title: "Best Case", value: 140 },
+                { title: "Maximum", value: 160 }
                 ],
                 rightTail: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 50 },
+                { title: "Worst Case", value: 90 },
+                { title: "Most Likely", value: 110 },
+                { title: "Best Case", value: 140 },
+                { title: "Maximum", value: 160 }
                 ]
             },
             bonds: {
                 leftTail: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 20 },
+                { title: "Worst Case", value: 40 },
+                { title: "Most Likely", value: 80 },
+                { title: "Best Case", value: 100 },
+                { title: "Maximum", value: 120 }
                 ],
                 leftNormal: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 30 },
+                { title: "Worst Case", value: 60 },
+                { title: "Most Likely", value: 90 },
+                { title: "Best Case", value: 110 },
+                { title: "Maximum", value: 130 }
                 ],
                 rightNormal: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 50 },
+                { title: "Worst Case", value: 90 },
+                { title: "Most Likely", value: 110 },
+                { title: "Best Case", value: 140 },
+                { title: "Maximum", value: 160 }
                 ],
                 rightTail: [
-                { title: "Minimum", value: 40 },
-                { title: "Worst Case", value: 75 },
-                { title: "Most Likely", value: 100 },
-                { title: "Best Case", value: 130 },
-                { title: "Maximum", value: 150 }
+                { title: "Minimum", value: 60 },
+                { title: "Worst Case", value: 100 },
+                { title: "Most Likely", value: 120 },
+                { title: "Best Case", value: 150 },
+                { title: "Maximum", value: 170 }
                 ]
             }
         };
@@ -181,13 +174,6 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
         { date: "Year 5", value: 411.23 }
     ];
 
-    vm.forecastRegionOptions = [
-        { text: "Left Tail", value: "leftTail" },
-        { text: "Left Normal", value: "leftNormal" },
-        { text: "Right Normal", value: "rightNormal" },
-        { text: "Right Tail", value: "rightTail" }
-    ];
-
     vm.onScenarioSelectionChange = function (forecastRegion) {
         vm.selectedForecast = vm.selectedVariable[forecastRegion];
         calculateForecastGraph(vm.selectedForecast);
@@ -206,6 +192,29 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
                 { x: forecastGraphCalculationsSvc.getXBestCase(), y: forecastGraphCalculationsSvc.getBestCaseHeight() },
                 { x: forecastGraphCalculationsSvc.getXMax(), y: forecastGraphCalculationsSvc.getMaxHeight() }
             ];
+
+            var context = {
+                xMin: forecastGraphCalculationsSvc.getXMin(),
+                xWorst: forecastGraphCalculationsSvc.getXWorstCase(),
+                xLikely: forecastGraphCalculationsSvc.getXMostLikely(),
+                xBest: forecastGraphCalculationsSvc.getXBestCase(),
+                xMax: forecastGraphCalculationsSvc.getXMax(),
+                hMin: forecastGraphCalculationsSvc.getMinHeight(),
+                hWorst: forecastGraphCalculationsSvc.getWorstCaseHeight(),
+                hLikely: forecastGraphCalculationsSvc.getMostLikelyHeight(),
+                hBest: forecastGraphCalculationsSvc.getBestCaseHeight(),
+                hMax: forecastGraphCalculationsSvc.getMaxHeight()
+            };
+
+            momentCalculationsSvc.calculateStats(context);
+
+            vm.conditionalStats = [
+                { title: "Mean", value: momentCalculationsSvc.getMean() },
+                { title: "Stdev", value: momentCalculationsSvc.getStdev() },
+                { title: "Skew", value: momentCalculationsSvc.getSkew() },
+                { title: "Kurt", value: momentCalculationsSvc.getKurt() },
+            ];
+
         }
 
     }
@@ -226,20 +235,39 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     function selectVariable(variable) {
         vm.selectedVariable = vm.editProperties.conditionalForecasts[variable];
+        
         vm.gdpClass = "rect-normal";
         vm.stocksClass = "rect-normal";
         vm.bondsClass = "rect-normal";
         switch (variable) {
             case 'gdp':
+                vm.selectedForecast = vm.selectedVariable['forecast'];
+                vm.forecastRegionOptions = [{ text: 'Forecast', value: 'forecast' }];
+                vm.forecastRegion = 'forecast';
                 vm.gdpClass = 'rect-selected';
                 break;
             case 'stocks':
-                vm.stocksClass = 'rect-selected';
+                vm.selectedForecast = vm.selectedVariable['leftTail'];
+                vm.forecastRegionOptions = getConditionalForecastRegionOptions();
+                vm.forecastRegion = 'leftTail';
+                vm.stocksClass = 'rect-selected';         
                 break;
             case 'bonds':
+                vm.selectedForecast = vm.selectedVariable['leftTail'];
+                vm.forecastRegionOptions = getConditionalForecastRegionOptions();
+                vm.forecastRegion = 'leftTail';
                 vm.bondsClass = 'rect-selected';
                 break;
         }
+    }
+
+    function getConditionalForecastRegionOptions() {
+        return [
+    { text: "Left Tail", value: "leftTail" },
+    { text: "Left Normal", value: "leftNormal" },
+    { text: "Right Normal", value: "rightNormal" },
+    { text: "Right Tail", value: "rightTail" }
+        ];
     }
 
     function setLocalStorage(editProperties) {
