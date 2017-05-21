@@ -11,10 +11,11 @@
         },
         link: function (scope, element, attrs) {
 
-            activate();
-            scope.$watch('chartData', redraw);
+            var deregister = scope.$watch('chartData', activate);
 
-            function activate() {
+            function activate(newVal, oldVal) {
+
+                if (newVal === oldVal) { return; }
 
                 var svg = d3.select(element[0]).append("svg").attr("width", scope.chartWidth).attr("height", scope.chartHeight);
 
@@ -81,6 +82,9 @@
                 g.append("g")
                     .attr("class", "yaxis")
                     .call(yAxis);
+
+                deregister();
+                scope.$watch('chartData', redraw);
 
             }
 

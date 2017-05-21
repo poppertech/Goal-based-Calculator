@@ -77,7 +77,7 @@
     function setParameters(selectedForecast) {
         for (var cnt = 0; cnt < selectedForecast.length; cnt++) {
             var forecast = selectedForecast[cnt];
-            switch (forecast.title) {
+            switch (forecast.text) {
                 case "Minimum":
                     xMin = forecast.value;
                     break;

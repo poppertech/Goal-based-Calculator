@@ -111,6 +111,7 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\d3.js" />
     <Content Include="scripts\d3.min.js" />
+    <Content Include="scripts\forecast-api.svc.js" />
     <Content Include="scripts\forecast-graph-calculations-svc.js" />
     <Content Include="scripts\moment-calculations-svc.js" />
     <Content Include="scripts\simulation-api.svc.js" />
@@ -126,12 +127,19 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\JsonContentNegotiator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ForecastController.cs" />
     <Compile Include="Controllers\SimulationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ForecastRegion.cs" />
+    <Compile Include="Models\InvestmentStatistics.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\ScenarioRequest.cs" />
+    <Compile Include="Models\TextValuePair.cs" />
+    <Compile Include="Models\ForecastVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
