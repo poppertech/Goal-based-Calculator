@@ -29,7 +29,7 @@ namespace PoppertechCalculator.Controllers
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(Response<IEnumerable<InvestmentStatistics>>))]
-        public IHttpActionResult Post([FromBody] ScenarioRequest request)
+        public IHttpActionResult Post([FromBody] IEnumerable<ForecastVariable> request)
         {
             var investmentStats = new InvestmentStatistics[]{
                 new InvestmentStatistics{

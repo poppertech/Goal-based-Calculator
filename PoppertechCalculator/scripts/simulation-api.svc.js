@@ -7,8 +7,8 @@
 
     return svc;
 
-    function postSimulations(){
-        return $resource('http://localhost:43780/simulation', null, { post: { method: 'POST' } }).post({}, { test: "this is a test" }).$promise;
+    function postSimulations(input){
+        return $resource('http://localhost:43780/simulation', null, { post: { method: 'POST' } }).post({}, input).$promise;
     }
 
     function getSimulations() {

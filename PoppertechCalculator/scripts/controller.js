@@ -1,6 +1,5 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: add investment name and region name properties to conditional forecasts and make it an array
 // TODO: build the simulation
 // TODO: add inputs for portfolio holdings
 
@@ -10,132 +9,8 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     vm.reset = reset;
     vm.selectVariable = selectVariable;
+    vm.simulateInvestments = simulateInvestments;    
 
-    simulationApiSvc.postSimulations().then(postSimulationsSuccess, postSimulationsFailure)
-    forecastApiSvc.getForecasts().then(getForecastsSuccess, postSimulationsFailure);
-
-    function postSimulationsSuccess(response) {
-        vm.investmentStats = response.model;
-    }
-
-    function postSimulationsFailure(err) {
-        var x = err;
-    }
-
-    function getForecastsSuccess(response) {
-        vm.editProperties.conditionalForecasts = response.model;
-        initSelectedConditionalForecast();
-        initConditionalStats(vm.selectedForecast);
-        $scope.$watch(function () { return vm.editProperties }, setLocalStorage, true);
-        $scope.$watch(function () { return vm.selectedForecast }, calculateForecastGraph, true);
-    //    vm.editProperties.conditionalForecasts = [
-    //{
-    //    name: 'gdp',
-    //    regions: [
-    //        {
-    //            name: 'all',
-    //            forecast: [
-    //                { title: "Minimum", value: 40 },
-    //                { title: "Worst Case", value: 75 },
-    //                { title: "Most Likely", value: 100 },
-    //                { title: "Best Case", value: 130 },
-    //                { title: "Maximum", value: 150 }
-    //            ]
-    //        }
-    //    ]
-    //},
-    //{
-    //    name: 'stocks',
-    //    regions: [
-    //            {
-    //                name: 'leftTail',
-    //                forecast: [
-    //                    { title: "Minimum", value: 20 },
-    //                    { title: "Worst Case", value: 40 },
-    //                    { title: "Most Likely", value: 80 },
-    //                    { title: "Best Case", value: 100 },
-    //                    { title: "Maximum", value: 120 }
-    //                ]
-    //            },
-    //            {
-    //                name: 'leftNormal',
-    //                forecast: [
-    //                    { title: "Minimum", value: 30 },
-    //                    { title: "Worst Case", value: 60 },
-    //                    { title: "Most Likely", value: 90 },
-    //                    { title: "Best Case", value: 110 },
-    //                    { title: "Maximum", value: 130 }
-    //                ]
-    //            },
-    //            {
-    //                name: 'rightNormal',
-    //                forecast: [
-    //                    { title: "Minimum", value: 50 },
-    //                    { title: "Worst Case", value: 90 },
-    //                    { title: "Most Likely", value: 110 },
-    //                    { title: "Best Case", value: 140 },
-    //                    { title: "Maximum", value: 160 }
-    //                ]
-    //            },
-    //            {
-    //                name: 'rightTail',
-    //                forecast: [
-    //                    { title: "Minimum", value: 60 },
-    //                    { title: "Worst Case", value: 100 },
-    //                    { title: "Most Likely", value: 120 },
-    //                    { title: "Best Case", value: 150 },
-    //                    { title: "Maximum", value: 170 }
-    //                ]
-    //            }
-    //    ]
-    //},
-    //            {
-    //                name: 'bonds',
-    //                regions: [
-    //                        {
-    //                            name: 'leftTail',
-    //                            forecast: [
-    //                                { title: "Minimum", value: 20 },
-    //                                { title: "Worst Case", value: 40 },
-    //                                { title: "Most Likely", value: 80 },
-    //                                { title: "Best Case", value: 100 },
-    //                                { title: "Maximum", value: 120 }
-    //                            ]
-    //                        },
-    //                        {
-    //                            name: 'leftNormal',
-    //                            forecast: [
-    //                                { title: "Minimum", value: 30 },
-    //                                { title: "Worst Case", value: 60 },
-    //                                { title: "Most Likely", value: 90 },
-    //                                { title: "Best Case", value: 110 },
-    //                                { title: "Maximum", value: 130 }
-    //                            ]
-    //                        },
-    //                        {
-    //                            name: 'rightNormal',
-    //                            forecast: [
-    //                                { title: "Minimum", value: 50 },
-    //                                { title: "Worst Case", value: 90 },
-    //                                { title: "Most Likely", value: 110 },
-    //                                { title: "Best Case", value: 140 },
-    //                                { title: "Maximum", value: 160 }
-    //                            ]
-    //                        },
-    //                        {
-    //                            name: 'rightTail',
-    //                            forecast: [
-    //                                { title: "Minimum", value: 60 },
-    //                                { title: "Worst Case", value: 100 },
-    //                                { title: "Most Likely", value: 120 },
-    //                                { title: "Best Case", value: 150 },
-    //                                { title: "Maximum", value: 170 }
-    //                            ]
-    //                        }
-    //                ]
-    //            }
-    //    ];
-    }
 
     activate()
 
@@ -146,13 +21,13 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
             initCashForecast(vm.editProperties.cashForecast);
         }
         if (!vm.editProperties.conditionalForecasts) {
-            //initConditionalForecasts();
+            forecastApiSvc.getForecasts().then(getForecastsSuccess, postSimulationsFailure);
+        } else {
+            getForecastsSuccess({ model: vm.editProperties.conditionalForecasts });
         }
-        //initSelectedConditionalForecast();
-        //initConditionalStats(vm.selectedForecast);
 
-        //$scope.$watch(function () { return vm.editProperties }, setLocalStorage, true);
-        //$scope.$watch(function () { return vm.selectedForecast }, calculateForecastGraph, true);
+        $scope.$watch(function () { return vm.editProperties }, setLocalStorage, true);
+        $scope.$watch(function () { return vm.selectedForecast }, calculateForecastGraph, true);
     }
 
     function initCashForecast(cashForecast) {
@@ -160,6 +35,12 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
         for (var year = 0; year < numYears + 1; year++) {
             cashForecast.push({ date: 'Year ' + year, value: 0 });
         }
+    }
+
+    function getForecastsSuccess(response) {
+        vm.editProperties.conditionalForecasts = response.model;
+        initSelectedConditionalForecast();
+        initConditionalStats(vm.selectedForecast);
     }
 
     function initSelectedConditionalForecast() {
@@ -321,6 +202,18 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     { text: "Right Normal", value: "rightNormal" },
     { text: "Right Tail", value: "rightTail" }
         ];
+    }
+
+    function simulateInvestments(conditionalForecasts) {
+        simulationApiSvc.postSimulations(conditionalForecasts).then(postSimulationsSuccess, postSimulationsFailure)
+    }
+
+    function postSimulationsSuccess(response) {
+        vm.investmentStats = response.model;
+    }
+
+    function postSimulationsFailure(err) {
+        var x = err;
     }
 
     function setLocalStorage(editProperties) {

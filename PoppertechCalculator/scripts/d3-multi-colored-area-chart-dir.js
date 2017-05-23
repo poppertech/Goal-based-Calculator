@@ -15,7 +15,7 @@
 
             function activate(newVal, oldVal) {
 
-                if (newVal === oldVal) { return; }
+                if (!newVal) { return; }
 
                 var svg = d3.select(element[0]).append("svg").attr("width", scope.chartWidth).attr("height", scope.chartHeight);
 
