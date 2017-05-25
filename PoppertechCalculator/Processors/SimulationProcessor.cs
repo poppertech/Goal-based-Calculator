@@ -9,11 +9,21 @@ namespace PoppertechCalculator.Processors
 {
     public class SimulationProcessor
     {
-        private UniformRandomRepository _repository;
+        private IUniformRandomRepository _repository;
+        private IForecastGraphCalculations _forecastGraphCalcs;
 
-        public SimulationProcessor()
+        public SimulationProcessor(IUniformRandomRepository repository, IForecastGraphCalculations forecastGraphCalcs)
         {
-            _repository = new UniformRandomRepository("ProbicastCalculator");
+            _repository = repository;
+            _forecastGraphCalcs = forecastGraphCalcs;
+        }
+
+        public bool ReturnTrue(string test)
+        {
+            var rand = _repository.GetUniformRandByTicker(test);
+            if (rand.Any())
+                return true;
+            return false;
         }
 
         public IEnumerable<InvestmentStatistics> SimulateInvestments(IEnumerable<ForecastVariable> request)
@@ -35,7 +45,7 @@ namespace PoppertechCalculator.Processors
             for (int cnt = 0; cnt < regions.Length; cnt++)
             {
                 var region = regions[cnt];
-                var context = ForecastGraphCalculations.GetSimulationContext(region.Forecast);
+                var context = _forecastGraphCalcs.GetSimulationContext(region.Forecast);
 
             }
             return new InvestmentStatistics();

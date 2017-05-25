@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PoppertechCalculator.Processors
 {
-    public static class ForecastGraphCalculations
+    public class ForecastGraphCalculations : IForecastGraphCalculations
     {
         private const decimal leftTail = 10;
         private const decimal rightTail = 10;
@@ -20,9 +20,9 @@ namespace PoppertechCalculator.Processors
         private static decimal m1, m2, m3, m4;
         private static decimal b1, b2, b3, b4;
 
-        private static SimulationContext context;
+        private SimulationContext context;
 
-        public static SimulationContext[] GetSimulationContext(IEnumerable<TextValuePair<decimal>> forecast)
+        public SimulationContext[] GetSimulationContext(IEnumerable<TextValuePair<decimal>> forecast)
         {
             var forecastArray = forecast.ToArray();
             SetParameters(forecastArray);

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace PoppertechCalculator.Repositories
 {
-    public class UniformRandomRepository: DbContext
+    public class UniformRandomRepository: DbContext, IUniformRandomRepository
     {
         public UniformRandomRepository(string connString):base(connString){
             Database.SetInitializer<UniformRandomRepository>(null);

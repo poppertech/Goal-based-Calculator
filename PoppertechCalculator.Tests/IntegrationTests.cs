@@ -5,7 +5,7 @@ using PoppertechCalculator.Repositories;
 namespace PoppertechCalculator.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class IntegrationTests
     {
         [TestMethod]
         public void GetUniformRandByTickerReturnsOnSuccessReturnsRand()
