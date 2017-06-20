@@ -20,7 +20,6 @@ namespace PoppertechCalculator.Processors
         private static decimal m1, m2, m3, m4;
         private static decimal b1, b2, b3, b4;
 
-        private SimulationContext context;
 
         public SimulationContext[] GetSimulationContext(IEnumerable<TextValuePair<decimal>> forecast)
         {

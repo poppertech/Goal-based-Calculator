@@ -8,11 +8,19 @@ namespace PoppertechCalculator.Processors
 {
     public class MonteCarloSimulator : IMonteCarloSimulator
     {
-        public IEnumerable<decimal> CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands)
+        private decimal[] simulations;
+        private int[] areaNumbers;
+
+        public int[] AreaNumbers {get { return areaNumbers; }}
+
+        public decimal[] Simulations { get { return simulations; } }
+
+        public void CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands)
         {
             var randArray = rands.ToArray();
             var contextArray = context.ToArray();
-            var simulations = new decimal[randArray.Length];
+            simulations = new decimal[randArray.Length];
+            areaNumbers = new int[randArray.Length];
             var areaLookup = contextArray.Select(c => c.AreaLower).ToArray();
             for (int cnt = 0; cnt < randArray.Length; cnt++)
             {
@@ -27,8 +35,8 @@ namespace PoppertechCalculator.Processors
                 var c3 = areaLower - rand.Rand - ((mSim / 2) * ((decimal)Math.Pow((double)xLower, 2)) + bSim * xLower);
                 var xSim = (-c2+(decimal)Math.Sqrt(Math.Pow((double)c2,2)-(double)(4*c1*c3)))/(2*c1);
                 simulations[cnt] = xSim;
+                areaNumbers[cnt] = areaNum;
             }
-            return simulations;
         }
 
         private int ChooseAreaNumber(decimal rand, decimal[] areaLookup)
@@ -39,7 +47,7 @@ namespace PoppertechCalculator.Processors
                 if (value >= rand)
                     return cnt - 1;
             }
-            return areaLookup.Length;
+            return areaLookup.Length - 1;
         }
     }
 }

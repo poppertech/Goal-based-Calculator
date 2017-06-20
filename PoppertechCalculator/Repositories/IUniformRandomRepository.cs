@@ -9,6 +9,6 @@ namespace PoppertechCalculator.Repositories
 {
     public interface IUniformRandomRepository
     {
-        IEnumerable<UniformRandom> GetUniformRandByTicker(string ticker);
+        IEnumerable<UniformRandom> GetUniformRandByRegion(string ticker);
     }
 }

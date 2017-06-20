@@ -16,10 +16,10 @@ namespace PoppertechCalculator.Repositories
         
         public DbSet<UniformRandom> Rands { get; set; }
 
-        public virtual IEnumerable<UniformRandom> GetUniformRandByTicker(string ticker)
+        public virtual IEnumerable<UniformRandom> GetUniformRandByRegion(string region)
         {
-            var tickerParameter = new SqlParameter("@Ticker", ticker);
-            return this.Database.SqlQuery<UniformRandom>("[Simulation].[GetUniformRandByTicker] @Ticker", tickerParameter).ToArray();
+            var regionParameter = new SqlParameter("@Region", region);
+            return this.Database.SqlQuery<UniformRandom>("[Simulation].[GetUniformRandByRegion] @Region", regionParameter).ToArray();
         }
 
     }

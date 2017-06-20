@@ -8,7 +8,7 @@ namespace PoppertechCalculator.Models
     public class UniformRandom
     {
         public int Id { get; set; }
-        public string Ticker { get; set; }
+        public string Region { get; set; }
         public decimal Rand { get; set; }
     }
 }

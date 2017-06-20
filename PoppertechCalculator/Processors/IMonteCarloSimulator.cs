@@ -9,6 +9,10 @@ namespace PoppertechCalculator.Processors
 {
     public interface IMonteCarloSimulator
     {
-        IEnumerable<decimal> CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands);
+        int[] AreaNumbers{get;}
+
+        decimal[] Simulations{get;}
+
+        void CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands);
     }
 }
