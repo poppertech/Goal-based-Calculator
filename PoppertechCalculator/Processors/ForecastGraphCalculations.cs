@@ -47,7 +47,8 @@ namespace PoppertechCalculator.Processors
             var context2 = new SimulationContext() { XLower = xWorst, AreaLower = leftTail, Intercept = b2, Slope = m2 };
             var context3 = new SimulationContext() { XLower = xLikely, AreaLower = leftTail + leftNormal, Intercept = b3, Slope = m3 };
             var context4 = new SimulationContext() { XLower = xBest, AreaLower = leftTail + normal, Intercept = b4, Slope = m4 };
-            return new[] { context1, context2, context3, context4 };
+            var context5 = new SimulationContext() { XLower = xMax};
+            return new[] { context1, context2, context3, context4, context5 };
 
         }
 

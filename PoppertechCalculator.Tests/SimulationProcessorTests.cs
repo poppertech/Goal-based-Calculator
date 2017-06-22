@@ -20,7 +20,7 @@ namespace PoppertechCalculator.Tests
             var repository = new Mock<IUniformRandomRepository>();
             repository.Setup(r => r.GetUniformRandByRegion(It.IsAny<string>())).Returns(rands);
 
-            var processor = new SimulationProcessor(repository.Object, null, null);
+            var processor = new SimulationProcessor(repository.Object, null, null, null, null);
 
             //act
             var result = processor.ReturnTrue("test");

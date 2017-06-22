@@ -11,9 +11,9 @@ namespace PoppertechCalculator.Processors
         private decimal[] simulations;
         private int[] areaNumbers;
 
-        public int[] AreaNumbers {get { return areaNumbers; }}
+        public int[] GetAreaNumbers() {return areaNumbers; }
 
-        public decimal[] Simulations { get { return simulations; } }
+        public decimal[] GetSimulations() { return simulations;  }
 
         public void CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands)
         {

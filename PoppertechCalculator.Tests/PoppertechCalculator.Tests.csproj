@@ -69,6 +69,8 @@
     <Compile Include="SimulationProcessorTests.cs" />
     <Compile Include="ForecastGraphCalculationsTests.cs" />
     <Compile Include="MonteCarloSimulatorTests.cs" />
+    <Compile Include="HistogramCalculationsTests.cs" />
+    <Compile Include="StatisticsCalculationsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PoppertechCalculator\PoppertechCalculator.csproj">

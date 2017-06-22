@@ -32,7 +32,8 @@ namespace PoppertechCalculator.Tests
             var simulator = new MonteCarloSimulator();
 
             //act
-            var result = simulator.CalculateSimulations(context, uniformRands).ToArray();
+            simulator.CalculateSimulations(context, uniformRands);
+            var result = simulator.GetSimulations().ToArray();
 
             //assert
             Assert.IsTrue(Math.Abs(result[0] - expectedResult[0])< .01m);

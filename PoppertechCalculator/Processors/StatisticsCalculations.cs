@@ -8,7 +8,7 @@ namespace PoppertechCalculator.Processors
 {
     public class StatisticsCalculations : IStatisticsCalculations 
     {
-        private int _count;
+        private double _count;
         private double _mean, _stdev, _skew, _kurt;
         private double[] returns, deMeanedReturns;
         private const int NUMBER_DAYS_IN_YEAR = 250;
@@ -27,7 +27,7 @@ namespace PoppertechCalculator.Processors
             var mean = new TextValuePair<decimal> { Text = "Mean", Value = (decimal)_mean };
             var stdev = new TextValuePair<decimal> { Text = "Stdev", Value = (decimal)_stdev };
             var skew = new TextValuePair<decimal> { Text = "Skew", Value = (decimal)_skew };
-            var kurt = new TextValuePair<decimal> { Text = "Kurtosis", Value = (decimal)_kurt};
+            var kurt = new TextValuePair<decimal> { Text = "Kurt", Value = (decimal)_kurt};
 
             var investmentStats = new InvestmentStatistics
             {

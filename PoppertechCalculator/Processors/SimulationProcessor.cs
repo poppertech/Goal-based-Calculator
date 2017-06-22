@@ -13,13 +13,20 @@ namespace PoppertechCalculator.Processors
         private IForecastGraphCalculations _forecastGraphCalcs;
         private IMonteCarloSimulator _monteCarloSimulator;
         private IStatisticsCalculations _statisticsCalculations;
+        private IHistogramCalculations _histogramCalculations;
 
-        public SimulationProcessor(IUniformRandomRepository repository, IForecastGraphCalculations forecastGraphCalcs, IMonteCarloSimulator monteCarloSimulator, IStatisticsCalculations statisticsCalculations)
+        public SimulationProcessor(
+            IUniformRandomRepository repository, 
+            IForecastGraphCalculations forecastGraphCalcs, 
+            IMonteCarloSimulator monteCarloSimulator, 
+            IStatisticsCalculations statisticsCalculations,
+            IHistogramCalculations histogramCalculations)
         {
             _repository = repository;
             _forecastGraphCalcs = forecastGraphCalcs;
             _monteCarloSimulator = monteCarloSimulator;
             _statisticsCalculations = statisticsCalculations;
+            _histogramCalculations = histogramCalculations;
         }
 
         public bool ReturnTrue(string test)
@@ -58,6 +65,7 @@ namespace PoppertechCalculator.Processors
             }
             var jointSimulations = CalculateJointSimulations(jointContext);
             var statistics = _statisticsCalculations.GetStatistics(jointSimulations);
+            var histogramData = _histogramCalculations.GetHistogramData(jointContext, jointSimulations);
             return statistics;
         }
 
@@ -66,19 +74,19 @@ namespace PoppertechCalculator.Processors
             switch (regionName)
             {
                 case "all":
-                    jointContext.UnconditionalAreaNumber = monteCarloSimulator.AreaNumbers;
+                    jointContext.UnconditionalAreaNumber = monteCarloSimulator.GetAreaNumbers();
                     break;
                 case "left_tail":
-                    jointContext.ConditionalLeftTailSimulations = monteCarloSimulator.Simulations;
+                    jointContext.ConditionalLeftTailSimulations = monteCarloSimulator.GetSimulations();
                     break;
                 case "left_normal":
-                    jointContext.ConditionalLeftNormalSimulations = monteCarloSimulator.Simulations;
+                    jointContext.ConditionalLeftNormalSimulations = monteCarloSimulator.GetSimulations();
                     break;
                 case "right_normal":
-                    jointContext.ConditionalRightNormalSimulations = monteCarloSimulator.Simulations;
+                    jointContext.ConditionalRightNormalSimulations = monteCarloSimulator.GetSimulations();
                     break;
                 case "right_tail":
-                    jointContext.ConditionalRightTailSimulations = monteCarloSimulator.Simulations;
+                    jointContext.ConditionalRightTailSimulations = monteCarloSimulator.GetSimulations();
                     break;
             }
         }
