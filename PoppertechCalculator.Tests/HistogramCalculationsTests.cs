@@ -13,13 +13,14 @@ namespace PoppertechCalculator.Tests
         public void GetHistogramDataOnSuccessReturnsHistogramData()
         {
             //arrange
-            var context = new JointSimulationContext() { XMin = 20, XMax = 170};
+            var xMin = 20;
+            var xMax = 170;
             var simulations = new decimal[] {19, 21, 22, 24};
 
             var calculator = new HistogramCalculations();
 
             //act
-            var result = calculator.GetHistogramData(context, simulations).ToArray();
+            var result = calculator.GetHistogramData(simulations, xMin, xMax).ToArray();
 
             //assert
             Assert.AreEqual(20, result[0].Interval.Value);

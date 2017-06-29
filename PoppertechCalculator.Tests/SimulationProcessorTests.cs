@@ -14,19 +14,32 @@ namespace PoppertechCalculator.Tests
         public void SimulateInvestmentsOnSuccessReturnsInvestmentStatistics()
         {
             //arrange
-            var rand = new UniformRandom { Id = 1};
-            var rands = new[] { rand };
+            var investmentName = "gdp";
+            var statistics = new InvestmentStatistics(){Investment = investmentName};
+            var xMin = 20;
+            var xMax = 170;
 
-            var repository = new Mock<IUniformRandomRepository>();
-            repository.Setup(r => r.GetUniformRandByRegion(It.IsAny<string>())).Returns(rands);
 
-            var processor = new SimulationProcessor(repository.Object, null, null, null, null);
+            var intervalText = "Interval";
+            var histogramInterval = new TextValuePair<decimal>{Text = intervalText};
+            var histogramDatum = new HistogramData{Interval = histogramInterval};
+            var histogramData = new[] { histogramDatum };
+
+            var statisticsCalculations = new Mock<IStatisticsCalculations>();
+            statisticsCalculations.Setup(r => r.GetStatistics(It.IsAny<decimal[]>())).Returns(statistics);
+
+            var histogramCalculations = new Mock<IHistogramCalculations>();
+            histogramCalculations.Setup(r => r.GetHistogramData(It.IsAny<decimal[]>(), It.IsAny<decimal>(), It.IsAny<decimal>())).Returns(histogramData);
+
+
+
+            var processor = new SimulationProcessor(statisticsCalculations.Object, histogramCalculations.Object, null);
 
             //act
-            var result = processor.ReturnTrue("test");
+            var result = processor.SimulateInvestments(null);
 
             //assert
-            Assert.IsTrue(result);
+            Assert.IsNull(result);
         }
     }
 }

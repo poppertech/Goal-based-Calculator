@@ -9,17 +9,15 @@ namespace PoppertechCalculator.Processors
     public class HistogramCalculations : IHistogramCalculations
     {
         const int num = 100;
-        public IEnumerable<HistogramData> GetHistogramData(JointSimulationContext context, decimal[] jointSimulations){
+        public IEnumerable<HistogramData> GetHistogramData(decimal[] jointSimulations, decimal xMinGlobal, decimal xMaxGlobal)
+        {
             var histogramDataArray = new HistogramData[num];
-            decimal lastCumulativeFrequency = 0;
-
-            var xMin = context.XMin;
-            var xMax = context.XMax;           
+            decimal lastCumulativeFrequency = 0;       
 
             for (int cnt = 0; cnt < num; cnt++)
             {
                 var histogramData = new HistogramData();
-                var interval = ((decimal)cnt / (decimal)num) * (xMax - xMin) + xMin;
+                var interval = ((decimal)cnt / (decimal)num) * (xMaxGlobal - xMinGlobal) + xMinGlobal;
                 var textIntervalPair = new TextValuePair<decimal> { Text = "Interval", Value = interval };
                 histogramData.Interval = textIntervalPair;
 

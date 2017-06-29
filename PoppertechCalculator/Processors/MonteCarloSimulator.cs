@@ -1,4 +1,5 @@
 ﻿using PoppertechCalculator.Models;
+using PoppertechCalculator.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,20 @@ namespace PoppertechCalculator.Processors
         private decimal[] simulations;
         private int[] areaNumbers;
 
+        private IUniformRandomRepository _repository;
+
+        public MonteCarloSimulator(IUniformRandomRepository repository)
+        {
+            _repository = repository;
+        }
+
         public int[] GetAreaNumbers() {return areaNumbers; }
 
         public decimal[] GetSimulations() { return simulations;  }
 
-        public void CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands)
+        public void CalculateSimulations(IEnumerable<SimulationContext> context, string region)
         {
+            var rands = _repository.GetUniformRandByRegion(region);
             var randArray = rands.ToArray();
             var contextArray = context.ToArray();
             simulations = new decimal[randArray.Length];

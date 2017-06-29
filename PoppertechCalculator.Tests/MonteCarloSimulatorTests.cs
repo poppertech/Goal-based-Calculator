@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PoppertechCalculator.Models;
 using PoppertechCalculator.Processors;
 using System.Linq;
+using Moq;
+using PoppertechCalculator.Repositories;
 
 namespace PoppertechCalculator.Tests
 {
@@ -29,10 +31,13 @@ namespace PoppertechCalculator.Tests
                 new SimulationContext{AreaLower= 90,XLower= 130, Slope= -0.05m, Intercept = 7.5m}
             };
 
-            var simulator = new MonteCarloSimulator();
+            var repository = new Mock<IUniformRandomRepository>();
+            repository.Setup(r => r.GetUniformRandByRegion(It.IsAny<string>())).Returns(uniformRands);
+
+            var simulator = new MonteCarloSimulator(repository.Object);
 
             //act
-            simulator.CalculateSimulations(context, uniformRands);
+            simulator.CalculateSimulations(context, "leftTail");
             var result = simulator.GetSimulations().ToArray();
 
             //assert

@@ -13,6 +13,6 @@ namespace PoppertechCalculator.Processors
 
         decimal[] GetSimulations();
 
-        void CalculateSimulations(IEnumerable<SimulationContext> context, IEnumerable<UniformRandom> rands);
+        void CalculateSimulations(IEnumerable<SimulationContext> context, string region);
     }
 }

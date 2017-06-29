@@ -169,6 +169,7 @@
     <Compile Include="Models\JointSimulationContext.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SimulationContext.cs" />
+    <Compile Include="Models\SimulationResults.cs" />
     <Compile Include="Models\TextValuePair.cs" />
     <Compile Include="Models\ForecastVariable.cs" />
     <Compile Include="Models\UniformRandom.cs" />
@@ -176,8 +177,10 @@
     <Compile Include="Processors\HistogramCalculations.cs" />
     <Compile Include="Processors\IForecastGraphCalculations.cs" />
     <Compile Include="Processors\IHistogramCalculations.cs" />
+    <Compile Include="Processors\IJointSimulator.cs" />
     <Compile Include="Processors\IStatisticsCalculations.cs" />
     <Compile Include="Processors\IMonteCarloSimulator.cs" />
+    <Compile Include="Processors\JointSimulator.cs" />
     <Compile Include="Processors\StatisticsCalculations.cs" />
     <Compile Include="Processors\MonteCarloSimulator.cs" />
     <Compile Include="Processors\SimulationProcessor.cs" />
