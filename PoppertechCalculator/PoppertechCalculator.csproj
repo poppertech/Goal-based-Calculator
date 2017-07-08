@@ -174,7 +174,6 @@
     <Compile Include="Models\SimulationContext.cs" />
     <Compile Include="Models\SimulationResults.cs" />
     <Compile Include="Models\Statistics.cs" />
-    <Compile Include="Models\TextValuePair.cs" />
     <Compile Include="Models\ForecastVariable.cs" />
     <Compile Include="Models\UniformRandom.cs" />
     <Compile Include="Processors\ForecastGraphCalculations.cs" />
