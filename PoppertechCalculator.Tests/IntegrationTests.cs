@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PoppertechCalculator.Repositories;
+using PoppertechCalculator.Models;
 
 namespace PoppertechCalculator.Tests
 {
@@ -17,7 +18,7 @@ namespace PoppertechCalculator.Tests
             var repository = new UniformRandomRepository(connString);
 
             //act
-            var result = repository.GetUniformRandByRegion("right_tail");
+            var result = repository.GetUniformRandByRegion(RegionName.LeftTail);
 
         }
     }

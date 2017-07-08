@@ -7,8 +7,8 @@ namespace PoppertechCalculator.Models
 {
     public class InvestmentStatistics
     {
-        public string Investment { get; set; }
-        public IEnumerable<TextValuePair<decimal>> Statistics { get; set; }
+        public InvestmentName Investment { get; set; }
+        public Statistics Statistics { get; set; }
         
     }
 

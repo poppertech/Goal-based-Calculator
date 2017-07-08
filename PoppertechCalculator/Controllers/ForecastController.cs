@@ -22,101 +22,71 @@ namespace PoppertechCalculator.Controllers
         [ResponseType(typeof(Response<IEnumerable<ForecastVariable>>))]
         public IHttpActionResult Get()
         {
-            var unconditionalForecast = new []{
-                new TextValuePair<decimal>{Text = "Minimum", Value = 40},
-                new TextValuePair<decimal>{Text = "Worst Case", Value = 75},
-                new TextValuePair<decimal>{Text = "Most Likely", Value = 100},
-                new TextValuePair<decimal>{Text = "Best Case", Value = 130},
-                new TextValuePair<decimal>{Text = "Maximum", Value = 150}
-            };
+            var unconditionalForecast = new Forecast { Minimum = 40, Worst = 75, Likely = 100, Best = 130, Maximum = 150 };
 
-            var leftTailForecast = new []{
-                new TextValuePair<decimal>{Text = "Minimum", Value = 20},
-                new TextValuePair<decimal>{Text = "Worst Case", Value = 40},
-                new TextValuePair<decimal>{Text = "Most Likely", Value = 80},
-                new TextValuePair<decimal>{Text = "Best Case", Value = 100},
-                new TextValuePair<decimal>{Text = "Maximum", Value = 120}
-            };
+            var leftTailForecast = new Forecast { Minimum = 20, Worst = 40, Likely = 80, Best = 100, Maximum = 120 };
 
-            var leftNormalForecast = new []{
-                new TextValuePair<decimal>{Text = "Minimum", Value = 30},
-                new TextValuePair<decimal>{Text = "Worst Case", Value = 60},
-                new TextValuePair<decimal>{Text = "Most Likely", Value = 90},
-                new TextValuePair<decimal>{Text = "Best Case", Value = 110},
-                new TextValuePair<decimal>{Text = "Maximum", Value = 130}
-            };
+            var leftNormalForecast = new Forecast { Minimum = 30, Worst = 60, Likely = 90, Best = 110, Maximum = 130 };
 
-            var rightNormalForecast = new []{
-                new TextValuePair<decimal>{Text = "Minimum", Value = 50},
-                new TextValuePair<decimal>{Text = "Worst Case", Value = 90},
-                new TextValuePair<decimal>{Text = "Most Likely", Value = 110},
-                new TextValuePair<decimal>{Text = "Best Case", Value = 140},
-                new TextValuePair<decimal>{Text = "Maximum", Value = 160}
-            };
+            var rightNormalForecast = new Forecast { Minimum = 50, Worst = 90, Likely = 110, Best = 140, Maximum = 160 };
 
-            var rightTailForecast = new []{
-                new TextValuePair<decimal>{Text = "Minimum", Value = 60},
-                new TextValuePair<decimal>{Text = "Worst Case", Value = 100},
-                new TextValuePair<decimal>{Text = "Most Likely", Value = 120},
-                new TextValuePair<decimal>{Text = "Best Case", Value = 150},
-                new TextValuePair<decimal>{Text = "Maximum", Value = 170}
-            };
+            var rightTailForecast = new Forecast { Minimum = 60, Worst = 100, Likely = 120, Best = 150, Maximum = 170 };
 
-            var gdp = new ForecastVariable{
-                Name = "gdp",
-                Regions = new []{
-                    new ForecastRegion{
-                        Name = "all",
-                        Forecast = unconditionalForecast
-                    }
-                }
-            };
-
-            var stocks = new ForecastVariable{
-                Name = "stocks",
+            var gdp = new ForecastVariable
+            {
+                Name = InvestmentName.GDP,
                 Regions = new[]{
                     new ForecastRegion{
-                        Name = "leftTail",
+                        Forecast = unconditionalForecast}}
+            };
+
+            var stocks = new ForecastVariable
+            {
+                Name = InvestmentName.Stocks,
+                Regions = new[]{
+                    new ForecastRegion{
+                        Name = RegionName.LeftTail,
                         Forecast = leftTailForecast
                     },
                     new ForecastRegion{
-                        Name = "leftNormal",
+                        Name = RegionName.LeftNormal,
                         Forecast = leftNormalForecast
                     },
                     new ForecastRegion{
-                        Name = "rightNormal",
+                        Name = RegionName.RightNormal,
                         Forecast = rightNormalForecast
                     },
                     new ForecastRegion{
-                        Name = "rightTail",
+                        Name = RegionName.RightTail,
                         Forecast = rightTailForecast
                     }
                 }
             };
 
-            var bonds = new ForecastVariable{
-                Name = "bonds",
+            var bonds = new ForecastVariable
+            {
+                Name = InvestmentName.Bonds,
                 Regions = new[]{
                     new ForecastRegion{
-                        Name = "leftTail",
+                        Name = RegionName.LeftTail,
                         Forecast = leftTailForecast
                     },
                     new ForecastRegion{
-                        Name = "leftNormal",
+                        Name = RegionName.LeftNormal,
                         Forecast = leftNormalForecast
                     },
                     new ForecastRegion{
-                        Name = "rightNormal",
+                        Name = RegionName.RightNormal,
                         Forecast = rightNormalForecast
                     },
                     new ForecastRegion{
-                        Name = "rightTail",
+                        Name = RegionName.RightTail,
                         Forecast = rightTailForecast
                     }
                 }
             };
 
-            var variables = new[]{gdp, stocks, bonds};
+            var variables = new[] { gdp, stocks, bonds };
             var response = new Response<IEnumerable<ForecastVariable>> { Model = variables };
             return Ok(response);
         }

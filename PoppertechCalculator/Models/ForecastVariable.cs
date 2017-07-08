@@ -7,8 +7,8 @@ namespace PoppertechCalculator.Models
 {
     public class ForecastVariable
     {
-        public string Name { get; set; }
-
+        public InvestmentName Name { get; set; }
         public IEnumerable<ForecastRegion> Regions { get; set; }
+        public InvestmentName? Parent { get; set; }
     }
 }

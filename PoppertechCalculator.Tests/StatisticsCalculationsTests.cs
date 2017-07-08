@@ -25,10 +25,10 @@ namespace PoppertechCalculator.Tests
             var stats = calculator.GetStatistics(inputReturns);
 
             //assert
-            Assert.IsTrue(Math.Abs(expectedMean - stats.Statistics.Where(s => s.Text == "Mean").First().Value) < .0001m );
-            Assert.IsTrue(Math.Abs(expectedStdev - stats.Statistics.Where(s => s.Text == "Stdev").First().Value) < .0001m);
-            Assert.IsTrue(Math.Abs(expectedSkew - stats.Statistics.Where(s => s.Text == "Skew").First().Value) < .0001m);
-            Assert.IsTrue(Math.Abs(expectedKurt - stats.Statistics.Where(s => s.Text == "Kurt").First().Value) < .0001m);
+            Assert.IsTrue(Math.Abs(expectedMean - stats.Statistics.Mean) < .0001m );
+            Assert.IsTrue(Math.Abs(expectedStdev - stats.Statistics.Stdev) < .0001m);
+            Assert.IsTrue(Math.Abs(expectedSkew - stats.Statistics.Skew) < .0001m);
+            Assert.IsTrue(Math.Abs(expectedKurt - stats.Statistics.Kurt) < .0001m);
         }
     }
 }

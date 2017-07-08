@@ -16,7 +16,7 @@ namespace PoppertechCalculator.Repositories
         
         public DbSet<UniformRandom> Rands { get; set; }
 
-        public virtual IEnumerable<UniformRandom> GetUniformRandByRegion(string region)
+        public virtual IEnumerable<UniformRandom> GetUniformRandByRegion(RegionName region)
         {
             var regionParameter = new SqlParameter("@Region", region);
             return this.Database.SqlQuery<UniformRandom>("[Simulation].[GetUniformRandByRegion] @Region", regionParameter).ToArray();

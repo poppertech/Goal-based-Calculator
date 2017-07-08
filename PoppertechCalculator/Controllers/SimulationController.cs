@@ -31,30 +31,20 @@ namespace PoppertechCalculator.Controllers
         [ResponseType(typeof(Response<IEnumerable<InvestmentStatistics>>))]
         public IHttpActionResult Post([FromBody] IEnumerable<ForecastVariable> request)
         {
-            var investmentStats = new InvestmentStatistics[]{
-                new InvestmentStatistics{
-                    Investment = "Stocks", 
-                    Statistics =new []{
-                        new TextValuePair<decimal>{Text = "Mean", Value = 5}, 
-                        new TextValuePair<decimal>{Text = "Stdev",Value = 15}, 
-                        new TextValuePair<decimal>{Text = "Skew", Value = -.03m}, 
-                        new TextValuePair<decimal>{Text= "Kurt",Value = 2}}},
-                new InvestmentStatistics{
-                    Investment = "Bonds", 
-                    Statistics = new[] {
-                        new TextValuePair<decimal>{Text = "Mean", Value = 2}, 
-                        new TextValuePair<decimal>{Text = "Stdev", Value = 5}, 
-                        new TextValuePair<decimal>{Text = "Skew",Value = -.05m}, 
-                        new TextValuePair<decimal>{Text = "Kurt",Value = 3}}},
-                new InvestmentStatistics{
-                    Investment = "Portfolio", Statistics = new[]{
-                    new TextValuePair<decimal>{Text = "Mean", Value = 3}, 
-                    new TextValuePair<decimal>{Text = "Stdev",Value = 10}, 
-                    new TextValuePair<decimal>{Text = "Skew",Value = -.04m}, 
-                    new TextValuePair<decimal>{Text = "Kurt",Value = 2.5m}}}
-                };
+            var stocksStats = new InvestmentStatistics
+            {
+                Investment = InvestmentName.Stocks,
+                Statistics = new Statistics { Mean = 5, Stdev = 15, Skew = -.03m, Kurt = 2 }
+            };
 
-            var response = new Response<IEnumerable<InvestmentStatistics>>{Model = investmentStats};
+            var bondsStats = new InvestmentStatistics
+            {
+                Investment = InvestmentName.Bonds,
+                Statistics = new Statistics { Mean = 2, Stdev = 5, Skew = -.05m, Kurt = 3 }
+            };
+
+            var investmentStats = new InvestmentStatistics[]{ stocksStats, bondsStats};
+            var response = new Response<IEnumerable<InvestmentStatistics>> { Model = investmentStats };
 
             return Ok(response);
         }

@@ -24,16 +24,13 @@ namespace PoppertechCalculator.Processors
             CalculateSkew();
             CalculateKurt();
 
-            var mean = new TextValuePair<decimal> { Text = "Mean", Value = (decimal)_mean };
-            var stdev = new TextValuePair<decimal> { Text = "Stdev", Value = (decimal)_stdev };
-            var skew = new TextValuePair<decimal> { Text = "Skew", Value = (decimal)_skew };
-            var kurt = new TextValuePair<decimal> { Text = "Kurt", Value = (decimal)_kurt};
-
             var investmentStats = new InvestmentStatistics
             {
-                Statistics = new TextValuePair<decimal>[]
-                {
-                    mean, stdev, skew, kurt
+                Statistics = new Statistics{
+                    Mean = (decimal)_mean, 
+                    Stdev = (decimal)_stdev,
+                    Skew = (decimal)_skew,
+                    Kurt = (decimal)_kurt
                 }
             };
 

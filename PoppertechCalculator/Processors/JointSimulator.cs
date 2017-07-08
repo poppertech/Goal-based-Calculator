@@ -46,30 +46,27 @@ namespace PoppertechCalculator.Processors
                 if (cnt == regions.Length - 1)
                     _xMaxGlobal = _forecastGraphCalcs.GetXMax();
           
-                _monteCarloSimulator.CalculateSimulations(context, region.Name);
-                InitializeJointContext(region.Name, jointContext, _monteCarloSimulator);
+                _monteCarloSimulator.CalculateSimulations(context, (RegionName)region.Name);
+                InitializeJointContext((RegionName)region.Name, jointContext, _monteCarloSimulator);
             }
             _jointSimulations = CalculateJointSimulation(jointContext);
             return _jointSimulations;
         }
 
-        private void InitializeJointContext(string regionName, JointSimulationContext jointContext, IMonteCarloSimulator monteCarloSimulator)
+        private void InitializeJointContext(RegionName regionName, JointSimulationContext jointContext, IMonteCarloSimulator monteCarloSimulator)
         {
             switch (regionName)
             {
-                case "all":
-                    jointContext.UnconditionalAreaNumber = monteCarloSimulator.GetAreaNumbers();
-                    break;
-                case "left_tail":
+                case RegionName.LeftTail:
                     jointContext.ConditionalLeftTailSimulations = monteCarloSimulator.GetSimulations();
                     break;
-                case "left_normal":
+                case RegionName.LeftNormal:
                     jointContext.ConditionalLeftNormalSimulations = monteCarloSimulator.GetSimulations();
                     break;
-                case "right_normal":
+                case RegionName.RightNormal:
                     jointContext.ConditionalRightNormalSimulations = monteCarloSimulator.GetSimulations();
                     break;
-                case "right_tail":
+                case RegionName.RightTail:
                     jointContext.ConditionalRightTailSimulations = monteCarloSimulator.GetSimulations();
                     break;
             }

@@ -7,7 +7,7 @@ namespace PoppertechCalculator.Models
 {
     public class ForecastRegion
     {
-        public string Name { get; set; }
-        public IEnumerable<TextValuePair<decimal>> Forecast { get; set; }
+        public RegionName? Name { get; set; }
+        public Forecast Forecast { get; set; }
     }
 }

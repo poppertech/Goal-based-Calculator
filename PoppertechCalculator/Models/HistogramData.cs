@@ -7,7 +7,7 @@ namespace PoppertechCalculator.Models
 {
     public class HistogramData
     {
-        public TextValuePair<decimal> Interval { get; set; }
-        public TextValuePair<decimal> Frequency { get; set; }
+        public decimal Interval { get; set; }
+        public decimal Frequency { get; set; }
     }
 }

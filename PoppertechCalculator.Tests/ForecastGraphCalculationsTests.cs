@@ -17,13 +17,7 @@ namespace PoppertechCalculator.Tests
             decimal m1 = .016m, m2 = .061m, m3 = -.036m, m4 = -.05m;
             decimal b1 = -.653m, b2 = -4.025m, b3 = 5.783m, b4 = 7.5m;
 
-            var forecast = new[]{
-                new TextValuePair<decimal>{Text = "Minimum", Value = xMin},
-                new TextValuePair<decimal>{Text = "Worst Case", Value = xWorst},
-                new TextValuePair<decimal>{Text = "Most Likely", Value = xLikely},
-                new TextValuePair<decimal>{Text = "Best Case", Value = xBest},
-                new TextValuePair<decimal>{Text = "Maximum", Value = xMax},
-            };
+            var forecast = new Forecast{Minimum = xMin, Worst = xWorst, Likely = xLikely, Best = xBest, Maximum = xMax};
 
             var calculator = new ForecastGraphCalculations();
 

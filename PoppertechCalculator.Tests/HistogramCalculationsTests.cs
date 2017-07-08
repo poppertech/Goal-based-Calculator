@@ -23,15 +23,15 @@ namespace PoppertechCalculator.Tests
             var result = calculator.GetHistogramData(simulations, xMin, xMax).ToArray();
 
             //assert
-            Assert.AreEqual(20, result[0].Interval.Value);
-            Assert.AreEqual(21.5m, result[1].Interval.Value);
-            Assert.AreEqual(23, result[2].Interval.Value);
-            Assert.AreEqual(24.5m, result[3].Interval.Value);
+            Assert.AreEqual(20, result[0].Interval);
+            Assert.AreEqual(21.5m, result[1].Interval);
+            Assert.AreEqual(23, result[2].Interval);
+            Assert.AreEqual(24.5m, result[3].Interval);
 
-            Assert.AreEqual(.25m, result[0].Frequency.Value);
-            Assert.AreEqual(.25m, result[1].Frequency.Value);
-            Assert.AreEqual(.25m, result[2].Frequency.Value);
-            Assert.AreEqual(.25m, result[3].Frequency.Value);
+            Assert.AreEqual(.25m, result[0].Frequency);
+            Assert.AreEqual(.25m, result[1].Frequency);
+            Assert.AreEqual(.25m, result[2].Frequency);
+            Assert.AreEqual(.25m, result[3].Frequency);
         }
     }
 }

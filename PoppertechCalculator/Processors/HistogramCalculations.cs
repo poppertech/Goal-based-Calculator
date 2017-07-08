@@ -18,13 +18,11 @@ namespace PoppertechCalculator.Processors
             {
                 var histogramData = new HistogramData();
                 var interval = ((decimal)cnt / (decimal)num) * (xMaxGlobal - xMinGlobal) + xMinGlobal;
-                var textIntervalPair = new TextValuePair<decimal> { Text = "Interval", Value = interval };
-                histogramData.Interval = textIntervalPair;
+                histogramData.Interval = interval;
 
                 var cumulativeFrequency = ((decimal)jointSimulations.Count(x => x < interval))/((decimal)jointSimulations.Length);
                 var frequency = cumulativeFrequency - lastCumulativeFrequency;               
-                var textFrequencyPair = new TextValuePair<decimal> { Text = "Frequency", Value = frequency };
-                histogramData.Frequency = textFrequencyPair;
+                histogramData.Frequency = frequency;
                 lastCumulativeFrequency = cumulativeFrequency;
                 histogramDataArray[cnt] = histogramData;
             }

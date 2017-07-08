@@ -21,10 +21,14 @@ namespace PoppertechCalculator.Processors
         private static decimal _b1, _b2, _b3, _b4;
 
 
-        public SimulationContext[] GetSimulationContext(IEnumerable<TextValuePair<decimal>> forecast)
+        public SimulationContext[] GetSimulationContext(Forecast forecast)
         {
-            var forecastArray = forecast.ToArray();
-            SetParameters(forecastArray);
+
+            _xMin = forecast.Minimum;
+            _xWorst = forecast.Worst;
+            _xLikely = forecast.Likely;
+            _xBest = forecast.Best;
+            _xMax = forecast.Maximum;
 
             _hWorst = CalculateWorstCaseHeight();
             _hBest = CalculateBestCaseHeight();
@@ -47,7 +51,7 @@ namespace PoppertechCalculator.Processors
             var context2 = new SimulationContext() { XLower = _xWorst, AreaLower = _leftTail, Intercept = _b2, Slope = _m2 };
             var context3 = new SimulationContext() { XLower = _xLikely, AreaLower = _leftTail + _leftNormal, Intercept = _b3, Slope = _m3 };
             var context4 = new SimulationContext() { XLower = _xBest, AreaLower = _leftTail + _normal, Intercept = _b4, Slope = _m4 };
-            var context5 = new SimulationContext() { XLower = _xMax};
+            var context5 = new SimulationContext() { XLower = _xMax };
             return new[] { context1, context2, context3, context4, context5 };
 
         }
@@ -62,33 +66,6 @@ namespace PoppertechCalculator.Processors
             return _xMax;
         }
 
-        private static void SetParameters(TextValuePair<decimal>[] forecast)
-        {
-            for (int cnt = 0; cnt < forecast.Length; cnt++)
-            {
-                var x = forecast[cnt];
-
-                switch (x.Text)
-                {
-                    case "Minimum":
-                        _xMin = x.Value;
-                        break;
-                    case "Worst Case":
-                        _xWorst = x.Value;
-                        break;
-                    case "Most Likely":
-                        _xLikely = x.Value;
-                        break;
-                    case "Best Case":
-                        _xBest = x.Value;
-                        break;
-                    case "Maximum":
-                        _xMax = x.Value;
-                        break;
-                }
-                
-            }
-        }
 
         private static decimal CalculateWorstCaseHeight()
         {
