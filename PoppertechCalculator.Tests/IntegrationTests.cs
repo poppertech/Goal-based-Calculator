@@ -17,7 +17,7 @@ namespace PoppertechCalculator.Tests
             var repository = new UniformRandomRepository();
 
             //act
-            var result = repository.GetUniformRandByRegion("LeftTail");
+            var result = repository.GetUniformRands("GDP", null);
 
         }
     }

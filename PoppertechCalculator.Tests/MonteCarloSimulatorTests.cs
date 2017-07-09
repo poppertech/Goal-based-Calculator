@@ -32,12 +32,12 @@ namespace PoppertechCalculator.Tests
             };
 
             var repository = new Mock<IUniformRandomRepository>();
-            repository.Setup(r => r.GetUniformRandByRegion(It.IsAny<string>())).Returns(uniformRands);
+            repository.Setup(r => r.GetUniformRands(It.IsAny<string>(), It.IsAny<string>())).Returns(uniformRands);
 
             var simulator = new MonteCarloSimulator(repository.Object);
 
             //act
-            simulator.CalculateSimulations(context, "LeftTail");
+            simulator.CalculateSimulations(context, "Stocks", "LeftTail");
             var result = simulator.GetSimulations().ToArray();
 
             //assert

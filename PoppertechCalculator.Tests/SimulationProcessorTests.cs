@@ -53,7 +53,7 @@ namespace PoppertechCalculator.Tests
             histogramCalculations.Setup(r => r.GetHistogramData(It.IsAny<decimal[]>(), It.IsAny<decimal>(), It.IsAny<decimal>())).Returns(histogramData);
 
             var jointSimulator = new Mock<IJointSimulator>();
-            jointSimulator.Setup(j => j.CalculateJointSimulations(It.IsAny<ForecastRegion[]>())).Returns(jointSimulations);
+            jointSimulator.Setup(j => j.CalculateJointSimulations(It.IsAny<int[]>(), It.IsAny<string>(), It.IsAny<ForecastRegion[]>())).Returns(jointSimulations);
             jointSimulator.Setup(j => j.GetGlobalXMin()).Returns(xMin);
             jointSimulator.Setup(j => j.GetGlobalXMax()).Returns(xMax);
 

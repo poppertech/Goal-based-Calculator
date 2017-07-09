@@ -23,9 +23,9 @@ namespace PoppertechCalculator.Processors
 
         public decimal[] GetSimulations() { return simulations;  }
 
-        public void CalculateSimulations(IEnumerable<SimulationContext> context, string region)
+        public void CalculateSimulations(IEnumerable<SimulationContext> context, string variable, string region)
         {
-            var rands = _repository.GetUniformRandByRegion(region);
+            var rands = _repository.GetUniformRands(variable, region);
             var randArray = rands.ToArray();
             var contextArray = context.ToArray();
             simulations = new decimal[randArray.Length];

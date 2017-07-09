@@ -56,16 +56,6 @@ namespace PoppertechCalculator.Processors
 
         }
 
-        public decimal GetXMin()
-        {
-            return _xMin;
-        }
-
-        public decimal GetXMax()
-        {
-            return _xMax;
-        }
-
 
         private static decimal CalculateWorstCaseHeight()
         {

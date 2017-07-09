@@ -10,7 +10,5 @@ namespace PoppertechCalculator.Processors
     public interface IForecastGraphCalculations
     {
         SimulationContext[] GetSimulationContext(Forecast forecast);
-        decimal GetXMin();
-        decimal GetXMax();
     }
 }

@@ -29,12 +29,16 @@ namespace PoppertechCalculator.Processors
             var forecasts = request.ToArray();
 
             var simulationResults = new SimulationResults[forecasts.Length];
-            
+
+            var unConditionalForecast = forecasts.Where(f => f.Parent == null).Single();
+            var unConditionalSimulations = _jointSimulator.CalculateUnconditionalSimulations(unConditionalForecast.Name, unConditionalForecast.Regions.Single().Forecast);
+            var unConditionalAreaNumbers = _jointSimulator.GetParentAreaNumbers();
+
             for (int cnt = 0; cnt < forecasts.Length; cnt++)
 			{
 			    var forecast = forecasts[cnt];
                 var regions = forecast.Regions.ToArray();
-                var jointSimulations = _jointSimulator.CalculateJointSimulations(regions);
+                var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, forecast.Name, regions);
                 var investmentStat = _statisticsCalculations.GetStatistics(jointSimulations);
                 var xMinGlobal = _jointSimulator.GetGlobalXMin();
                 var xMaxGlobal = _jointSimulator.GetGlobalXMax();

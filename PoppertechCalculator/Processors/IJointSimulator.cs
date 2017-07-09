@@ -10,6 +10,8 @@ namespace PoppertechCalculator.Processors
     {
         decimal GetGlobalXMin();
         decimal GetGlobalXMax();
-        decimal[] CalculateJointSimulations(ForecastRegion[] regions);        
+        int[] GetParentAreaNumbers();
+        decimal[] CalculateUnconditionalSimulations(string variable, Forecast forecast);
+        decimal[] CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions);        
     }
 }

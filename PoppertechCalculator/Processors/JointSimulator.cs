@@ -12,6 +12,7 @@ namespace PoppertechCalculator.Processors
         private IMonteCarloSimulator _monteCarloSimulator;
 
         private decimal[] _jointSimulations;
+        private int[] _parentAreaNumbers;
 
         private decimal _xMinGlobal, _xMaxGlobal;
 
@@ -31,22 +32,39 @@ namespace PoppertechCalculator.Processors
             return _xMaxGlobal;
         }
 
-        public decimal[] CalculateJointSimulations(ForecastRegion[] regions)
+        public int[] GetParentAreaNumbers()
+        {
+            return _parentAreaNumbers;
+        }
+
+        public decimal[] CalculateUnconditionalSimulations(string variable, Forecast forecast)
+        {
+            var context = _forecastGraphCalcs.GetSimulationContext(forecast);
+            _xMinGlobal = forecast.Minimum;
+            _xMaxGlobal = forecast.Maximum;
+            _monteCarloSimulator.CalculateSimulations(context, variable, null);
+            _parentAreaNumbers = _monteCarloSimulator.GetAreaNumbers();
+            return _monteCarloSimulator.GetSimulations();
+        }
+
+        public decimal[] CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions)
         {
             var jointContext = new JointSimulationContext();
+            jointContext.UnconditionalAreaNumber = parentAreaNumbers;
             for (int cnt = 0; cnt < regions.Length; cnt++)
             {
                 var region = regions[cnt];
 
                 var context = _forecastGraphCalcs.GetSimulationContext(region.Forecast);
+                var num = context.Count();
 
                 if (cnt == 0)
-                    _xMinGlobal = _forecastGraphCalcs.GetXMin();
+                    _xMinGlobal = region.Forecast.Minimum;
 
                 if (cnt == regions.Length - 1)
-                    _xMaxGlobal = _forecastGraphCalcs.GetXMax();
+                    _xMaxGlobal = region.Forecast.Maximum;
           
-                _monteCarloSimulator.CalculateSimulations(context, region.Name);
+                _monteCarloSimulator.CalculateSimulations(context, variable, region.Name);
                 InitializeJointContext(region.Name, jointContext, _monteCarloSimulator);
             }
             _jointSimulations = CalculateJointSimulation(jointContext);
