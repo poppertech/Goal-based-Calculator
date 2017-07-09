@@ -17,7 +17,6 @@ namespace PoppertechCalculator
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
         }
     }
 }

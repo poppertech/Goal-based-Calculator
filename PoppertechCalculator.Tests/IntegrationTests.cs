@@ -14,11 +14,10 @@ namespace PoppertechCalculator.Tests
             // INTEGRATION TEST
 
             //arrange
-            var connString = System.Configuration.ConfigurationManager.ConnectionStrings["ProbicastCalculator"].ConnectionString;
-            var repository = new UniformRandomRepository(connString);
+            var repository = new UniformRandomRepository();
 
             //act
-            var result = repository.GetUniformRandByRegion(RegionName.LeftTail);
+            var result = repository.GetUniformRandByRegion("LeftTail");
 
         }
     }

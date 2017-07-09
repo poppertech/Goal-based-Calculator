@@ -14,7 +14,7 @@ namespace PoppertechCalculator.Processors
         private const int NUMBER_DAYS_IN_YEAR = 250;
         private const int ERROR_CODE = 9999;
 
-        public InvestmentStatistics GetStatistics(decimal[] inputReturns)
+        public Statistics GetStatistics(decimal[] inputReturns)
         {
             returns = Array.ConvertAll(inputReturns, r => (double)r);
             _mean = returns.Average();
@@ -24,17 +24,16 @@ namespace PoppertechCalculator.Processors
             CalculateSkew();
             CalculateKurt();
 
-            var investmentStats = new InvestmentStatistics
+
+            var stats = new Statistics
             {
-                Statistics = new Statistics{
-                    Mean = (decimal)_mean, 
-                    Stdev = (decimal)_stdev,
-                    Skew = (decimal)_skew,
-                    Kurt = (decimal)_kurt
-                }
+                Mean = (decimal)_mean,
+                Stdev = (decimal)_stdev,
+                Skew = (decimal)_skew,
+                Kurt = (decimal)_kurt
             };
 
-            return investmentStats;
+            return stats;
         }
 
 

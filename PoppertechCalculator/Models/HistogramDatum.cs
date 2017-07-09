@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PoppertechCalculator.Models
 {
-    public class HistogramData
+    public class HistogramDatum
     {
         public decimal Interval { get; set; }
         public decimal Frequency { get; set; }

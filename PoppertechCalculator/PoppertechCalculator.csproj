@@ -165,9 +165,8 @@
     </Compile>
     <Compile Include="Models\Forecast.cs" />
     <Compile Include="Models\ForecastRegion.cs" />
-    <Compile Include="Models\HistogramData.cs" />
+    <Compile Include="Models\HistogramDatum.cs" />
     <Compile Include="Models\InvestmentName.cs" />
-    <Compile Include="Models\InvestmentStatistics.cs" />
     <Compile Include="Models\JointSimulationContext.cs" />
     <Compile Include="Models\RegionName.cs" />
     <Compile Include="Models\Response.cs" />
@@ -181,6 +180,7 @@
     <Compile Include="Processors\IForecastGraphCalculations.cs" />
     <Compile Include="Processors\IHistogramCalculations.cs" />
     <Compile Include="Processors\IJointSimulator.cs" />
+    <Compile Include="Processors\ISimulationProcessor.cs" />
     <Compile Include="Processors\IStatisticsCalculations.cs" />
     <Compile Include="Processors\IMonteCarloSimulator.cs" />
     <Compile Include="Processors\JointSimulator.cs" />

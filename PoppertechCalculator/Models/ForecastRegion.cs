@@ -7,7 +7,7 @@ namespace PoppertechCalculator.Models
 {
     public class ForecastRegion
     {
-        public RegionName? Name { get; set; }
+        public string Name { get; set; }
         public Forecast Forecast { get; set; }
     }
 }

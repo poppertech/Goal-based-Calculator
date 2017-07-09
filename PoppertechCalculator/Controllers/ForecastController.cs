@@ -34,7 +34,7 @@ namespace PoppertechCalculator.Controllers
 
             var gdp = new ForecastVariable
             {
-                Name = InvestmentName.GDP,
+                Name = "GDP",
                 Regions = new[]{
                     new ForecastRegion{
                         Forecast = unconditionalForecast}}
@@ -42,22 +42,22 @@ namespace PoppertechCalculator.Controllers
 
             var stocks = new ForecastVariable
             {
-                Name = InvestmentName.Stocks,
+                Name = "Stocks",
                 Regions = new[]{
                     new ForecastRegion{
-                        Name = RegionName.LeftTail,
+                        Name = "LeftTail",
                         Forecast = leftTailForecast
                     },
                     new ForecastRegion{
-                        Name = RegionName.LeftNormal,
+                        Name = "LeftNormal",
                         Forecast = leftNormalForecast
                     },
                     new ForecastRegion{
-                        Name = RegionName.RightNormal,
+                        Name = "RightNormal",
                         Forecast = rightNormalForecast
                     },
                     new ForecastRegion{
-                        Name = RegionName.RightTail,
+                        Name = "RightTail",
                         Forecast = rightTailForecast
                     }
                 }
@@ -65,22 +65,22 @@ namespace PoppertechCalculator.Controllers
 
             var bonds = new ForecastVariable
             {
-                Name = InvestmentName.Bonds,
+                Name = "Bonds",
                 Regions = new[]{
                     new ForecastRegion{
-                        Name = RegionName.LeftTail,
+                        Name = "LeftTail",
                         Forecast = leftTailForecast
                     },
                     new ForecastRegion{
-                        Name = RegionName.LeftNormal,
+                        Name = "LeftNormal",
                         Forecast = leftNormalForecast
                     },
                     new ForecastRegion{
-                        Name = RegionName.RightNormal,
+                        Name = "RightNormal",
                         Forecast = rightNormalForecast
                     },
                     new ForecastRegion{
-                        Name = RegionName.RightTail,
+                        Name = "RightTail",
                         Forecast = rightTailForecast
                     }
                 }

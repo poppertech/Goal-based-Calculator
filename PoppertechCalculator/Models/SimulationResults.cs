@@ -7,7 +7,8 @@ namespace PoppertechCalculator.Models
 {
     public class SimulationResults
     {
-        public IEnumerable<InvestmentStatistics> InvestmentsStatistics { get; set; }
-        public IEnumerable<IEnumerable<HistogramData>> HistogramsData { get; set; }
+        public string InvestmentName { get; set; }
+        public Statistics Statistics { get; set; }
+        public IEnumerable<HistogramDatum> HistogramsData { get; set; }
     }
 }

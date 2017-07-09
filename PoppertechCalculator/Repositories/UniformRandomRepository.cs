@@ -10,13 +10,15 @@ namespace PoppertechCalculator.Repositories
 {
     public class UniformRandomRepository: DbContext, IUniformRandomRepository
     {
-        public UniformRandomRepository(string connString):base(connString){
+        public UniformRandomRepository()
+            : base(System.Configuration.ConfigurationManager.ConnectionStrings["ProbicastCalculator"].ConnectionString)
+        {
             Database.SetInitializer<UniformRandomRepository>(null);
         }
         
         public DbSet<UniformRandom> Rands { get; set; }
 
-        public virtual IEnumerable<UniformRandom> GetUniformRandByRegion(RegionName region)
+        public virtual IEnumerable<UniformRandom> GetUniformRandByRegion(string region)
         {
             var regionParameter = new SqlParameter("@Region", region);
             return this.Database.SqlQuery<UniformRandom>("[Simulation].[GetUniformRandByRegion] @Region", regionParameter).ToArray();

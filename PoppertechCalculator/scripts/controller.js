@@ -9,7 +9,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     vm.reset = reset;
     vm.selectVariable = selectVariable;
-    vm.simulateInvestments = simulateInvestments;    
+    vm.simulateInvestments = simulateInvestments;
 
 
     activate()
@@ -44,7 +44,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     }
 
     function initSelectedConditionalForecast() {
-        vm.selectVariable('gdp');
+        vm.selectVariable('GDP');
         calculateForecastGraph(vm.selectedForecast);
     }
 
@@ -65,12 +65,12 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
         momentCalculationsSvc.calculateStats(context);
 
-        vm.conditionalStats = [
-            { text: "Mean", value: momentCalculationsSvc.getMean() },
-            { text: "Stdev", value: momentCalculationsSvc.getStdev() },
-            { text: "Skew", value: momentCalculationsSvc.getSkew() },
-            { text: "Kurt", value: momentCalculationsSvc.getKurt() },
-        ];
+        vm.conditionalStats = {
+            Mean: momentCalculationsSvc.getMean(),
+            Stdev: momentCalculationsSvc.getStdev(),
+            Skew: momentCalculationsSvc.getSkew(),
+            Kurt: momentCalculationsSvc.getKurt(),
+        };
 
     }
 
@@ -108,7 +108,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     function calculateForecastGraph(selectedForecast) {
 
-        if (selectedForecast && selectedForecast.length > 0) {
+        if (selectedForecast) {
             forecastGraphCalculationsSvc.calculateHeights(selectedForecast);
 
             vm.conditionalForecastChartData = [
@@ -134,18 +134,17 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
             momentCalculationsSvc.calculateStats(context);
 
-            vm.conditionalStats = [
-                { text: "Mean", value: momentCalculationsSvc.getMean() },
-                { text: "Stdev", value: momentCalculationsSvc.getStdev() },
-                { text: "Skew", value: momentCalculationsSvc.getSkew() },
-                { text: "Kurt", value: momentCalculationsSvc.getKurt() },
-            ];
+            vm.conditionalStats =
+                {
+                    Mean: momentCalculationsSvc.getMean(),
+                    Stdev: momentCalculationsSvc.getStdev(),
+                    Skew: momentCalculationsSvc.getSkew(),
+                    Kurt: momentCalculationsSvc.getKurt(),
+                };
 
         }
 
     }
-
-
 
     vm.histogramChartData = [
     { letter: "A", frequency: 0.08167 },
@@ -165,31 +164,31 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
         vm.bondsClass = "rect-normal";
 
         switch (variableName) {
-            case 'gdp':
+            case 'GDP':
                 var selectedRegion = $filter('filter')(vm.selectedVariable.regions, function (region) {
-                    return region.name === 'all';
+                    return !region.name;
                 })[0];
                 vm.selectedForecast = selectedRegion.forecast;
-                vm.forecastRegionOptions = [{ text: 'All', value: 'all' }];
+                vm.forecastRegionOptions = [{ text: 'All', value: null }];
                 vm.forecastRegion = selectedRegion.name;
                 vm.gdpClass = 'rect-selected';
                 break;
-            case 'stocks':
+            case 'Stocks':
                 var selectedRegion = $filter('filter')(vm.selectedVariable.regions, function (region) {
-                    return region.name === 'leftTail';
+                    return region.name === 'LeftTail';
                 })[0];
                 vm.selectedForecast = selectedRegion.forecast;
                 vm.forecastRegionOptions = getConditionalForecastRegionOptions();
-                vm.forecastRegion = 'leftTail';
+                vm.forecastRegion = 'LeftTail';
                 vm.stocksClass = 'rect-selected';
                 break;
-            case 'bonds':
+            case 'Bonds':
                 var selectedRegion = $filter('filter')(vm.selectedVariable.regions, function (region) {
-                    return region.name === 'leftTail';
+                    return region.name === 'LeftTail';
                 })[0];
                 vm.selectedForecast = selectedRegion.forecast;
                 vm.forecastRegionOptions = getConditionalForecastRegionOptions();
-                vm.forecastRegion = 'leftTail';
+                vm.forecastRegion = 'LeftTail';
                 vm.bondsClass = 'rect-selected';
                 break;
         }
@@ -197,10 +196,10 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     function getConditionalForecastRegionOptions() {
         return [
-    { text: "Left Tail", value: "leftTail" },
-    { text: "Left Normal", value: "leftNormal" },
-    { text: "Right Normal", value: "rightNormal" },
-    { text: "Right Tail", value: "rightTail" }
+    { text: "Left Tail", value: "LeftTail" },
+    { text: "Left Normal", value: "LeftNormal" },
+    { text: "Right Normal", value: "RightNormal" },
+    { text: "Right Tail", value: "RightTail" }
         ];
     }
 
@@ -209,7 +208,8 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     }
 
     function postSimulationsSuccess(response) {
-        vm.investmentStats = response.model;
+        vm.simulationResults = response.model;
+
     }
 
     function postSimulationsFailure(err) {

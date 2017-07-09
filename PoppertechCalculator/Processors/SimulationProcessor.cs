@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PoppertechCalculator.Processors
 {
-    public class SimulationProcessor
+    public class SimulationProcessor : PoppertechCalculator.Processors.ISimulationProcessor
     {
         private IStatisticsCalculations _statisticsCalculations;
         private IHistogramCalculations _histogramCalculations;
@@ -24,17 +24,11 @@ namespace PoppertechCalculator.Processors
         }
 
 
-        public SimulationResults SimulateInvestments(IEnumerable<ForecastVariable> request)
+        public IEnumerable<SimulationResults> SimulateInvestments(IEnumerable<ForecastVariable> request)
         {
             var forecasts = request.ToArray();
 
-            var investmentStats = new InvestmentStatistics[forecasts.Length];
-            var histogramsData = new IEnumerable<HistogramData>[forecasts.Length];
-            
-            var simulationResults = new SimulationResults() { 
-                InvestmentsStatistics = investmentStats,
-                HistogramsData = histogramsData
-            };
+            var simulationResults = new SimulationResults[forecasts.Length];
             
             for (int cnt = 0; cnt < forecasts.Length; cnt++)
 			{
@@ -45,8 +39,11 @@ namespace PoppertechCalculator.Processors
                 var xMinGlobal = _jointSimulator.GetGlobalXMin();
                 var xMaxGlobal = _jointSimulator.GetGlobalXMax();
                 var histogramData = _histogramCalculations.GetHistogramData(jointSimulations, xMinGlobal, xMaxGlobal);
-                investmentStats[cnt] = investmentStat;
-                histogramsData[cnt] = histogramData; 
+                var simulationResult = new SimulationResults();
+                simulationResult.InvestmentName = forecast.Name; 
+                simulationResult.Statistics = investmentStat;
+                simulationResult.HistogramsData = histogramData;
+                simulationResults[cnt] = simulationResult;
 			}
             return simulationResults;
         }

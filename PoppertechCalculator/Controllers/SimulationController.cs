@@ -1,4 +1,5 @@
 ﻿using PoppertechCalculator.Models;
+using PoppertechCalculator.Processors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,40 +13,21 @@ namespace PoppertechCalculator.Controllers
     [RoutePrefix("simulation")]
     public class SimulationController : ApiController
     {
-        public SimulationController()
+        ISimulationProcessor _processor;
+        public SimulationController(ISimulationProcessor processor)
         {
-
-        }
-
-        [HttpGet]
-        [Route("")]
-        [ResponseType(typeof(string))]
-        public IHttpActionResult Get()
-        {
-            return Ok("Success");
+            _processor = processor;
         }
 
 
         [HttpPost]
         [Route("")]
-        [ResponseType(typeof(Response<IEnumerable<InvestmentStatistics>>))]
+        [ResponseType(typeof(Response<IEnumerable<SimulationResults>>))]
         public IHttpActionResult Post([FromBody] IEnumerable<ForecastVariable> request)
         {
-            var stocksStats = new InvestmentStatistics
-            {
-                Investment = InvestmentName.Stocks,
-                Statistics = new Statistics { Mean = 5, Stdev = 15, Skew = -.03m, Kurt = 2 }
-            };
 
-            var bondsStats = new InvestmentStatistics
-            {
-                Investment = InvestmentName.Bonds,
-                Statistics = new Statistics { Mean = 2, Stdev = 5, Skew = -.05m, Kurt = 3 }
-            };
-
-            var investmentStats = new InvestmentStatistics[]{ stocksStats, bondsStats};
-            var response = new Response<IEnumerable<InvestmentStatistics>> { Model = investmentStats };
-
+            var simulationsResults = _processor.SimulateInvestments(request);
+            var response = new Response<IEnumerable<SimulationResults>> { Model = simulationsResults };
             return Ok(response);
         }
     }

@@ -116,9 +116,9 @@
                                 <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal stocks" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
                                 <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal bonds" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
 
-                                <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.selectVariable('gdp')">US GDP Growth</text>
-                                <text x="290" y="30" class="rect-text stocks" ng-click="vm.selectVariable('stocks')">US Stocks</text>
-                                <text x="290" y="130" class="rect-text bonds" ng-click="vm.selectVariable('bonds')">US Bonds</text>
+                                <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.selectVariable('GDP')">US GDP Growth</text>
+                                <text x="290" y="30" class="rect-text Stocks" ng-click="vm.selectVariable('Stocks')">US Stocks</text>
+                                <text x="290" y="130" class="rect-text bonds" ng-click="vm.selectVariable('Bonds')">US Bonds</text>
 
                                 <polyline points="150,75 200,75 200,25 250,25" class="connector" />
                                 <polyline points="150,75 200,75 200,125 250,125" class="connector" />
@@ -164,10 +164,10 @@
                         <div class="form-group col-sm-4">
                             <table class="table table-striped">
                                 <tbody>
-                                    <tr ng-repeat="forecast in vm.selectedForecast">
-                                        <td>{{forecast.text}}</td>
+                                    <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
+                                        <td>{{forecastName}}</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="forecast.value" />
+                                            <input type="text" class="form-control" ng-model="forecastValue" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -182,9 +182,9 @@
                         <div class="col-sm-4">
                             <table class="table table-striped">
                                 <tbody>
-                                    <tr ng-repeat="stat in vm.conditionalStats">
-                                        <td>{{stat.text}}</td>
-                                        <td>{{stat.value | number: 2}}</td>
+                                    <tr ng-repeat="(statName, statValue) in vm.conditionalStats">
+                                        <td>{{statName}}</td>
+                                        <td>{{statValue | number: 2}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -231,16 +231,16 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th ng-repeat="stat in vm.investmentStats[0].statistics">
-                                            {{stat.text}}
+                                        <th ng-repeat="(statName, statValue) in vm.simulationResults[0].statistics">
+                                            {{statValue}}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="investmentStat in vm.investmentStats">
-                                        <td>{{investmentStat.investment}}</td>
-                                        <td ng-repeat="stat in investmentStat.statistics">
-                                            {{stat.value}}
+                                    <tr ng-repeat="simulationResult in vm.simulationResults">
+                                        <td>{{simulationResult.investmentName}}</td>
+                                        <td ng-repeat="(statName, statValue) in simulationResult">
+                                            {{statValue}}
                                         </td>
                                     </tr>
                                 </tbody>

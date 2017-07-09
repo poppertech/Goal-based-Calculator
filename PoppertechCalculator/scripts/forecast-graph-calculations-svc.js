@@ -74,31 +74,18 @@
         return hMax;
     }
 
-    function setParameters(selectedForecast) {
-        for (var cnt = 0; cnt < selectedForecast.length; cnt++) {
-            var forecast = selectedForecast[cnt];
-            switch (forecast.text) {
-                case "Minimum":
-                    xMin = forecast.value;
-                    break;
-                case "Worst Case":
-                    xWorst = forecast.value;
-                    break;
-                case "Most Likely":
-                    xLikely = forecast.value;
-                    break;
-                case "Best Case":
-                    xBest = forecast.value;
-                    break;
-                case "Maximum":
-                    xMax = forecast.value;
-                    break;
-            }
-        }
+    function setParameters(forecast) {
+
+        xMin = forecast.minimum;
+        xWorst = forecast.worst;
+        xLikely = forecast.likely;
+        xBest = forecast.best;
+        xMax = forecast.maximum;
+
     }
 
     function calculateWorstCaseHeight() {
-        return 2*LEFT_TAIL/(xWorst - xMin)
+        return 2 * LEFT_TAIL / (xWorst - xMin)
     }
 
     function calculateBestCaseHeight() {
@@ -106,6 +93,6 @@
     }
 
     function calculateMostLikelyHeight() {
-        return (2*NORMAL - hWorst * (xLikely - xWorst) - hBest * (xBest - xLikely)) / (xBest - xWorst);
+        return (2 * NORMAL - hWorst * (xLikely - xWorst) - hBest * (xBest - xLikely)) / (xBest - xWorst);
     }
 })

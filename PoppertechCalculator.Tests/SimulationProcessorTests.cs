@@ -19,14 +19,10 @@ namespace PoppertechCalculator.Tests
             //arrange
             var xMin = 20;
             var xMax = 170;
-            var investmentName = InvestmentName.GDP;
+            var investmentName = "GDP";
 
             var mean = 5;
             var stats = new Statistics{Mean = mean};
-            var statistics = new InvestmentStatistics(){
-                Investment = investmentName, 
-                Statistics = stats
-            };
 
             var jointSimulations = new decimal[] { 122.2399811m, 97.44055169m, 41.76929575m, 122.3667352m };
 
@@ -47,11 +43,11 @@ namespace PoppertechCalculator.Tests
 
             var interval = 20;
             var frequency = .1m;
-            var histogramDatum = new HistogramData{Interval = interval, Frequency = frequency};
+            var histogramDatum = new HistogramDatum{Interval = interval, Frequency = frequency};
             var histogramData = new[] { histogramDatum };
 
             var statisticsCalculations = new Mock<IStatisticsCalculations>();
-            statisticsCalculations.Setup(r => r.GetStatistics(It.IsAny<decimal[]>())).Returns(statistics);
+            statisticsCalculations.Setup(r => r.GetStatistics(It.IsAny<decimal[]>())).Returns(stats);
 
             var histogramCalculations = new Mock<IHistogramCalculations>();
             histogramCalculations.Setup(r => r.GetHistogramData(It.IsAny<decimal[]>(), It.IsAny<decimal>(), It.IsAny<decimal>())).Returns(histogramData);
@@ -64,13 +60,15 @@ namespace PoppertechCalculator.Tests
             var processor = new SimulationProcessor(statisticsCalculations.Object, histogramCalculations.Object, jointSimulator.Object);
 
             //act
-            var result = processor.SimulateInvestments(request);
+            var results = processor.SimulateInvestments(request);
+            var result = results.First();
 
             //assert
-            Assert.AreEqual(interval, result.HistogramsData.First().First().Interval);
-            Assert.AreEqual(frequency, result.HistogramsData.First().First().Frequency);
-            Assert.AreEqual(statistics.Investment, result.InvestmentsStatistics.First().Investment);
-            Assert.AreEqual(mean, result.InvestmentsStatistics.First().Statistics.Mean);
+            Assert.AreEqual("GDP", result.InvestmentName);
+            Assert.AreEqual(interval, result.HistogramsData.First().Interval);
+            Assert.AreEqual(frequency, result.HistogramsData.First().Frequency);
+            
+            Assert.AreEqual(mean, result.Statistics.Mean);
         }
     }
 }

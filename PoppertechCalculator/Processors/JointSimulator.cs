@@ -46,27 +46,27 @@ namespace PoppertechCalculator.Processors
                 if (cnt == regions.Length - 1)
                     _xMaxGlobal = _forecastGraphCalcs.GetXMax();
           
-                _monteCarloSimulator.CalculateSimulations(context, (RegionName)region.Name);
-                InitializeJointContext((RegionName)region.Name, jointContext, _monteCarloSimulator);
+                _monteCarloSimulator.CalculateSimulations(context, region.Name);
+                InitializeJointContext(region.Name, jointContext, _monteCarloSimulator);
             }
             _jointSimulations = CalculateJointSimulation(jointContext);
             return _jointSimulations;
         }
 
-        private void InitializeJointContext(RegionName regionName, JointSimulationContext jointContext, IMonteCarloSimulator monteCarloSimulator)
+        private void InitializeJointContext(string regionName, JointSimulationContext jointContext, IMonteCarloSimulator monteCarloSimulator)
         {
             switch (regionName)
             {
-                case RegionName.LeftTail:
+                case "LeftTail":
                     jointContext.ConditionalLeftTailSimulations = monteCarloSimulator.GetSimulations();
                     break;
-                case RegionName.LeftNormal:
+                case "LeftNormal":
                     jointContext.ConditionalLeftNormalSimulations = monteCarloSimulator.GetSimulations();
                     break;
-                case RegionName.RightNormal:
+                case "RightNormal":
                     jointContext.ConditionalRightNormalSimulations = monteCarloSimulator.GetSimulations();
                     break;
-                case RegionName.RightTail:
+                case "RightTail":
                     jointContext.ConditionalRightTailSimulations = monteCarloSimulator.GetSimulations();
                     break;
             }
