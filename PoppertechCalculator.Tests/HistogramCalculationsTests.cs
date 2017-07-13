@@ -16,11 +16,12 @@ namespace PoppertechCalculator.Tests
             var xMin = 20;
             var xMax = 170;
             var simulations = new decimal[] {19, 21, 22, 24};
+            var histogramContext = new HistogramContext { GlobalXMin = xMin, GlobalXMax = xMax, Simulations = simulations };
 
             var calculator = new HistogramCalculations();
 
             //act
-            var result = calculator.GetHistogramData(simulations, xMin, xMax).ToArray();
+            var result = calculator.GetHistogramData(histogramContext).ToArray();
 
             //assert
             Assert.AreEqual(20, result[0].Interval);

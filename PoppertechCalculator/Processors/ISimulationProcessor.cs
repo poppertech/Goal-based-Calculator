@@ -1,9 +1,10 @@
-﻿using System;
+﻿using PoppertechCalculator.Models;
+using System;
 using System.Collections.Generic;
 namespace PoppertechCalculator.Processors
 {
     public interface ISimulationProcessor
     {
-        IEnumerable<PoppertechCalculator.Models.SimulationResults> SimulateInvestments(IEnumerable<PoppertechCalculator.Models.ForecastVariable> request);
+        SimulationResults[] SimulateInvestments(ForecastVariable[] request);
     }
 }

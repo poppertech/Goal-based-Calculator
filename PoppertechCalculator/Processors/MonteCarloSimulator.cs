@@ -9,9 +9,6 @@ namespace PoppertechCalculator.Processors
 {
     public class MonteCarloSimulator : IMonteCarloSimulator
     {
-        private decimal[] simulations;
-        private int[] areaNumbers;
-
         private IUniformRandomRepository _repository;
 
         public MonteCarloSimulator(IUniformRandomRepository repository)
@@ -19,18 +16,15 @@ namespace PoppertechCalculator.Processors
             _repository = repository;
         }
 
-        public int[] GetAreaNumbers() {return areaNumbers; }
-
-        public decimal[] GetSimulations() { return simulations;  }
-
-        public void CalculateSimulations(IEnumerable<SimulationContext> context, string variable, string region)
+        public MonteCarloResults CalculateSimulations(IEnumerable<SimulationContext> context, string variable, string region)
         {
+            
             var rands = _repository.GetUniformRands(variable, region);
             var randArray = rands.ToArray();
             var contextArray = context.ToArray();
-            simulations = new decimal[randArray.Length];
-            areaNumbers = new int[randArray.Length];
-            var areaLookup = contextArray.Select(c => c.AreaLower).ToArray();
+            var simulations = new decimal[randArray.Length];
+            var areaNumbers = new int[randArray.Length];
+            var areaLookup = contextArray.Where((c, i) => i < contextArray.Length - 1).Select(c => c.AreaLower).ToArray();
             for (int cnt = 0; cnt < randArray.Length; cnt++)
             {
                 var rand = randArray[cnt];
@@ -46,6 +40,8 @@ namespace PoppertechCalculator.Processors
                 simulations[cnt] = xSim;
                 areaNumbers[cnt] = areaNum;
             }
+            var monteCarloResults = new MonteCarloResults { Simulations = simulations, AreaNumbers = areaNumbers};
+            return monteCarloResults;
         }
 
         private int ChooseAreaNumber(decimal rand, decimal[] areaLookup)

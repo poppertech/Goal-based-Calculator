@@ -25,7 +25,7 @@ namespace PoppertechCalculator.Tests
             var simulationResults = new[] { simulationResult };
 
             var processor = new Mock<ISimulationProcessor>();
-            processor.Setup(p => p.SimulateInvestments(It.IsAny<IEnumerable<ForecastVariable>>())).Returns(simulationResults);
+            processor.Setup(p => p.SimulateInvestments(It.IsAny<ForecastVariable[]>())).Returns(simulationResults);
 
             var controller = new SimulationController(processor.Object);
             

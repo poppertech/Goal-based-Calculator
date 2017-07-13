@@ -165,9 +165,11 @@
     </Compile>
     <Compile Include="Models\Forecast.cs" />
     <Compile Include="Models\ForecastRegion.cs" />
+    <Compile Include="Models\HistogramContext.cs" />
     <Compile Include="Models\HistogramDatum.cs" />
     <Compile Include="Models\InvestmentName.cs" />
     <Compile Include="Models\JointSimulationContext.cs" />
+    <Compile Include="Models\MonteCarloResults.cs" />
     <Compile Include="Models\RegionName.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SimulationContext.cs" />

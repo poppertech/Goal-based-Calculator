@@ -28,7 +28,8 @@ namespace PoppertechCalculator.Tests
                 new SimulationContext{AreaLower=0,XLower= 40, Slope= 0.016326531m, Intercept = -0.653061224m},
                 new SimulationContext{AreaLower=10,XLower= 75, Slope= 0.061298701m, Intercept = -4.025974026m},
                 new SimulationContext{AreaLower= 43.44155844m,XLower= 100, Slope= -0.036796537m, Intercept = 5.783549784m},
-                new SimulationContext{AreaLower= 90,XLower= 130, Slope= -0.05m, Intercept = 7.5m}
+                new SimulationContext{AreaLower= 90,XLower= 130, Slope= -0.05m, Intercept = 7.5m},
+                new SimulationContext{}
             };
 
             var repository = new Mock<IUniformRandomRepository>();
@@ -37,14 +38,13 @@ namespace PoppertechCalculator.Tests
             var simulator = new MonteCarloSimulator(repository.Object);
 
             //act
-            simulator.CalculateSimulations(context, "Stocks", "LeftTail");
-            var result = simulator.GetSimulations().ToArray();
+            var result = simulator.CalculateSimulations(context, "Stocks", "LeftTail");
 
             //assert
-            Assert.IsTrue(Math.Abs(result[0] - expectedResult[0])< .01m);
-            Assert.IsTrue(Math.Abs(result[1] - expectedResult[1]) < .01m);
-            Assert.IsTrue(Math.Abs(result[2] - expectedResult[2]) < .01m);
-            Assert.IsTrue(Math.Abs(result[3] - expectedResult[3]) < .01m);
+            Assert.IsTrue(Math.Abs(result.Simulations[0] - expectedResult[0])< .01m);
+            Assert.IsTrue(Math.Abs(result.Simulations[1] - expectedResult[1]) < .01m);
+            Assert.IsTrue(Math.Abs(result.Simulations[2] - expectedResult[2]) < .01m);
+            Assert.IsTrue(Math.Abs(result.Simulations[3] - expectedResult[3]) < .01m);
         }
     }
 }

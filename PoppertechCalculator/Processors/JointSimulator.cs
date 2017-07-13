@@ -11,105 +11,82 @@ namespace PoppertechCalculator.Processors
         private IForecastGraphCalculations _forecastGraphCalcs;
         private IMonteCarloSimulator _monteCarloSimulator;
 
-        private decimal[] _jointSimulations;
-        private int[] _parentAreaNumbers;
-
-        private decimal _xMinGlobal, _xMaxGlobal;
-
         public JointSimulator(IForecastGraphCalculations forecastGraphCalcs, IMonteCarloSimulator monteCarloSimulator)
         {
             _forecastGraphCalcs = forecastGraphCalcs;
             _monteCarloSimulator = monteCarloSimulator;
         }
 
-        public decimal GetGlobalXMin()
-        {
-            return _xMinGlobal;
-        }
 
-        public decimal GetGlobalXMax()
-        {
-            return _xMaxGlobal;
-        }
-
-        public int[] GetParentAreaNumbers()
-        {
-            return _parentAreaNumbers;
-        }
-
-        public decimal[] CalculateUnconditionalSimulations(string variable, Forecast forecast)
+        public MonteCarloResults CalculateUnconditionalSimulations(string variable, Forecast forecast)
         {
             var context = _forecastGraphCalcs.GetSimulationContext(forecast);
-            _xMinGlobal = forecast.Minimum;
-            _xMaxGlobal = forecast.Maximum;
-            _monteCarloSimulator.CalculateSimulations(context, variable, null);
-            _parentAreaNumbers = _monteCarloSimulator.GetAreaNumbers();
-            return _monteCarloSimulator.GetSimulations();
+            var monteCarloResults = _monteCarloSimulator.CalculateSimulations(context, variable, null);
+            return monteCarloResults;
         }
 
-        public decimal[] CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions)
+        public HistogramContext CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions)
         {
             var jointContext = new JointSimulationContext();
-            jointContext.UnconditionalAreaNumber = parentAreaNumbers;
+            var histogramContext = new HistogramContext();
+
+            jointContext.ParentAreaNumber = parentAreaNumbers;
+
             for (int cnt = 0; cnt < regions.Length; cnt++)
             {
                 var region = regions[cnt];
 
                 var context = _forecastGraphCalcs.GetSimulationContext(region.Forecast);
                 var num = context.Count();
-
-                if (cnt == 0)
-                    _xMinGlobal = region.Forecast.Minimum;
-
-                if (cnt == regions.Length - 1)
-                    _xMaxGlobal = region.Forecast.Maximum;
           
-                _monteCarloSimulator.CalculateSimulations(context, variable, region.Name);
-                InitializeJointContext(region.Name, jointContext, _monteCarloSimulator);
+                var monteCarloResults = _monteCarloSimulator.CalculateSimulations(context, variable, region.Name);
+                InitializeJointContext(region.Name, jointContext, monteCarloResults.Simulations);
             }
-            _jointSimulations = CalculateJointSimulation(jointContext);
-            return _jointSimulations;
+            histogramContext.Simulations = CalculateJointSimulation(jointContext);
+            histogramContext.GlobalXMin = regions[0].Forecast.Minimum;
+            histogramContext.GlobalXMax = regions[regions.Length - 1].Forecast.Maximum;
+            return histogramContext;
         }
 
-        private void InitializeJointContext(string regionName, JointSimulationContext jointContext, IMonteCarloSimulator monteCarloSimulator)
+        private void InitializeJointContext(string regionName, JointSimulationContext jointContext, decimal[] monteCarloSimulations)
         {
             switch (regionName)
             {
                 case "LeftTail":
-                    jointContext.ConditionalLeftTailSimulations = monteCarloSimulator.GetSimulations();
+                    jointContext.ConditionalLeftTailSimulations = monteCarloSimulations;
                     break;
                 case "LeftNormal":
-                    jointContext.ConditionalLeftNormalSimulations = monteCarloSimulator.GetSimulations();
+                    jointContext.ConditionalLeftNormalSimulations = monteCarloSimulations;
                     break;
                 case "RightNormal":
-                    jointContext.ConditionalRightNormalSimulations = monteCarloSimulator.GetSimulations();
+                    jointContext.ConditionalRightNormalSimulations = monteCarloSimulations;
                     break;
                 case "RightTail":
-                    jointContext.ConditionalRightTailSimulations = monteCarloSimulator.GetSimulations();
+                    jointContext.ConditionalRightTailSimulations = monteCarloSimulations;
                     break;
             }
         }
 
         private decimal[] CalculateJointSimulation(JointSimulationContext jointContext)
         {
-            var num = jointContext.UnconditionalAreaNumber.Length;
+            var num = jointContext.ParentAreaNumber.Length;
             var jointSimulations = new decimal[num];
 
             for (int cnt = 0; cnt < num; cnt++)
             {
-                var areaNum = jointContext.UnconditionalAreaNumber[cnt];
+                var areaNum = jointContext.ParentAreaNumber[cnt];
                 switch (areaNum)
                 {
-                    case 1:
+                    case 0:
                         jointSimulations[cnt] = jointContext.ConditionalLeftTailSimulations[cnt];
                         break;
-                    case 2:
+                    case 1:
                         jointSimulations[cnt] = jointContext.ConditionalLeftNormalSimulations[cnt];
                         break;
-                    case 3:
+                    case 2:
                         jointSimulations[cnt] = jointContext.ConditionalRightNormalSimulations[cnt];
                         break;
-                    case 4:
+                    case 3:
                         jointSimulations[cnt] = jointContext.ConditionalRightTailSimulations[cnt];
                         break;
                 }

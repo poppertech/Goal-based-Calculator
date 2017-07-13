@@ -7,12 +7,11 @@ using System.Web;
 
 namespace PoppertechCalculator.Processors
 {
-    public class SimulationProcessor : PoppertechCalculator.Processors.ISimulationProcessor
+    public class SimulationProcessor : ISimulationProcessor
     {
         private IStatisticsCalculations _statisticsCalculations;
         private IHistogramCalculations _histogramCalculations;
         private IJointSimulator _jointSimulator;
-
 
         public SimulationProcessor(IStatisticsCalculations statisticsCalculations, 
             IHistogramCalculations histogramCalculations,
@@ -24,35 +23,47 @@ namespace PoppertechCalculator.Processors
         }
 
 
-        public IEnumerable<SimulationResults> SimulateInvestments(IEnumerable<ForecastVariable> request)
+        public SimulationResults[] SimulateInvestments(ForecastVariable[] forecasts)
         {
-            var forecasts = request.ToArray();
 
             var simulationResults = new SimulationResults[forecasts.Length];
 
-            var unConditionalForecast = forecasts.Where(f => f.Parent == null).Single();
-            var unConditionalSimulations = _jointSimulator.CalculateUnconditionalSimulations(unConditionalForecast.Name, unConditionalForecast.Regions.Single().Forecast);
-            var unConditionalAreaNumbers = _jointSimulator.GetParentAreaNumbers();
+            var unConditionalForecast = forecasts.Where(f => string.IsNullOrWhiteSpace(f.Parent)).Single();
+            var unConditionalSimulations = _jointSimulator.CalculateUnconditionalSimulations(unConditionalForecast.Name, unConditionalForecast.Regions[0].Forecast);
+            var unConditionalAreaNumbers = unConditionalSimulations.AreaNumbers;
+            var histogramContext = new HistogramContext{Simulations =  unConditionalSimulations.Simulations, 
+                GlobalXMin = unConditionalForecast.Regions[0].Forecast.Minimum, 
+                GlobalXMax = unConditionalForecast.Regions[0].Forecast.Maximum
+            };
+            simulationResults[0] = GetSimulationResults(unConditionalForecast.Name, histogramContext);
 
-            for (int cnt = 0; cnt < forecasts.Length; cnt++)
+            var conditionalForecasts = forecasts.Where(f => !string.IsNullOrWhiteSpace(f.Parent)).ToArray();
+
+            for (int cnt = 0; cnt < conditionalForecasts.Length; cnt++)
 			{
-			    var forecast = forecasts[cnt];
-                var regions = forecast.Regions.ToArray();
-                var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, forecast.Name, regions);
-                var investmentStat = _statisticsCalculations.GetStatistics(jointSimulations);
-                var xMinGlobal = _jointSimulator.GetGlobalXMin();
-                var xMaxGlobal = _jointSimulator.GetGlobalXMax();
-                var histogramData = _histogramCalculations.GetHistogramData(jointSimulations, xMinGlobal, xMaxGlobal);
-                var simulationResult = new SimulationResults();
-                simulationResult.InvestmentName = forecast.Name; 
-                simulationResult.Statistics = investmentStat;
-                simulationResult.HistogramsData = histogramData;
-                simulationResults[cnt] = simulationResult;
+                var conditionalForecast = conditionalForecasts[cnt];
+                var regions = conditionalForecast.Regions.ToArray();
+                var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, conditionalForecast.Name, regions);
+
+                var simulationResult = GetSimulationResults(conditionalForecast.Name, jointSimulations);
+
+                simulationResults[cnt + 1] = simulationResult;
 			}
             return simulationResults;
         }
 
-
+        private SimulationResults GetSimulationResults(string investmentName, HistogramContext context)
+        {
+            var investmentStat = _statisticsCalculations.GetStatistics(context.Simulations);
+            var globalXMin = context.GlobalXMin;
+            var globalXMax = context.GlobalXMax;
+            var histogramData = _histogramCalculations.GetHistogramData(context);
+            var simulationResult = new SimulationResults();
+            simulationResult.InvestmentName = investmentName;
+            simulationResult.Statistics = investmentStat;
+            simulationResult.HistogramsData = histogramData;
+            return simulationResult;
+        }
 
     }
 }

@@ -1,6 +1,5 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: build the simulation
 // TODO: add inputs for portfolio holdings
 
 angular.module('poppertechCalculatorApp').controller('mockupController', ['$scope', '$window', '$filter', 'forecastGraphCalculationsSvc', 'momentCalculationsSvc', 'simulationApiSvc', 'forecastApiSvc', function ($scope, $window, $filter, forecastGraphCalculationsSvc, momentCalculationsSvc, simulationApiSvc, forecastApiSvc) {
@@ -146,14 +145,6 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     }
 
-    vm.histogramChartData = [
-    { letter: "A", frequency: 0.08167 },
-    { letter: "B", frequency: 0.01492 },
-    { letter: "C", frequency: 0.02782 },
-    { letter: "D", frequency: 0.04253 },
-    { letter: "E", frequency: 0.12702 },
-    ];
-
     function selectVariable(variableName) {
         vm.selectedVariable = $filter('filter')(vm.editProperties.conditionalForecasts, function (variable) {
             return variable.name === variableName;
@@ -209,7 +200,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
     function postSimulationsSuccess(response) {
         vm.simulationResults = response.model;
-
+        vm.histogramChartData = vm.simulationResults[0].histogramsData;
     }
 
     function postSimulationsFailure(err) {

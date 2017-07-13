@@ -14,7 +14,6 @@ namespace PoppertechCalculator.Tests
         [TestMethod]
         public void SimulateInvestmentsOnSuccessReturnsInvestmentStatistics()
         {
-            // TODO: change the forecasts to models on the ui
 
             //arrange
             var xMin = 20;
@@ -25,6 +24,8 @@ namespace PoppertechCalculator.Tests
             var stats = new Statistics{Mean = mean};
 
             var jointSimulations = new decimal[] { 122.2399811m, 97.44055169m, 41.76929575m, 122.3667352m };
+            var histogramContext = new HistogramContext { Simulations = jointSimulations, GlobalXMin = xMin, GlobalXMax = xMax };
+            var monteCarloResults = new MonteCarloResults{Simulations = jointSimulations};
 
             var forecast = new Forecast{ 
                 Minimum  = 40, 
@@ -50,12 +51,11 @@ namespace PoppertechCalculator.Tests
             statisticsCalculations.Setup(r => r.GetStatistics(It.IsAny<decimal[]>())).Returns(stats);
 
             var histogramCalculations = new Mock<IHistogramCalculations>();
-            histogramCalculations.Setup(r => r.GetHistogramData(It.IsAny<decimal[]>(), It.IsAny<decimal>(), It.IsAny<decimal>())).Returns(histogramData);
+            histogramCalculations.Setup(r => r.GetHistogramData(It.IsAny<HistogramContext>())).Returns(histogramData);
 
             var jointSimulator = new Mock<IJointSimulator>();
-            jointSimulator.Setup(j => j.CalculateJointSimulations(It.IsAny<int[]>(), It.IsAny<string>(), It.IsAny<ForecastRegion[]>())).Returns(jointSimulations);
-            jointSimulator.Setup(j => j.GetGlobalXMin()).Returns(xMin);
-            jointSimulator.Setup(j => j.GetGlobalXMax()).Returns(xMax);
+            jointSimulator.Setup(j => j.CalculateJointSimulations(It.IsAny<int[]>(), It.IsAny<string>(), It.IsAny<ForecastRegion[]>())).Returns(histogramContext);
+            jointSimulator.Setup(j => j.CalculateUnconditionalSimulations(It.IsAny<string>(), It.IsAny<Forecast>())).Returns(monteCarloResults);
 
             var processor = new SimulationProcessor(statisticsCalculations.Object, histogramCalculations.Object, jointSimulator.Object);
 

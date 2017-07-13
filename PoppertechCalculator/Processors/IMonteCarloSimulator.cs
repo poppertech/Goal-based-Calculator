@@ -9,10 +9,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface IMonteCarloSimulator
     {
-        int[] GetAreaNumbers();
-
-        decimal[] GetSimulations();
-
-        void CalculateSimulations(IEnumerable<SimulationContext> context, string variable, string region);
+        MonteCarloResults CalculateSimulations(IEnumerable<SimulationContext> context, string variable, string region);
     }
 }

@@ -10,46 +10,94 @@
             chartLeftMargin: "@chartLeftMargin"
         },
         link: function (scope, element, attrs) {
-            var svg = d3.select(element[0]).append("svg").attr("width", scope.chartWidth).attr("height", scope.chartHeight);
+            var deregisterWatch;
+            if (!scope.chartData) {
+                if (!deregisterWatch) {
+                    deregisterWatch = scope.$watch('chartData', activate);
+                }         
+                return;
+            }
 
-            var margin = { top: scope.chartTopMargin, right: scope.chartRightMargin, bottom: scope.chartBottomMargin, left: scope.chartLeftMargin };
-            var width = +svg.attr("width") - margin.left - margin.right;
-            var height = +svg.attr("height") - margin.top - margin.bottom;
+            activate();
+            deregisterWatch();
+            scope.$watch('chartData', redraw);
 
-            var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-                y = d3.scaleLinear().rangeRound([height, 0]);
+            function activate() {
 
-            var g = svg.append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                var svg = d3.select(element[0]).append("svg").attr("width", scope.chartWidth).attr("height", scope.chartHeight);
 
-            var parsedData = JSON.parse(scope.chartData);
+                var margin = { top: scope.chartTopMargin, right: scope.chartRightMargin, bottom: scope.chartBottomMargin, left: scope.chartLeftMargin };
+                var width = +svg.attr("width") - margin.left - margin.right;
+                var height = +svg.attr("height") - margin.top - margin.bottom;
 
-            x.domain(parsedData.map(function (d) { return d.letter; }));
-            y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
+                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+                    y = d3.scaleLinear().rangeRound([height, 0]);
 
-            g.append("g")
-                .attr("class", "axis axis--x")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
+                var g = svg.append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            g.append("g")
-                .attr("class", "axis axis--y")
-                .call(d3.axisLeft(y).tickSizeOuter(0).ticks(5, "%"))
-              .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", "0.71em")
-                .attr("text-anchor", "end")
-                .text("Frequency");
+                var parsedData = JSON.parse(scope.chartData);
 
-            g.selectAll(".bar")
-              .data(parsedData)
-              .enter().append("rect")
-                .attr("class", "bar")
-                .attr("x", function (d) { return x(d.letter); })
-                .attr("y", function (d) { return y(d.frequency); })
-                .attr("width", x.bandwidth())
-                .attr("height", function (d) { return height - y(d.frequency); });
+                x.domain(parsedData.map(function (d) { return d.interval; }));
+                y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
+
+                g.append("g")
+                    .attr("class", "axis axis--x")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+
+                g.append("g")
+                    .attr("class", "axis axis--y")
+                    .call(d3.axisLeft(y).tickSizeOuter(0).ticks(5, "%"))
+                  .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", "0.71em")
+                    .attr("text-anchor", "end")
+                    .text("Frequency");
+
+                g.selectAll(".bar")
+                  .data(parsedData)
+                  .enter().append("rect")
+                    .attr("class", "bar")
+                    .attr("x", function (d) { return x(d.interval); })
+                    .attr("y", function (d) { return y(d.frequency); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) { return height - y(d.frequency); });
+            }
+
+            function redraw() {
+                var svg = d3.select(element[0]).select("svg");
+                var g = svg.select("g");
+
+                var margin = { top: scope.chartTopMargin, right: scope.chartRightMargin, bottom: scope.chartBottomMargin, left: scope.chartLeftMargin };
+                var width = +svg.attr("width") - margin.left - margin.right;
+                var height = +svg.attr("height") - margin.top - margin.bottom;
+
+                var data = JSON.parse(scope.chartData);
+
+                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+                var y = d3.scaleLinear().rangeRound([height, 0]);
+
+                x.domain(parsedData.map(function (d) { return d.interval; }));
+                y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
+
+                g.select(".axis.axis--x")
+                    .call(d3.axisBottom(x));
+
+                g.select(".axis.axis--y")
+                    .call(d3.axisLeft(y).tickSizeOuter(0).ticks(5, "%"))
+
+                g.selectAll(".bar")
+                    .data(parsedData)
+                    .enter().append("rect")
+                    .attr("class", "bar")
+                    .attr("x", function (d) { return x(d.interval); })
+                    .attr("y", function (d) { return y(d.frequency); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) { return height - y(d.frequency); })
+                    .exit().remove();
+            }
 
         },
         restrict: "EA"

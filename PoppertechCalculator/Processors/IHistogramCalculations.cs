@@ -9,6 +9,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface IHistogramCalculations
     {
-        IEnumerable<HistogramDatum> GetHistogramData(decimal[] jointSimulations, decimal xMinGlobal, decimal xMaxGlobal);
+        IEnumerable<HistogramDatum> GetHistogramData(HistogramContext context);
     }
 }

@@ -60,7 +60,8 @@ namespace PoppertechCalculator.Controllers
                         Name = "RightTail",
                         Forecast = rightTailForecast
                     }
-                }
+                },
+                Parent = "GDP"
             };
 
             var bonds = new ForecastVariable
@@ -83,7 +84,8 @@ namespace PoppertechCalculator.Controllers
                         Name = "RightTail",
                         Forecast = rightTailForecast
                     }
-                }
+                },
+                Parent = "GDP"
             };
 
             var variables = new[] { gdp, stocks, bonds };

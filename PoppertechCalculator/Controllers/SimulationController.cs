@@ -23,7 +23,7 @@ namespace PoppertechCalculator.Controllers
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(Response<IEnumerable<SimulationResults>>))]
-        public IHttpActionResult Post([FromBody] IEnumerable<ForecastVariable> request)
+        public IHttpActionResult Post([FromBody] ForecastVariable[] request)
         {
 
             var simulationsResults = _processor.SimulateInvestments(request);

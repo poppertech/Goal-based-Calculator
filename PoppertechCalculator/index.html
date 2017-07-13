@@ -232,15 +232,15 @@
                                     <tr>
                                         <th></th>
                                         <th ng-repeat="(statName, statValue) in vm.simulationResults[0].statistics">
-                                            {{statValue}}
+                                            {{statName | uppercase}}
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="simulationResult in vm.simulationResults">
                                         <td>{{simulationResult.investmentName}}</td>
-                                        <td ng-repeat="(statName, statValue) in simulationResult">
-                                            {{statValue}}
+                                        <td ng-repeat="(statName, statValue) in simulationResult.statistics">
+                                            {{statValue | number : 2}}
                                         </td>
                                     </tr>
                                 </tbody>
