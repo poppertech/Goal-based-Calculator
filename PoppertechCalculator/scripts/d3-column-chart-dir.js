@@ -10,19 +10,17 @@
             chartLeftMargin: "@chartLeftMargin"
         },
         link: function (scope, element, attrs) {
-            var deregisterWatch;
-            if (!scope.chartData) {
-                if (!deregisterWatch) {
-                    deregisterWatch = scope.$watch('chartData', activate);
-                }         
-                return;
-            }
 
-            activate();
-            deregisterWatch();
-            scope.$watch('chartData', redraw);
+                var deregisterWatch = scope.$watch('chartData', activate);       
+                return;
 
             function activate() {
+
+                if (!scope.chartData) {
+                    return;
+                }
+
+                deregisterWatch();
 
                 var svg = d3.select(element[0]).append("svg").attr("width", scope.chartWidth).attr("height", scope.chartHeight);
 
@@ -30,21 +28,22 @@
                 var width = +svg.attr("width") - margin.left - margin.right;
                 var height = +svg.attr("height") - margin.top - margin.bottom;
 
-                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-                    y = d3.scaleLinear().rangeRound([height, 0]);
+                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+                var xAxis = d3.scaleLinear().rangeRound([0, width]);
+                var y = d3.scaleLinear().rangeRound([height, 0]);
 
-                var g = svg.append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                 var parsedData = JSON.parse(scope.chartData);
 
                 x.domain(parsedData.map(function (d) { return d.interval; }));
+                xAxis.domain([d3.min(parsedData, function (d) { return d.interval; }), d3.max(parsedData, function (d) { return d.interval; })]);
                 y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
-
+               
                 g.append("g")
                     .attr("class", "axis axis--x")
                     .attr("transform", "translate(0," + height + ")")
-                    .call(d3.axisBottom(x));
+                    .call(d3.axisBottom(xAxis).ticks(10));
 
                 g.append("g")
                     .attr("class", "axis axis--y")
@@ -64,6 +63,8 @@
                     .attr("y", function (d) { return y(d.frequency); })
                     .attr("width", x.bandwidth())
                     .attr("height", function (d) { return height - y(d.frequency); });
+
+                scope.$watch('chartData', redraw);
             }
 
             function redraw() {
@@ -74,16 +75,18 @@
                 var width = +svg.attr("width") - margin.left - margin.right;
                 var height = +svg.attr("height") - margin.top - margin.bottom;
 
-                var data = JSON.parse(scope.chartData);
+                var parsedData = JSON.parse(scope.chartData);
 
                 var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
                 var y = d3.scaleLinear().rangeRound([height, 0]);
+                var xAxis = d3.scaleLinear().rangeRound([0, width]);
 
                 x.domain(parsedData.map(function (d) { return d.interval; }));
+                xAxis.domain([d3.min(parsedData, function (d) { return d.interval; }), d3.max(parsedData, function (d) { return d.interval; })]);
                 y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
 
                 g.select(".axis.axis--x")
-                    .call(d3.axisBottom(x));
+                    .call(d3.axisBottom(xAxis).ticks(10));
 
                 g.select(".axis.axis--y")
                     .call(d3.axisLeft(y).tickSizeOuter(0).ticks(5, "%"))
@@ -97,6 +100,7 @@
                     .attr("width", x.bandwidth())
                     .attr("height", function (d) { return height - y(d.frequency); })
                     .exit().remove();
+
             }
 
         },
