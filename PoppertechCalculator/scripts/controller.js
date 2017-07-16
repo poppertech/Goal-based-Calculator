@@ -183,6 +183,13 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
                 vm.bondsClass = 'rect-selected';
                 break;
         }
+
+        if (vm.simulationResults) {
+            var selectedSimulationResult = getSelectedSimulationResult();
+            vm.histogramChartData = selectedSimulationResult.histogramsData;
+            vm.simulatedStatistics = selectedSimulationResult.statistics;
+        }
+        
     }
 
     function getConditionalForecastRegionOptions() {
@@ -199,8 +206,31 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
     }
 
     function postSimulationsSuccess(response) {
+
+        angular.forEach(response.model, function (simulationResult) {
+            simulationResult.statistics = changeStatNamesToUpper(simulationResult.statistics);
+        });
+
         vm.simulationResults = response.model;
-        vm.histogramChartData = vm.simulationResults[0].histogramsData;
+        var selectedSimulationResult = getSelectedSimulationResult();
+        
+        vm.histogramChartData = selectedSimulationResult.histogramsData;
+        vm.simulatedStatistics = selectedSimulationResult.statistics;
+    }
+
+    function changeStatNamesToUpper(statistics){
+        for (var statName in statistics) {
+            var upperStatName = statName.charAt(0).toUpperCase() + statName.substring(1);
+            statistics[upperStatName] = statistics[statName];
+            delete statistics[statName];
+        }
+        return statistics;
+    }
+
+    function getSelectedSimulationResult() {
+        return $filter('filter')(vm.simulationResults, function (simulationResult) {
+            return vm.selectedVariable.name === simulationResult.investmentName;
+        })[0];
     }
 
     function postSimulationsFailure(err) {

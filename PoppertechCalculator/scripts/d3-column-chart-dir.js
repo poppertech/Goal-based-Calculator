@@ -11,8 +11,8 @@
         },
         link: function (scope, element, attrs) {
 
-                var deregisterWatch = scope.$watch('chartData', activate);       
-                return;
+            var deregisterWatch = scope.$watch('chartData', activate);
+            return;
 
             function activate() {
 
@@ -39,11 +39,17 @@
                 x.domain(parsedData.map(function (d) { return d.interval; }));
                 xAxis.domain([d3.min(parsedData, function (d) { return d.interval; }), d3.max(parsedData, function (d) { return d.interval; })]);
                 y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
-               
+
                 g.append("g")
                     .attr("class", "axis axis--x")
                     .attr("transform", "translate(0," + height + ")")
-                    .call(d3.axisBottom(xAxis).ticks(10));
+                    .call(d3.axisBottom(xAxis).ticks(10))
+                    .selectAll("text")
+                    .attr("y", 0)
+                    .attr("x", 9)
+                    .attr("dy", "-.25em")
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
 
                 g.append("g")
                     .attr("class", "axis axis--y")
@@ -86,7 +92,13 @@
                 y.domain([0, d3.max(parsedData, function (d) { return d.frequency; })]);
 
                 g.select(".axis.axis--x")
-                    .call(d3.axisBottom(xAxis).ticks(10));
+                    .call(d3.axisBottom(xAxis).ticks(10))
+                .selectAll("text")
+                .attr("y", 0)
+                .attr("x", 9)
+                .attr("dy", "-.25em")
+                .attr("transform", "rotate(90)")
+                .style("text-anchor", "start");
 
                 g.select(".axis.axis--y")
                     .call(d3.axisLeft(y).tickSizeOuter(0).ticks(5, "%"))

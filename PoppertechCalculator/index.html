@@ -138,8 +138,7 @@
                                     ng-disabled="!vm.selectedVariable"
                                     ng-model="vm.forecastRegion"
                                     ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
-                                    ng-options="option.value as option.text for option in vm.forecastRegionOptions">
-                            </select>
+                                    ng-options="option.value as option.text for option in vm.forecastRegionOptions"></select>
                         </div>
                     </div>
 
@@ -228,22 +227,20 @@
                         <div class="col-sm-4">
 
                             <table class="table table-striped" ng-show="vm.simulationResults">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th ng-repeat="(statName, statValue) in vm.simulationResults[0].statistics">
-                                            {{statName | uppercase}}
-                                        </th>
-                                    </tr>
-                                </thead>
                                 <tbody>
-                                    <tr ng-repeat="simulationResult in vm.simulationResults">
-                                        <td>{{simulationResult.investmentName}}</td>
-                                        <td ng-repeat="(statName, statValue) in simulationResult.statistics">
+                                    <tr ng-repeat="(statName, statValue) in vm.simulatedStatistics">
+                                        <td>
+                                            {{statName}}
+                                        </td>
+
+                                        <td>
                                             {{statValue | number : 2}}
                                         </td>
+
                                     </tr>
+
                                 </tbody>
+
                             </table>
 
                         </div>

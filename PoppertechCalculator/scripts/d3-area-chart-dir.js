@@ -54,7 +54,7 @@
                     .selectAll("text")
                     .attr("y", 0)
                     .attr("x", 9)
-                    .attr("dy", "-.1em")
+                    .attr("dy", "-.5em")
                     .attr("transform", "rotate(90)")
                     .style("text-anchor", "start");
 
