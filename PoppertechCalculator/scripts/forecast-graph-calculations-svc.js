@@ -12,17 +12,8 @@
 
     svc.calculateHeights = calculateHeights;
 
-    svc.getXMin = getXMin;
-    svc.getXWorstCase = getXWorstCase;
-    svc.getXBestCase = getXBestCase;
-    svc.getXMostLikely = getXMostLikely;
-    svc.getXMax = getXMax;
-
-    svc.getMinHeight = getMinHeight;
-    svc.getWorstCaseHeight = getWorstCaseHeight;
-    svc.getBestCaseHeight = getBestCaseHeight;
-    svc.getMostLikelyHeight = getMostLikelyHeight;
-    svc.getMaxHeight = getMaxHeight;
+    svc.getConditionalForecastChartData = getConditionalForecastChartData;
+    svc.getMomentCalculationsContext = getMomentCalculationsContext;
 
     return svc;
 
@@ -33,45 +24,33 @@
         hLikely = calculateMostLikelyHeight();
     }
 
-
-    function getXMin() {
-        return xMin;
+    function getConditionalForecastChartData(selectedForecast) {
+        calculateHeights(selectedForecast);
+        return [
+                { x: xMin, y: hMin },
+                { x: xWorst, y: hWorst },
+                { x: xLikely, y: hLikely },
+                { x: xBest, y: hBest },
+                { x: xMax, y: hMax }
+        ];
     }
 
-    function getXWorstCase() {
-        return xWorst;
-    }
+    function getMomentCalculationsContext(selectedForecast) {
+        calculateHeights(selectedForecast);
 
-    function getXMostLikely() {
-        return xLikely;
-    }
+        return {
+            xMin: xMin,
+            xWorst: xWorst,
+            xLikely: xLikely,
+            xBest: xBest,
+            xMax: xMax,
+            hMin: hMin,
+            hWorst: hWorst,
+            hLikely: hLikely,
+            hBest: hBest,
+            hMax: hMax
+        };
 
-    function getXBestCase() {
-        return xBest;
-    }
-
-    function getXMax() {
-        return xMax;
-    }
-
-    function getMinHeight() {
-        return hMin;
-    }
-
-    function getWorstCaseHeight() {
-        return hWorst;
-    }
-
-    function getMostLikelyHeight() {
-        return hLikely;
-    }
-
-    function getBestCaseHeight() {
-        return hBest;
-    }
-
-    function getMaxHeight() {
-        return hMax;
     }
 
     function setParameters(forecast) {

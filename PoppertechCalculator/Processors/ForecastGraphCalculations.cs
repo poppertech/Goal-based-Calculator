@@ -21,6 +21,8 @@ namespace PoppertechCalculator.Processors
         private static decimal _b1, _b2, _b3, _b4;
 
 
+        
+
         public SimulationContext[] GetSimulationContext(Forecast forecast)
         {
 
