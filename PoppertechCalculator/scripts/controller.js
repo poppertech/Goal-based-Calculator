@@ -177,10 +177,10 @@ function CalculatorController(
 
     function getConditionalForecastRegionOptions() {
         return [
-    { text: "Left Tail", value: "LeftTail" },
-    { text: "Left Normal", value: "LeftNormal" },
-    { text: "Right Normal", value: "RightNormal" },
-    { text: "Right Tail", value: "RightTail" }
+                { text: "Left Tail", value: "LeftTail" },
+                { text: "Left Normal", value: "LeftNormal" },
+                { text: "Right Normal", value: "RightNormal" },
+                { text: "Right Tail", value: "RightTail" }
         ];
     }
 
