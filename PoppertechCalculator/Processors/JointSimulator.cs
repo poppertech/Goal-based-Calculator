@@ -25,10 +25,10 @@ namespace PoppertechCalculator.Processors
             return monteCarloResults;
         }
 
-        public HistogramContext CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions)
+        public MonteCarloResults CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions)
         {
             var jointContext = new JointSimulationContext();
-            var histogramContext = new HistogramContext();
+            
 
             jointContext.ParentAreaNumber = parentAreaNumbers;
 
@@ -42,10 +42,8 @@ namespace PoppertechCalculator.Processors
                 var monteCarloResults = _monteCarloSimulator.CalculateSimulations(context, variable, region.Name);
                 InitializeJointContext(region.Name, jointContext, monteCarloResults.Simulations);
             }
-            histogramContext.Simulations = CalculateJointSimulation(jointContext);
-            histogramContext.GlobalXMin = regions[0].Forecast.Minimum;
-            histogramContext.GlobalXMax = regions[regions.Length - 1].Forecast.Maximum;
-            return histogramContext;
+            var simulations = CalculateJointSimulation(jointContext);
+            return new MonteCarloResults { Simulations = simulations };
         }
 
         private void InitializeJointContext(string regionName, JointSimulationContext jointContext, decimal[] monteCarloSimulations)

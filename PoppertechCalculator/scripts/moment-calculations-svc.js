@@ -1,6 +1,5 @@
 ﻿angular.module('poppertechCalculatorApp').factory('momentCalculationsSvc', function () {
 
-
     var svc = {};
 
     var m1, m2, m3, m4;
@@ -9,10 +8,6 @@
     var mean, stdev, skew, kurt;
 
     svc.calculateStats = calculateStats;
-    svc.getMean = function () {return mean;}
-    svc.getStdev = function () { return stdev };
-    svc.getSkew = function () { return skew; }
-    svc.getKurt = function () { return kurt; }
 
     return svc;
 
@@ -37,6 +32,14 @@
         stdev = calculateStdev(moment1, moment2);
         skew = calculateSkewness(moment3, mean, stdev);
         kurt = calculateKurtosis(moment3, moment4, mean, stdev);
+
+        return {
+            mean: mean,
+            stdev: stdev,
+            skew: skew,
+            kurt: kurt
+        };
+
     }
 
     function calculateM1(ctx) {

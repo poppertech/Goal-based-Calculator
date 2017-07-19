@@ -1,10 +1,29 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: refactor moment calculator angular service to return context class
 // TODO: add classes for pso
 // TODO: add inputs for portfolio holdings
 
-angular.module('poppertechCalculatorApp').controller('mockupController', ['$scope', '$window', '$filter', 'forecastGraphCalculationsSvc', 'momentCalculationsSvc', 'simulationApiSvc', 'forecastApiSvc', function ($scope, $window, $filter, forecastGraphCalculationsSvc, momentCalculationsSvc, simulationApiSvc, forecastApiSvc) {
+angular.module('poppertechCalculatorApp')
+    .controller('CalculatorController', CalculatorController)
+    
+CalculatorController.$inject = [
+    '$scope',
+    '$window',
+    '$filter',
+    'forecastGraphCalculationsSvc',
+    'momentCalculationsSvc',
+    'simulationApiSvc',
+    'forecastApiSvc'
+];
+
+function CalculatorController(
+    $scope,
+    $window,
+    $filter,
+    forecastGraphCalculationsSvc,
+    momentCalculationsSvc,
+    simulationApiSvc,
+    forecastApiSvc) {
 
     vm = this;
 
@@ -81,15 +100,7 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
 
             var momentContext = forecastGraphCalculationsSvc.getMomentCalculationsContext(selectedForecast);
 
-            momentCalculationsSvc.calculateStats(momentContext);
-
-            vm.conditionalStats =
-                {
-                    Mean: momentCalculationsSvc.getMean(),
-                    Stdev: momentCalculationsSvc.getStdev(),
-                    Skew: momentCalculationsSvc.getSkew(),
-                    Kurt: momentCalculationsSvc.getKurt(),
-                };
+            vm.conditionalStats = momentCalculationsSvc.calculateStats(momentContext);
 
         }
 
@@ -222,4 +233,4 @@ angular.module('poppertechCalculatorApp').controller('mockupController', ['$scop
         activate();
     }
 
-}]);
+}

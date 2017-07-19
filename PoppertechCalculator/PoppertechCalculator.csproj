@@ -176,6 +176,7 @@
     <Compile Include="Models\SimulationResults.cs" />
     <Compile Include="Models\Statistics.cs" />
     <Compile Include="Models\ForecastVariable.cs" />
+    <Compile Include="Models\UnconditionalSimulationResults.cs" />
     <Compile Include="Models\UniformRandom.cs" />
     <Compile Include="Processors\ForecastGraphCalculations.cs" />
     <Compile Include="Processors\HistogramCalculations.cs" />
