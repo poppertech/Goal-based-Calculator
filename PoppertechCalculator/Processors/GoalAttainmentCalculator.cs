@@ -10,11 +10,16 @@ namespace PoppertechCalculator.Processors
     {
         public static decimal[] CalculateAttainmentProbabilities(PortfolioContext portfolioContext)
         {
-            var investmentsSimulations = InitializeInvestmentsSimulations(portfolioContext);
-            var portfolioSimulations = InitializePortfolioSimulations(portfolioContext);
-            portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows, 0);
             var numPeriods = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(0);
+
+            var investmentsSimulations = InitializeInvestmentsSimulations(portfolioContext);
+            
+            var portfolioSimulations = InitializePortfolioSimulations(portfolioContext);
+
+            portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows, 0);
+            
             var cumReturns = InitializeCumulativeReturns(portfolioContext);
+
             var weights = portfolioContext.InvestmentContexts.Select(c => c.Weight).ToArray();
 
             for (int cntPeriod = 1; cntPeriod < numPeriods; cntPeriod++)
@@ -80,7 +85,9 @@ namespace PoppertechCalculator.Processors
         {
             var numInvestments = investmentsSimulations.GetUpperBound(0);
             var numSimulations = investmentsSimulations.GetUpperBound(2);
+
             var cashFlow = cashFlows[cntPeriod];
+
             for (var cntInvestment = 0; cntInvestment < numInvestments; cntInvestment++)
             {
                 for (int cntSimulation = 0; cntSimulation < numSimulations; cntSimulation++)
