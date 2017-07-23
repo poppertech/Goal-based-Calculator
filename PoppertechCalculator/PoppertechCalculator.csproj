@@ -163,13 +163,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CashFlowContext.cs" />
     <Compile Include="Models\Forecast.cs" />
     <Compile Include="Models\ForecastRegion.cs" />
+    <Compile Include="Models\GoalAttainmentContext.cs" />
     <Compile Include="Models\HistogramContext.cs" />
     <Compile Include="Models\HistogramDatum.cs" />
+    <Compile Include="Models\InvestmentContext.cs" />
     <Compile Include="Models\InvestmentName.cs" />
     <Compile Include="Models\JointSimulationContext.cs" />
     <Compile Include="Models\MonteCarloResults.cs" />
+    <Compile Include="Models\PortfolioContext.cs" />
     <Compile Include="Models\RegionName.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SimulationContext.cs" />
@@ -179,8 +183,12 @@
     <Compile Include="Models\UnconditionalSimulationResults.cs" />
     <Compile Include="Models\UniformRandom.cs" />
     <Compile Include="Processors\ForecastGraphCalculations.cs" />
+    <Compile Include="Processors\GoalAttainmentCalculator.cs" />
+    <Compile Include="Processors\GoalAttainmentProcessor.cs" />
     <Compile Include="Processors\HistogramCalculations.cs" />
     <Compile Include="Processors\IForecastGraphCalculations.cs" />
+    <Compile Include="Processors\IGoalAttainmentCalculator.cs" />
+    <Compile Include="Processors\IGoalAttainmentProcessor.cs" />
     <Compile Include="Processors\IHistogramCalculations.cs" />
     <Compile Include="Processors\IJointSimulator.cs" />
     <Compile Include="Processors\ISimulationProcessor.cs" />

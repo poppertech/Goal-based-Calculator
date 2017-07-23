@@ -1,5 +1,7 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
+// TODO: create stored procedure to take a variable number of uniform random
+// TODO: add classes for goal attainment calculations
 // TODO: add classes for pso
 // TODO: add inputs for portfolio holdings
 
