@@ -11,6 +11,6 @@ namespace PoppertechCalculator.Models
 
         public decimal Weight { get; set; }
 
-        public decimal[][] TimeSeriesReturns { get; set; }
+        public decimal[,] TimeSeriesReturns { get; set; }
     }
 }
