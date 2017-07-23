@@ -163,7 +163,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CashFlowContext.cs" />
     <Compile Include="Models\Forecast.cs" />
     <Compile Include="Models\ForecastRegion.cs" />
     <Compile Include="Models\GoalAttainmentContext.cs" />

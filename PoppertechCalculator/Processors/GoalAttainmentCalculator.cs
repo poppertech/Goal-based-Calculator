@@ -12,7 +12,7 @@ namespace PoppertechCalculator.Processors
         {
             var investmentsSimulations = InitializeInvestmentsSimulations(portfolioContext);
             var portfolioSimulations = InitializePortfolioSimulations(portfolioContext);
-            portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlowContext.CashFlows, 0);
+            portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows, 0);
             var numPeriods = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(0);
             var cumReturns = InitializeCumulativeReturns(portfolioContext);
             var weights = portfolioContext.InvestmentContexts.Select(c => c.Weight).ToArray();
@@ -20,7 +20,7 @@ namespace PoppertechCalculator.Processors
             for (int cntPeriod = 1; cntPeriod < numPeriods; cntPeriod++)
             {
                 investmentsSimulations = CalculateInvestmentSimulations(investmentsSimulations, cumReturns, portfolioSimulations, weights, cntPeriod);
-                portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlowContext.CashFlows, cntPeriod);
+                portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows, cntPeriod);
             }
 
             var attainmentProbabilities = CalculateProbabilities(portfolioSimulations);
