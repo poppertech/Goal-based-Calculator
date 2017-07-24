@@ -1,9 +1,13 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
+// TODO: unit test goal attainment calculations
 // TODO: create stored procedure to take a variable number of uniform random
-// TODO: add classes for goal attainment calculations
-// TODO: add classes for pso
+// TODO: create class to convert uniform random into cumulative returns
+// TODO  complete attainment processor 
 // TODO: add inputs for portfolio holdings
+// TODO: user acceptance test for calculating the probability of portfolio holdings satisfying a goal
+// TODO: add classes for and unit test pso
+
 
 angular.module('poppertechCalculatorApp')
     .controller('CalculatorController', CalculatorController)
