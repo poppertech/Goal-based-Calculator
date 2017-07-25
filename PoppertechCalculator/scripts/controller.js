@@ -1,7 +1,5 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: unit test goal attainment calculations
-// TODO: create stored procedure to take a variable number of uniform random
 // TODO: create class to convert uniform random into cumulative returns
 // TODO  complete attainment processor 
 // TODO: add inputs for portfolio holdings

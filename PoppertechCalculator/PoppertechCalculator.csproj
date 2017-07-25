@@ -181,10 +181,12 @@
     <Compile Include="Models\ForecastVariable.cs" />
     <Compile Include="Models\UnconditionalSimulationResults.cs" />
     <Compile Include="Models\UniformRandom.cs" />
+    <Compile Include="Processors\CumulativeReturnsCalculator.cs" />
     <Compile Include="Processors\ForecastGraphCalculations.cs" />
     <Compile Include="Processors\GoalAttainmentCalculator.cs" />
     <Compile Include="Processors\GoalAttainmentProcessor.cs" />
     <Compile Include="Processors\HistogramCalculations.cs" />
+    <Compile Include="Processors\ICumulativeReturnsCalculator.cs" />
     <Compile Include="Processors\IForecastGraphCalculations.cs" />
     <Compile Include="Processors\IGoalAttainmentCalculator.cs" />
     <Compile Include="Processors\IGoalAttainmentProcessor.cs" />
