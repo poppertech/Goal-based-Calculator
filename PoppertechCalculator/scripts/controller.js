@@ -1,8 +1,8 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: add inputs for portfolio holdings
 // TODO: user acceptance test for calculating the probability of portfolio holdings satisfying a goal
 // TODO: add classes for and unit test pso
+// TODO: refactor arrays, lists, and dictionaries into interfaces
 
 
 angular.module('poppertechCalculatorApp')
