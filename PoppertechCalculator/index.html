@@ -251,7 +251,86 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3>Portfolio Optimization</h3>
+                    <h3>Portfolio</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="InvestmentNameTextBox">Investment</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="InitialPriceTextBox">Initial Price</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="AmountTextBox">Amount</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" ng-repeat="investmentContext in vm.editProperties.investmentContexts">
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input name="InvestmentNameTextBox" + $index
+                                       ng-model="investmentContext.name"
+                                       type="text"
+                                       class="form-control"
+                                       readonly />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input name="InitialPriceTextBox" + $index
+                                       ng-model="investmentContext.initialPrice"
+                                       type="number"
+                                       min="0"
+                                       max="999999"
+                                       class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input name="AmountTextBox" + $index
+                                       ng-model="investmentContext.amount"
+                                       type="number"
+                                       min="0"
+                                       max="999999999999"
+                                       class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-3 col-sm-offset-9">
+                            <button type="button"
+                                    ng-click="vm.simulatePortfolio(vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
+                                    class="btn btn-default
+                                    btn-lg">
+                                Simulate
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Optimization</h3>
                 </div>
                 <div class="panel-body">
 
@@ -302,6 +381,7 @@
     <script src="scripts/moment-calculations-svc.js"></script>
     <script src="scripts/simulation-api.svc.js"></script>
     <script src="scripts/forecast-api.svc.js"></script>
+    <script src="scripts/portfolio-simulation-api.svc.js"></script>
 
     <script src="scripts/d3-pie-chart-dir.js"></script>
     <script src="scripts/d3-area-chart-dir.js"></script>

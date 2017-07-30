@@ -15,6 +15,7 @@ CalculatorController.$inject = [
     'forecastGraphCalculationsSvc',
     'momentCalculationsSvc',
     'simulationApiSvc',
+    'portfolioSimulationApiSvc',
     'forecastApiSvc'
 ];
 
@@ -25,6 +26,7 @@ function CalculatorController(
     forecastGraphCalculationsSvc,
     momentCalculationsSvc,
     simulationApiSvc,
+    portfolioSimulationApiSvc,
     forecastApiSvc) {
 
     vm = this;
@@ -32,6 +34,7 @@ function CalculatorController(
     vm.reset = reset;
     vm.selectVariable = selectVariable;
     vm.simulateInvestments = simulateInvestments;
+    vm.simulatePortfolio = simulatePortfolio;
     vm.editProperties = {};
 
     activate()
@@ -66,6 +69,16 @@ function CalculatorController(
 
     function getForecastsSuccess(response) {
         vm.editProperties.conditionalForecasts = response.model;
+
+        vm.editProperties.investmentContexts = $filter('filter')(vm.editProperties.conditionalForecasts, function (forecast) {
+            return forecast.parent;
+        });
+
+        angular.forEach(vm.editProperties.investmentContexts, function (context) {
+            context.initialPrice = 100;
+            context.amount = 1000;
+        });
+
         vm.selectVariable('GDP');
         calculateForecastGraph(vm.selectedForecast);
     }
@@ -188,6 +201,16 @@ function CalculatorController(
 
     function simulateInvestments(conditionalForecasts) {
         simulationApiSvc.postSimulations(conditionalForecasts).then(postSimulationsSuccess, postSimulationsFailure)
+    }
+
+    function simulatePortfolio(cashFlows, conditionalForecasts) {
+        var cashFlowValues = cashFlows.map(function (cashFlow) { return cashFlow.value });
+        var goalAttainmentContext = { cashFlows: cashFlowValues, investmentContexts: conditionalForecasts };
+        portfolioSimulationApiSvc.postSimulations(goalAttainmentContext).then(postPortfolioSimulationsSuccess, postSimulationsFailure);
+    }
+
+    function postPortfolioSimulationsSuccess(response) {
+        var x = response;
     }
 
     function postSimulationsSuccess(response) {

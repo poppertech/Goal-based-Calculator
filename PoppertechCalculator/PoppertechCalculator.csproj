@@ -142,6 +142,7 @@
     <Content Include="scripts\forecast-api.svc.js" />
     <Content Include="scripts\forecast-graph-calculations-svc.js" />
     <Content Include="scripts\moment-calculations-svc.js" />
+    <Content Include="scripts\portfolio-simulation-api.svc.js" />
     <Content Include="scripts\simulation-api.svc.js" />
     <Content Include="styles\bootstrap-theme.css" />
     <Content Include="styles\bootstrap-theme.min.css" />
@@ -159,7 +160,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ForecastController.cs" />
-    <Compile Include="Controllers\SimulationController.cs" />
+    <Compile Include="Controllers\InvestmentSimulationController.cs" />
+    <Compile Include="Controllers\PortfolioSimulationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

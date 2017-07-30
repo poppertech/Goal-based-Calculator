@@ -12,6 +12,10 @@ namespace PoppertechCalculator
         {
 			var container = new UnityContainer();
 
+            container.RegisterType<IGoalAttainmentProcessor, GoalAttainmentProcessor>();
+            container.RegisterType<IGoalAttainmentCalculator, GoalAttainmentCalculator>();
+            container.RegisterType<ICumulativeReturnsCalculator, CumulativeReturnsCalculator>();
+
             container.RegisterType<IForecastGraphCalculations, ForecastGraphCalculations>();
             container.RegisterType<IHistogramCalculations, HistogramCalculations>();
             container.RegisterType<IJointSimulator, JointSimulator>();
@@ -19,10 +23,6 @@ namespace PoppertechCalculator
             container.RegisterType<ISimulationProcessor, SimulationProcessor>();
             container.RegisterType<IStatisticsCalculations, StatisticsCalculations>();
             container.RegisterType<IUniformRandomRepository, UniformRandomRepository>();
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-            
-            // e.g. container.RegisterType<ITestService, TestService>();
             
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

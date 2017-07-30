@@ -10,11 +10,11 @@ using System.Web.Http.Description;
 
 namespace PoppertechCalculator.Controllers
 {
-    [RoutePrefix("simulation")]
-    public class SimulationController : ApiController
+    [RoutePrefix("investment")]
+    public class InvestmentSimulationController : ApiController
     {
         ISimulationProcessor _processor;
-        public SimulationController(ISimulationProcessor processor)
+        public InvestmentSimulationController(ISimulationProcessor processor)
         {
             _processor = processor;
         }

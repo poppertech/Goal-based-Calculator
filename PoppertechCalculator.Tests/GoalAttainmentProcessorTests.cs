@@ -32,7 +32,8 @@ namespace PoppertechCalculator.Tests
                 Name = "Stocks",
                 InitialPrice = 100,
                 Parent = "GDP",
-                Regions = new[] { new ForecastRegion { Forecast = new Forecast { } } } 
+                Regions = new[] { new ForecastRegion { Forecast = new Forecast { } } } ,
+                Amount = 1000
             };
 
             var context = new GoalAttainmentContext() 

@@ -12,5 +12,6 @@ namespace PoppertechCalculator.Models
         public PortfolioInvestmentContext(InvestmentContext other):base(other){}
 
         public decimal[,] TimeSeriesReturns { get; set; }
+        public decimal Weight { get; set; }
     }
 }

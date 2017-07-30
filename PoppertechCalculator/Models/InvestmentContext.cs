@@ -13,12 +13,10 @@ namespace PoppertechCalculator.Models
         {
             this.InitialPrice = other.InitialPrice;
             this.Amount = other.Amount;
-            this.Weight = other.Weight;
         }
 
         public decimal InitialPrice { get; set; }
         public decimal Amount { get; set; }
-        public decimal Weight { get; set; }
 
     }
 }

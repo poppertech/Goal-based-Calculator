@@ -27,7 +27,7 @@ namespace PoppertechCalculator.Processors
             var portfolioContext = new PortfolioContext
             {
                 InvestmentContexts = portfolioInvestmentContexts,
-                CashFlows = context.CashFlows
+                CashFlows = context.CashFlows,
             };
             var probabilities = _goalCalculator.CalculateAttainmentProbabilities(portfolioContext);
             var probabilityChartData = probabilities.Select((p, i) => new { Date = "Year " + (i + 1), Probability = p }).ToDictionary(g => g.Date, g => g.Probability);
@@ -45,6 +45,7 @@ namespace PoppertechCalculator.Processors
         {
             var conditionalContexts = investmentContexts.Where(f => !string.IsNullOrWhiteSpace(f.Parent)).ToArray();
             var portfolioInvestmentContexts = new PortfolioInvestmentContext[conditionalContexts.Length];
+            var portfolioValue = conditionalContexts.Select(c => c.Amount).Sum();
 
             for (int cnt = 0; cnt < conditionalContexts.Length; cnt++)
             {
@@ -54,6 +55,7 @@ namespace PoppertechCalculator.Processors
                 var timeSeries = _cumulativeReturnsCalculator.CalculateTimeSeriesReturns(investmentContext.InitialPrice, jointSimulations.Simulations, numCashFlows);
                 var portfolioInvestmentContext = new PortfolioInvestmentContext(investmentContext);
                 portfolioInvestmentContext.TimeSeriesReturns = timeSeries;
+                portfolioInvestmentContext.Weight = portfolioInvestmentContext.Amount / portfolioValue;
                 portfolioInvestmentContexts[cnt] = portfolioInvestmentContext;
             }
             return portfolioInvestmentContexts;

@@ -8,11 +8,11 @@
     return svc;
 
     function postSimulations(input){
-        return $resource('http://localhost:43780/simulation', null, { post: { method: 'POST' } }).post({}, input).$promise;
+        return $resource('http://localhost:43780/investment', null, { post: { method: 'POST' } }).post({}, input).$promise;
     }
 
     function getSimulations() {
-        return $resource('http://localhost:43780/simulation').get({}, { test: "this is a test" }).$promise;
+        return $resource('http://localhost:43780/investment').get({}, { test: "this is a test" }).$promise;
     }
 
 }]);
