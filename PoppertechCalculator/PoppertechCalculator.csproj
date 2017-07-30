@@ -173,6 +173,7 @@
     <Compile Include="Models\JointSimulationContext.cs" />
     <Compile Include="Models\MonteCarloResults.cs" />
     <Compile Include="Models\PortfolioContext.cs" />
+    <Compile Include="Models\PortfolioInvestmentContext.cs" />
     <Compile Include="Models\RegionName.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SimulationContext.cs" />

@@ -38,8 +38,8 @@ namespace PoppertechCalculator.Processors
 
         private static decimal[,] CalculateTimeSeriesCumulativeReturns(decimal[,] timeSeries, decimal[] singlePeriodCumReturns)
         {
-            var numTimeSeriesSimulations = timeSeries.GetUpperBound(0);
-            var numCashFlows = timeSeries.GetUpperBound(1);
+            var numTimeSeriesSimulations = timeSeries.GetUpperBound(0) + 1;
+            var numCashFlows = timeSeries.GetUpperBound(1) + 1;
             for (int cntCashFlows = 1; cntCashFlows < numCashFlows; cntCashFlows++)
             {
                 for (int cntTimeSeriesSimulations = 0; cntTimeSeriesSimulations < numTimeSeriesSimulations; cntTimeSeriesSimulations++)

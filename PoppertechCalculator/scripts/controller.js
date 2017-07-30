@@ -1,7 +1,5 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: create class to convert uniform random into cumulative returns
-// TODO  complete attainment processor 
 // TODO: add inputs for portfolio holdings
 // TODO: user acceptance test for calculating the probability of portfolio holdings satisfying a goal
 // TODO: add classes for and unit test pso

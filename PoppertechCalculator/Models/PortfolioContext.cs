@@ -7,7 +7,8 @@ namespace PoppertechCalculator.Models
 {
     public class PortfolioContext
     {
-        public InvestmentContext[] InvestmentContexts { get; set; }
+        public PortfolioInvestmentContext[] InvestmentContexts { get; set; }
+
         public decimal[] CashFlows { get; set; }
     }
 }

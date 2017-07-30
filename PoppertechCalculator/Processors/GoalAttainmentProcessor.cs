@@ -9,18 +9,29 @@ namespace PoppertechCalculator.Processors
     public class GoalAttainmentProcessor : IGoalAttainmentProcessor
     {
         private IJointSimulator _jointSimulator;
+        private ICumulativeReturnsCalculator _cumulativeReturnsCalculator;
+        private IGoalAttainmentCalculator _goalCalculator;
 
-        public GoalAttainmentProcessor(IJointSimulator jointSimulator)
+        public GoalAttainmentProcessor(IJointSimulator jointSimulator, ICumulativeReturnsCalculator cumulativeReturnsCalculator, IGoalAttainmentCalculator goalCalculator)
         {
             _jointSimulator = jointSimulator;
+            _cumulativeReturnsCalculator = cumulativeReturnsCalculator;
+            _goalCalculator = goalCalculator;
         }
 
         public Dictionary<string, decimal> CalculateGoalAttainment(GoalAttainmentContext context)
         {
-            var forecasts = context.InvestmentContexts;
-            var unconditionalSimulations = CalculateUnconditionalSimulations(forecasts);
-            var conditionalSimulations = CalculateConditionalSimulations(forecasts, unconditionalSimulations.AreaNumbers);
-            return new Dictionary<string, decimal>();
+            var investmentContexts = context.InvestmentContexts;
+            var unconditionalSimulations = CalculateUnconditionalSimulations(investmentContexts);
+            var portfolioInvestmentContexts = CalculateConditionalSimulations(investmentContexts, unconditionalSimulations.AreaNumbers, context.CashFlows.Length);
+            var portfolioContext = new PortfolioContext
+            {
+                InvestmentContexts = portfolioInvestmentContexts,
+                CashFlows = context.CashFlows
+            };
+            var probabilities = _goalCalculator.CalculateAttainmentProbabilities(portfolioContext);
+            var probabilityChartData = probabilities.Select((p, i) => new { Date = "Year " + (i + 1), Probability = p }).ToDictionary(g => g.Date, g => g.Probability);
+            return probabilityChartData;
         }
 
         private MonteCarloResults CalculateUnconditionalSimulations(ForecastVariable[] forecasts) 
@@ -30,20 +41,22 @@ namespace PoppertechCalculator.Processors
             return unConditionalSimulations;
         }
 
-        private MonteCarloResults[] CalculateConditionalSimulations(ForecastVariable[] forecasts, int[] unConditionalAreaNumbers)
+        private PortfolioInvestmentContext[] CalculateConditionalSimulations(InvestmentContext[] investmentContexts, int[] unConditionalAreaNumbers, int numCashFlows)
         {
-            var conditionalForecasts = forecasts.Where(f => !string.IsNullOrWhiteSpace(f.Parent)).ToArray();
-            var conditionalSimulations = new MonteCarloResults[conditionalForecasts.Length];
+            var conditionalContexts = investmentContexts.Where(f => !string.IsNullOrWhiteSpace(f.Parent)).ToArray();
+            var portfolioInvestmentContexts = new PortfolioInvestmentContext[conditionalContexts.Length];
 
-            for (int cnt = 0; cnt < conditionalForecasts.Length; cnt++)
+            for (int cnt = 0; cnt < conditionalContexts.Length; cnt++)
             {
-                var conditionalForecast = conditionalForecasts[cnt];
-                var regions = conditionalForecast.Regions.ToArray();
-                var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, conditionalForecast.Name, regions);
-                conditionalSimulations[cnt] = jointSimulations;
+                var investmentContext = conditionalContexts[cnt];
+                var regions = investmentContext.Regions.ToArray();
+                var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, investmentContext.Name, regions);
+                var timeSeries = _cumulativeReturnsCalculator.CalculateTimeSeriesReturns(investmentContext.InitialPrice, jointSimulations.Simulations, numCashFlows);
+                var portfolioInvestmentContext = new PortfolioInvestmentContext(investmentContext);
+                portfolioInvestmentContext.TimeSeriesReturns = timeSeries;
+                portfolioInvestmentContexts[cnt] = portfolioInvestmentContext;
             }
-
-            return conditionalSimulations;
+            return portfolioInvestmentContexts;
         }
 
     }

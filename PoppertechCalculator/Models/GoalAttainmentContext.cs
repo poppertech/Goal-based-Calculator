@@ -7,6 +7,7 @@ namespace PoppertechCalculator.Models
 {
     public class GoalAttainmentContext
     {
+        public decimal[] CashFlows { get; set; }
         public InvestmentContext[] InvestmentContexts { get; set; }
     }
 }
