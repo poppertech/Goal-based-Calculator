@@ -27,7 +27,7 @@ namespace PoppertechCalculator.Processors
 
         private static decimal[,] InitializeTimeSeriesCumulativeReturns(decimal[] singlePeriodCumReturns, int numCashFlows)
         {
-            var numTimeSeriesSimulations = singlePeriodCumReturns.Length / numCashFlows;
+            var numTimeSeriesSimulations = singlePeriodCumReturns.Length / (numCashFlows - 1);
             var timeSeries = new decimal[numCashFlows - 1, numTimeSeriesSimulations];
             for (int cntTimeSeriesSimulations = 0; cntTimeSeriesSimulations < numTimeSeriesSimulations; cntTimeSeriesSimulations++)
             {
