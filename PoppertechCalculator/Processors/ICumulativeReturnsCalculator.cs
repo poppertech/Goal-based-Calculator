@@ -7,6 +7,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface ICumulativeReturnsCalculator
     {
-        decimal[,] CalculateTimeSeriesReturns(decimal initialPrice, decimal[] simulations, int numCashFlows);
+        decimal[,] CalculateTimeSeriesReturns(decimal initialPrice, IList<decimal> simulations, int numCashFlows);
     }
 }

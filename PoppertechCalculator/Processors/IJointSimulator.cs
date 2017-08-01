@@ -9,6 +9,6 @@ namespace PoppertechCalculator.Processors
     public interface IJointSimulator
     {
         MonteCarloResults CalculateUnconditionalSimulations(string variable, Forecast forecast);
-        MonteCarloResults CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions);        
+        MonteCarloResults CalculateJointSimulations(IList<int> parentAreaNumbers, string variable, IList<ForecastRegion> regions);        
     }
 }

@@ -9,6 +9,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface IGoalAttainmentProcessor
     {
-        Dictionary<string, decimal> CalculateGoalAttainment(GoalAttainmentContext context);
+        IDictionary<string, decimal> CalculateGoalAttainment(GoalAttainmentContext context);
     }
 }

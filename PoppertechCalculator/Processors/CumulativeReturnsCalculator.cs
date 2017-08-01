@@ -7,7 +7,7 @@ namespace PoppertechCalculator.Processors
 {
     public class CumulativeReturnsCalculator : ICumulativeReturnsCalculator
     {
-        public decimal[,] CalculateTimeSeriesReturns(decimal initialPrice, decimal[] simulations, int numCashFlows)
+        public decimal[,] CalculateTimeSeriesReturns(decimal initialPrice, IList<decimal> simulations, int numCashFlows)
         {
             var singlePeriodCumReturns = CalculateSinglePeriodCumulativeReturns(initialPrice, simulations);
             var timeSeries = InitializeTimeSeriesCumulativeReturns(singlePeriodCumReturns, numCashFlows);
@@ -15,19 +15,20 @@ namespace PoppertechCalculator.Processors
             return timeSeries;
         }
 
-        private static decimal[] CalculateSinglePeriodCumulativeReturns(decimal initialPrice, decimal[] simulations)
+        private static IList<decimal> CalculateSinglePeriodCumulativeReturns(decimal initialPrice, IList<decimal> simulations)
         {
-            var singlePeriodCumReturns = new decimal[simulations.Length];
-            for (int cnt = 0; cnt < simulations.Length; cnt++)
+            var numSimulations = simulations.Count();
+            var singlePeriodCumReturns = new decimal[simulations.Count()];
+            for (int cnt = 0; cnt < numSimulations; cnt++)
             {
                 singlePeriodCumReturns[cnt] = simulations[cnt] / initialPrice;
             }
             return singlePeriodCumReturns;
         }
 
-        private static decimal[,] InitializeTimeSeriesCumulativeReturns(decimal[] singlePeriodCumReturns, int numCashFlows)
+        private static decimal[,] InitializeTimeSeriesCumulativeReturns(IList<decimal> singlePeriodCumReturns, int numCashFlows)
         {
-            var numTimeSeriesSimulations = singlePeriodCumReturns.Length / (numCashFlows - 1);
+            var numTimeSeriesSimulations = singlePeriodCumReturns.Count() / (numCashFlows - 1);
             var timeSeries = new decimal[numCashFlows - 1, numTimeSeriesSimulations];
             for (int cntTimeSeriesSimulations = 0; cntTimeSeriesSimulations < numTimeSeriesSimulations; cntTimeSeriesSimulations++)
             {
@@ -36,7 +37,7 @@ namespace PoppertechCalculator.Processors
             return timeSeries;
         }
 
-        private static decimal[,] CalculateTimeSeriesCumulativeReturns(decimal[,] timeSeries, decimal[] singlePeriodCumReturns)
+        private static decimal[,] CalculateTimeSeriesCumulativeReturns(decimal[,] timeSeries, IList<decimal> singlePeriodCumReturns)
         {
             var numCashFlows = timeSeries.GetUpperBound(0) + 1;
             var numTimeSeriesSimulations = timeSeries.GetUpperBound(1) + 1;

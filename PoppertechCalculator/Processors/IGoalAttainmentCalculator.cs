@@ -8,6 +8,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface IGoalAttainmentCalculator
     {
-        decimal[] CalculateAttainmentProbabilities(PortfolioContext portfolioContext);
+        IEnumerable<decimal> CalculateAttainmentProbabilities(PortfolioContext portfolioContext);
     }
 }

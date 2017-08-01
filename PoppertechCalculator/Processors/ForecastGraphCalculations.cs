@@ -23,7 +23,7 @@ namespace PoppertechCalculator.Processors
 
         
 
-        public SimulationContext[] GetSimulationContext(Forecast forecast)
+        public IEnumerable<SimulationContext> GetSimulationContext(Forecast forecast)
         {
 
             _xMin = forecast.Minimum;

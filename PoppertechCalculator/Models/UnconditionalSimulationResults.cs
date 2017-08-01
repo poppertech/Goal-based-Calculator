@@ -7,6 +7,6 @@ namespace PoppertechCalculator.Models
 {
     public class UnconditionalSimulationResults: SimulationResults
     {
-        public int[] AreaNumbers { get; set; }
+        public IList<int> AreaNumbers { get; set; }
     }
 }

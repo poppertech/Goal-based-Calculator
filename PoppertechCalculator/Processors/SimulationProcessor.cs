@@ -23,21 +23,21 @@ namespace PoppertechCalculator.Processors
         }
 
 
-        public SimulationResults[] SimulateInvestments(ForecastVariable[] forecasts)
+        public IEnumerable<SimulationResults> SimulateInvestments(IEnumerable<ForecastVariable> forecasts)
         {
 
-            var simulationResults = new SimulationResults[forecasts.Length];
+            var simulationResults = new SimulationResults[forecasts.Count()];
 
             var unconditionalSimulationResults = CalculateUnConditionalSimulationResults(forecasts);
             simulationResults[0] = unconditionalSimulationResults;
             var conditionalSimulationResults = CalculateConditionalSimulationResults(forecasts, unconditionalSimulationResults.AreaNumbers);
 
-            conditionalSimulationResults.CopyTo(simulationResults, 1);
+            simulationResults = conditionalSimulationResults.Where((s,i) => i > 0).ToArray();
 
             return simulationResults;
         }
 
-        private UnconditionalSimulationResults CalculateUnConditionalSimulationResults(ForecastVariable[] forecasts)
+        private UnconditionalSimulationResults CalculateUnConditionalSimulationResults(IEnumerable<ForecastVariable> forecasts)
         {
             var unConditionalForecast = forecasts.Where(f => string.IsNullOrWhiteSpace(f.Parent)).Single();
             var unConditionalSimulations = _jointSimulator.CalculateUnconditionalSimulations(unConditionalForecast.Name, unConditionalForecast.Regions[0].Forecast);
@@ -57,7 +57,7 @@ namespace PoppertechCalculator.Processors
             return unconditionalSimulationResults;
         }
 
-        private SimulationResults[] CalculateConditionalSimulationResults(ForecastVariable[] forecasts, int[] unConditionalAreaNumbers)
+        private IEnumerable<SimulationResults> CalculateConditionalSimulationResults(IEnumerable<ForecastVariable> forecasts, IList<int> unConditionalAreaNumbers)
         {
             var conditionalForecasts = forecasts.Where(f => !string.IsNullOrWhiteSpace(f.Parent)).ToArray();
             var simulationResults = new SimulationResults[conditionalForecasts.Length];
@@ -66,11 +66,11 @@ namespace PoppertechCalculator.Processors
             {
                 var histogramContext = new HistogramContext();
                 var conditionalForecast = conditionalForecasts[cnt];
-                var regions = conditionalForecast.Regions.ToArray();
+                var regions = conditionalForecast.Regions.ToList();
                 var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, conditionalForecast.Name, regions);
                 histogramContext.Simulations = jointSimulations.Simulations;
                 histogramContext.GlobalXMin = regions[0].Forecast.Minimum;
-                histogramContext.GlobalXMax = regions[regions.Length - 1].Forecast.Maximum;
+                histogramContext.GlobalXMax = regions[regions.Count() - 1].Forecast.Maximum;
                 var simulationResult = GetSimulationResults(conditionalForecast.Name, histogramContext);
 
                 simulationResults[cnt] = simulationResult;

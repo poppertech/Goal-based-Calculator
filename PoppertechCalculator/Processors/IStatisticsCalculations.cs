@@ -8,6 +8,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface IStatisticsCalculations
     {
-        Statistics GetStatistics(decimal[] inputReturns);
+        Statistics GetStatistics(IEnumerable<decimal> inputReturns);
     }
 }

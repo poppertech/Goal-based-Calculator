@@ -9,6 +9,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface IForecastGraphCalculations
     {
-        SimulationContext[] GetSimulationContext(Forecast forecast);
+        IEnumerable<SimulationContext> GetSimulationContext(Forecast forecast);
     }
 }

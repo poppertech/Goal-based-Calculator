@@ -5,6 +5,6 @@ namespace PoppertechCalculator.Processors
 {
     public interface ISimulationProcessor
     {
-        SimulationResults[] SimulateInvestments(ForecastVariable[] request);
+        IEnumerable<SimulationResults> SimulateInvestments(IEnumerable<ForecastVariable> request);
     }
 }

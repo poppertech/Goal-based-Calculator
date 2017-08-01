@@ -25,14 +25,14 @@ namespace PoppertechCalculator.Processors
             return monteCarloResults;
         }
 
-        public MonteCarloResults CalculateJointSimulations(int[] parentAreaNumbers, string variable, ForecastRegion[] regions)
+        public MonteCarloResults CalculateJointSimulations(IList<int> parentAreaNumbers, string variable, IList<ForecastRegion> regions)
         {
             var jointContext = new JointSimulationContext();
             
 
             jointContext.ParentAreaNumber = parentAreaNumbers;
 
-            for (int cnt = 0; cnt < regions.Length; cnt++)
+            for (int cnt = 0; cnt < regions.Count(); cnt++)
             {
                 var region = regions[cnt];
 
@@ -46,7 +46,7 @@ namespace PoppertechCalculator.Processors
             return new MonteCarloResults { Simulations = simulations };
         }
 
-        private void InitializeJointContext(string regionName, JointSimulationContext jointContext, decimal[] monteCarloSimulations)
+        private void InitializeJointContext(string regionName, JointSimulationContext jointContext, IList<decimal> monteCarloSimulations)
         {
             switch (regionName)
             {
@@ -67,7 +67,7 @@ namespace PoppertechCalculator.Processors
 
         private decimal[] CalculateJointSimulation(JointSimulationContext jointContext)
         {
-            var num = jointContext.ParentAreaNumber.Length;
+            var num = jointContext.ParentAreaNumber.Count();
             var jointSimulations = new decimal[num];
 
             for (int cnt = 0; cnt < num; cnt++)

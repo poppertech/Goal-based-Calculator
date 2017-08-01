@@ -14,9 +14,9 @@ namespace PoppertechCalculator.Processors
         private const int NUMBER_DAYS_IN_YEAR = 250;
         private const int ERROR_CODE = 9999;
 
-        public Statistics GetStatistics(decimal[] inputReturns)
+        public Statistics GetStatistics(IEnumerable<decimal> inputReturns)
         {
-            returns = Array.ConvertAll(inputReturns, r => (double)r);
+            returns = inputReturns.Select(r => (double)r).ToArray();
             _mean = returns.Average();
             _count = returns.Count();
 

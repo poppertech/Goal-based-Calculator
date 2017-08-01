@@ -20,7 +20,7 @@ namespace PoppertechCalculator.Processors
                 var interval = ((decimal)cnt / (decimal)num) * (context.GlobalXMax - context.GlobalXMin) + context.GlobalXMin;
                 histogramData.Interval = interval;
 
-                var cumulativeFrequency = ((decimal)context.Simulations.Count(x => x < interval)) / ((decimal)context.Simulations.Length);
+                var cumulativeFrequency = ((decimal)context.Simulations.Count(x => x < interval)) / ((decimal)context.Simulations.Count());
                 var frequency = cumulativeFrequency - lastCumulativeFrequency;               
                 histogramData.Frequency = frequency;
                 lastCumulativeFrequency = cumulativeFrequency;

@@ -22,11 +22,11 @@ namespace PoppertechCalculator.Controllers
 
         [HttpPost]
         [Route("")]
-        [ResponseType(typeof(Response<Dictionary<string,decimal>>))]
+        [ResponseType(typeof(Response<IDictionary<string,decimal>>))]
         public IHttpActionResult Post([FromBody] GoalAttainmentContext request)
         {
             var probabilityChartData = _processor.CalculateGoalAttainment(request);
-            var response = new Response<Dictionary<string, decimal>> { Model = probabilityChartData };
+            var response = new Response<IDictionary<string, decimal>> { Model = probabilityChartData };
             return Ok(response);
         }
     }

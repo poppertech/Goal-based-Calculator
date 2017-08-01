@@ -7,7 +7,7 @@ namespace PoppertechCalculator.Models
 {
     public class MonteCarloResults
     {
-        public int[] AreaNumbers { get; set; }
-        public decimal[] Simulations { get; set; }
+        public IList<int> AreaNumbers { get; set; }
+        public IList<decimal> Simulations { get; set; }
     }
 }

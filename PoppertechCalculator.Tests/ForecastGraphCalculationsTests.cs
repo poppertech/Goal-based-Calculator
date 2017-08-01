@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PoppertechCalculator.Models;
 using PoppertechCalculator.Processors;
@@ -22,7 +23,7 @@ namespace PoppertechCalculator.Tests
             var calculator = new ForecastGraphCalculations();
 
             //act
-            var context = calculator.GetSimulationContext(forecast);
+            var context = calculator.GetSimulationContext(forecast).ToArray();
 
             //assert
             Assert.IsTrue(Math.Abs(context[0].XLower - xMin) < .01m);

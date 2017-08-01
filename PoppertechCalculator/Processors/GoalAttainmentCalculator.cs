@@ -8,7 +8,7 @@ namespace PoppertechCalculator.Processors
 {
     public class GoalAttainmentCalculator : IGoalAttainmentCalculator
     {
-        public decimal[] CalculateAttainmentProbabilities(PortfolioContext portfolioContext)
+        public IEnumerable<decimal> CalculateAttainmentProbabilities(PortfolioContext portfolioContext)
         {
             var numPeriods = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(0) + 2;
 
@@ -35,7 +35,7 @@ namespace PoppertechCalculator.Processors
         private static decimal[,,] InitializeInvestmentsSimulations(PortfolioContext portfolioContext)
         {
             const int cntPeriods = 0;
-            var numInvestments = portfolioContext.InvestmentContexts.Length;
+            var numInvestments = portfolioContext.InvestmentContexts.Count();
             var numPeriods = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(0) + 2;
             var numSimulations = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(1) + 1;
             var investmentsSimulations = new decimal[numInvestments, numPeriods, numSimulations];
@@ -53,7 +53,7 @@ namespace PoppertechCalculator.Processors
 
         private static decimal[, ,] InitializeCumulativeReturns(PortfolioContext portfolioContext)
         {
-            var numInvestments = portfolioContext.InvestmentContexts.Length;
+            var numInvestments = portfolioContext.InvestmentContexts.Count();
             var numPeriods = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(0) + 2;
             var numSimulations = portfolioContext.InvestmentContexts[0].TimeSeriesReturns.GetUpperBound(1) + 1;
             var cumulativeReturns = new decimal[numInvestments, numPeriods, numSimulations];
@@ -81,7 +81,7 @@ namespace PoppertechCalculator.Processors
             return simulations;
         }
 
-        private static decimal[,] CalculatePortfolioSimulations(decimal[,] portfolioSimulations, decimal[,,] investmentsSimulations, decimal[] cashFlows, int cntPeriod)
+        private static decimal[,] CalculatePortfolioSimulations(decimal[,] portfolioSimulations, decimal[,,] investmentsSimulations, IList<decimal> cashFlows, int cntPeriod)
         {
             var numInvestments = investmentsSimulations.GetUpperBound(0) + 1;
             var numSimulations = investmentsSimulations.GetUpperBound(2) + 1;
@@ -113,7 +113,7 @@ namespace PoppertechCalculator.Processors
             return portfolioSimulations;
         }
 
-        private static decimal[, ,] CalculateInvestmentSimulations(decimal[,,] investmentsSimulations, decimal[,,] cumReturns, decimal[,] portfolioSimulations, decimal[] weights, int cntPeriod)
+        private static decimal[, ,] CalculateInvestmentSimulations(decimal[,,] investmentsSimulations, decimal[,,] cumReturns, decimal[,] portfolioSimulations, IList<decimal> weights, int cntPeriod)
         {
             var numInvestments = investmentsSimulations.GetUpperBound(0) + 1;
             var numSimulations = investmentsSimulations.GetUpperBound(2) + 1;
@@ -130,7 +130,7 @@ namespace PoppertechCalculator.Processors
             return investmentsSimulations;
         }
 
-        private static decimal[] CalculateProbabilities(decimal[,] portfolioSimulations)
+        private static IEnumerable<decimal> CalculateProbabilities(decimal[,] portfolioSimulations)
         {
             var numPeriods = portfolioSimulations.GetUpperBound(0) + 1;
             var numSimulations = portfolioSimulations.GetUpperBound(1) + 1;

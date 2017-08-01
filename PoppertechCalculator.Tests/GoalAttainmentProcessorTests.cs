@@ -46,7 +46,7 @@ namespace PoppertechCalculator.Tests
             var conditionalMonteCarloResults = new MonteCarloResults { Simulations = new decimal[] { 100 }, AreaNumbers = new int[] { 1 } };
             var jointSimulator = new Mock<IJointSimulator>();
             jointSimulator.Setup(s => s.CalculateUnconditionalSimulations(It.IsAny<string>(), It.IsAny<Forecast>())).Returns(unconditionalMonteCarloResults);
-            jointSimulator.Setup(s => s.CalculateJointSimulations(It.IsAny<int[]>(), It.IsAny<string>(), It.IsAny<ForecastRegion[]>())).Returns(conditionalMonteCarloResults);
+            jointSimulator.Setup(s => s.CalculateJointSimulations(It.IsAny<IList<int>>(), It.IsAny<string>(), It.IsAny<IList<ForecastRegion>>())).Returns(conditionalMonteCarloResults);
 
             var timeSeries = new decimal[,] { { .75m, 1.25m } };
             var cumulativeReturnsCalculator = new Mock<ICumulativeReturnsCalculator>();

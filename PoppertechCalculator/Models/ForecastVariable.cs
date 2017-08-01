@@ -17,7 +17,7 @@ namespace PoppertechCalculator.Models
         }
 
         public string Name { get; set; }
-        public ForecastRegion[] Regions { get; set; }
+        public IList<ForecastRegion> Regions { get; set; }
         public string Parent { get; set; }
     }
 }

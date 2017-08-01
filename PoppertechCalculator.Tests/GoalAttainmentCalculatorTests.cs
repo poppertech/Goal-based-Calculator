@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PoppertechCalculator.Models;
 using PoppertechCalculator.Processors;
@@ -27,7 +28,7 @@ namespace PoppertechCalculator.Tests
             var calculator = new GoalAttainmentCalculator();
 
             //act
-            var actualProbabilities = calculator.CalculateAttainmentProbabilities(portfolioContext);
+            var actualProbabilities = calculator.CalculateAttainmentProbabilities(portfolioContext).ToArray();
 
             //assert
             Assert.AreEqual(expectedProbabilities.Length, actualProbabilities.Length);
