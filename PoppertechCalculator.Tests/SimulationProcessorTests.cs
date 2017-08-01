@@ -5,6 +5,7 @@ using PoppertechCalculator.Models;
 using Moq;
 using PoppertechCalculator.Repositories;
 using PoppertechCalculator.Processors;
+using System.Collections.Generic;
 
 namespace PoppertechCalculator.Tests
 {
@@ -23,7 +24,7 @@ namespace PoppertechCalculator.Tests
             var stats = new Statistics{Mean = mean};
 
             var jointSimulations = new decimal[] { 122.2399811m, 97.44055169m, 41.76929575m, 122.3667352m };
-            var monteCarloResults = new MonteCarloResults{Simulations = jointSimulations};
+            var monteCarloResults = new MonteCarloResults { Simulations = jointSimulations, AreaNumbers = new[] { 1 } };
 
             var forecast = new Forecast{ 
                 Minimum  = 40, 
@@ -46,13 +47,13 @@ namespace PoppertechCalculator.Tests
             var histogramData = new[] { histogramDatum };
 
             var statisticsCalculations = new Mock<IStatisticsCalculations>();
-            statisticsCalculations.Setup(r => r.GetStatistics(It.IsAny<decimal[]>())).Returns(stats);
+            statisticsCalculations.Setup(r => r.GetStatistics(It.IsAny<IEnumerable<decimal>>())).Returns(stats);
 
             var histogramCalculations = new Mock<IHistogramCalculations>();
             histogramCalculations.Setup(r => r.GetHistogramData(It.IsAny<HistogramContext>())).Returns(histogramData);
 
             var jointSimulator = new Mock<IJointSimulator>();
-            jointSimulator.Setup(j => j.CalculateJointSimulations(It.IsAny<int[]>(), It.IsAny<string>(), It.IsAny<ForecastRegion[]>())).Returns(monteCarloResults);
+            jointSimulator.Setup(j => j.CalculateJointSimulations(It.IsAny<IList<int>>(), It.IsAny<string>(), It.IsAny<IList<ForecastRegion>>())).Returns(monteCarloResults);
             jointSimulator.Setup(j => j.CalculateUnconditionalSimulations(It.IsAny<string>(), It.IsAny<Forecast>())).Returns(monteCarloResults);
 
             var processor = new SimulationProcessor(statisticsCalculations.Object, histogramCalculations.Object, jointSimulator.Object);

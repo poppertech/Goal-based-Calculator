@@ -32,7 +32,7 @@ namespace PoppertechCalculator.Processors
             simulationResults[0] = unconditionalSimulationResults;
             var conditionalSimulationResults = CalculateConditionalSimulationResults(forecasts, unconditionalSimulationResults.AreaNumbers);
 
-            simulationResults = conditionalSimulationResults.Where((s,i) => i > 0).ToArray();
+            simulationResults.Concat(conditionalSimulationResults);
 
             return simulationResults;
         }
