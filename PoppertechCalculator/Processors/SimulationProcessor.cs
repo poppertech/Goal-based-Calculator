@@ -25,14 +25,11 @@ namespace PoppertechCalculator.Processors
 
         public IEnumerable<SimulationResults> SimulateInvestments(IEnumerable<ForecastVariable> forecasts)
         {
-
-            var simulationResults = new SimulationResults[forecasts.Count()];
-
             var unconditionalSimulationResults = CalculateUnConditionalSimulationResults(forecasts);
-            simulationResults[0] = unconditionalSimulationResults;
+            IEnumerable<SimulationResults> simulationResults = new[] { unconditionalSimulationResults };
             var conditionalSimulationResults = CalculateConditionalSimulationResults(forecasts, unconditionalSimulationResults.AreaNumbers);
 
-            simulationResults.Concat(conditionalSimulationResults);
+            simulationResults = simulationResults.Concat(conditionalSimulationResults);
 
             return simulationResults;
         }

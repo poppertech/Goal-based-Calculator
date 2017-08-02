@@ -1,6 +1,7 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-
+// TODO: ensure high test coverage of c# code
+// TODO: refactor folder structure
 // TODO: fill charts with api data
 // TODO: user acceptance test for calculating the probability of portfolio holdings satisfying a goal
 // TODO: add classes for and unit test pso

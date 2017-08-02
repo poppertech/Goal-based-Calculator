@@ -32,7 +32,8 @@ namespace PoppertechCalculator.Processors
 
             jointContext.ParentAreaNumber = parentAreaNumbers;
 
-            for (int cnt = 0; cnt < regions.Count(); cnt++)
+            var numRegions = regions.Count();
+            for (int cnt = 0; cnt < numRegions; cnt++)
             {
                 var region = regions[cnt];
 

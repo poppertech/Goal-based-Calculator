@@ -15,10 +15,10 @@ namespace PoppertechCalculator.Tests
         [TestMethod]
         public void SimulateInvestmentsOnSuccessReturnsInvestmentStatistics()
         {
-
             //arrange
 
             var investmentName = "GDP";
+            var childInvestmentName = "Stocks";
 
             var mean = 5;
             var stats = new Statistics{Mean = mean};
@@ -35,11 +35,20 @@ namespace PoppertechCalculator.Tests
             };
 
             var region = new ForecastRegion { Forecast = forecast };
-            var variable = new ForecastVariable{
+            
+            var variable1 = new ForecastVariable{
                 Name=investmentName, 
                 Regions = new[]{region}
             };
-            var request = new[] { variable };
+
+            var variable2 = new ForecastVariable
+            {
+                Name = childInvestmentName,
+                Parent = investmentName,
+                Regions = new[] { region}
+            };
+
+            var request = new[] { variable1, variable2 };
 
             var interval = 20;
             var frequency = .1m;
@@ -60,14 +69,20 @@ namespace PoppertechCalculator.Tests
 
             //act
             var results = processor.SimulateInvestments(request);
-            var result = results.First();
+            var result1 = results.First();
+            var result2 = results.Last();
 
             //assert
-            Assert.AreEqual("GDP", result.InvestmentName);
-            Assert.AreEqual(interval, result.HistogramsData.First().Interval);
-            Assert.AreEqual(frequency, result.HistogramsData.First().Frequency);
-            
-            Assert.AreEqual(mean, result.Statistics.Mean);
+            Assert.AreEqual(investmentName, result1.InvestmentName);
+            Assert.AreEqual(interval, result1.HistogramsData.First().Interval);
+            Assert.AreEqual(frequency, result1.HistogramsData.First().Frequency);
+            Assert.AreEqual(mean, result1.Statistics.Mean);
+
+
+            Assert.AreEqual(childInvestmentName, result2.InvestmentName);
+            Assert.AreEqual(interval, result2.HistogramsData.First().Interval);
+            Assert.AreEqual(frequency, result2.HistogramsData.First().Frequency);
+            Assert.AreEqual(mean, result2.Statistics.Mean);
         }
     }
 }

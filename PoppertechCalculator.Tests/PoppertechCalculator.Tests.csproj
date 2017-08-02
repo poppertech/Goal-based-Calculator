@@ -92,6 +92,8 @@
     <Compile Include="GoalAttainmentCalculatorTests.cs" />
     <Compile Include="CumulativeReturnsCalculatorTests.cs" />
     <Compile Include="GoalAttainmentProcessorTests.cs" />
+    <Compile Include="PortfolioSimulationControllerTests.cs" />
+    <Compile Include="JointSimulatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PoppertechCalculator\PoppertechCalculator.csproj">
