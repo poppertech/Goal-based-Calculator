@@ -1,4 +1,8 @@
-﻿angular.module('poppertechCalculatorApp').factory('portfolioSimulationApiSvc', ['$resource', function ($resource) {
+﻿angular.module('poppertechCalculatorApp').factory('portfolioSimulationApiSvc', portfolioSimulationApiSvc)
+
+portfolioSimulationApiSvc.$inject = ['$resource']
+ 
+function portfolioSimulationApiSvc($resource) {
 
     var svc = {};
 
@@ -11,4 +15,4 @@
     }
 
 
-}]);
+};

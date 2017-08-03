@@ -1,4 +1,6 @@
-﻿angular.module('poppertechCalculatorApp').factory('forecastGraphCalculationsSvc', function () {
+﻿angular.module('poppertechCalculatorApp').factory('forecastGraphCalculationsSvc',forecastGraphCalculationsSvc)
+
+function forecastGraphCalculationsSvc() {
 
     var svc = {};
 
@@ -74,4 +76,4 @@
     function calculateMostLikelyHeight() {
         return (2 * NORMAL - hWorst * (xLikely - xWorst) - hBest * (xBest - xLikely)) / (xBest - xWorst);
     }
-})
+}

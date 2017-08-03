@@ -1,4 +1,6 @@
-﻿angular.module('poppertechCalculatorApp').factory('momentCalculationsSvc', function () {
+﻿angular.module('poppertechCalculatorApp').factory('momentCalculationsSvc',momentCalculationsSvc)
+
+    function momentCalculationsSvc() {
 
     var svc = {};
 
@@ -119,4 +121,4 @@
         return (moment4 - 4 * mean * moment3 + 6 * Math.pow(mean, 2) * Math.pow(stdev, 2) + 3 * Math.pow(mean, 4)) / Math.pow(stdev, 4) - 3;
     }
 
-})
+}

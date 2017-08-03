@@ -1,5 +1,9 @@
-﻿angular.module('poppertechCalculatorApp').directive("columnChart", function () {
+﻿angular.module('poppertechCalculatorApp').directive("columnChart", columnChartDirective)
+
+function columnChartDirective() {
+
     return {
+
         scope: {
             chartData: "@chartData",
             chartWidth: "@chartWidth",
@@ -118,5 +122,5 @@
         },
         restrict: "EA"
     }
-})
+}
 

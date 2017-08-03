@@ -1,4 +1,7 @@
-﻿angular.module('poppertechCalculatorApp').directive("pieChart", function () {
+﻿angular.module('poppertechCalculatorApp').directive("pieChart", pieChartDirective)
+
+function pieChartDirective() {
+
     return {
         scope: {
             chartData: "@chartData",
@@ -59,4 +62,4 @@
         },
         restrict: "EA"
     }
-})
+}

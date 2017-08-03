@@ -1,4 +1,7 @@
-﻿angular.module('poppertechCalculatorApp').directive("multiColoredAreaChart", function () {
+﻿angular.module('poppertechCalculatorApp').directive("multiColoredAreaChart", multiColoredAreaChartDirective)
+
+function multiColoredAreaChartDirective() {
+
     return {
         scope: {
             chartData: "@chartData",
@@ -136,7 +139,7 @@
         },
         restrict: "EA"
     }
-})
+}
 
 
 

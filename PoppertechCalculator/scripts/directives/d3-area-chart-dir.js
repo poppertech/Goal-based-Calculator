@@ -1,5 +1,9 @@
-﻿angular.module('poppertechCalculatorApp').directive("areaChart", function () {
-    return {
+﻿angular.module('poppertechCalculatorApp').directive("areaChart", areaChartDirective)
+
+    function areaChartDirective() {
+
+        return {
+
         scope: {
             chartData: "@chartData",
             chartWidth: "@chartWidth",
@@ -106,4 +110,4 @@
         },
         restrict: "EA"
     }
-})
+}

@@ -1,4 +1,9 @@
-﻿angular.module('poppertechCalculatorApp').factory('forecastApiSvc', ['$resource', function ($resource) {
+﻿angular.module('poppertechCalculatorApp').factory('forecastApiSvc', forecastApiSvc)
+
+forecastApiSvc.$inject = ['$resource'];
+
+
+function forecastApiSvc($resource) {
 
     var svc = {};
 
@@ -10,4 +15,4 @@
         return $resource('http://localhost:43780/forecast').get({}, {}).$promise;
     }
 
-}]);
+};
