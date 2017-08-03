@@ -83,17 +83,17 @@
   <ItemGroup>
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulationProcessorTests.cs" />
-    <Compile Include="ForecastGraphCalculationsTests.cs" />
-    <Compile Include="MonteCarloSimulatorTests.cs" />
-    <Compile Include="HistogramCalculationsTests.cs" />
-    <Compile Include="StatisticsCalculationsTests.cs" />
-    <Compile Include="SimulationControllerTests.cs" />
-    <Compile Include="GoalAttainmentCalculatorTests.cs" />
-    <Compile Include="CumulativeReturnsCalculatorTests.cs" />
-    <Compile Include="GoalAttainmentProcessorTests.cs" />
-    <Compile Include="PortfolioSimulationControllerTests.cs" />
-    <Compile Include="JointSimulatorTests.cs" />
+    <Compile Include="Processors\SimulationProcessorTests.cs" />
+    <Compile Include="Processors\ForecastGraphCalculationsTests.cs" />
+    <Compile Include="Processors\MonteCarloSimulatorTests.cs" />
+    <Compile Include="Processors\HistogramCalculationsTests.cs" />
+    <Compile Include="Processors\StatisticsCalculationsTests.cs" />
+    <Compile Include="Controllers\SimulationControllerTests.cs" />
+    <Compile Include="Processors\GoalAttainmentCalculatorTests.cs" />
+    <Compile Include="Processors\CumulativeReturnsCalculatorTests.cs" />
+    <Compile Include="Processors\GoalAttainmentProcessorTests.cs" />
+    <Compile Include="Controllers\PortfolioSimulationControllerTests.cs" />
+    <Compile Include="Processors\JointSimulatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PoppertechCalculator\PoppertechCalculator.csproj">
