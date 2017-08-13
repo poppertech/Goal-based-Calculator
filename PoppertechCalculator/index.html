@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-sm-4 text-center">
                             <area-chart chart-data="{{vm.probabilityChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
-                                        chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40"
+                                        chart-right-margin="0" chart-bottom-margin="60" chart-left-margin="40"
                                         chart-fill-color="darkblue" />
                         </div>
 
@@ -60,7 +60,7 @@
 
                         <div class="col-sm-4 text-center">
                             <area-chart chart-data="{{vm.editProperties.cashForecast}}" chart-width="350" chart-height="215" chart-top-margin="20"
-                                        chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40"
+                                        chart-right-margin="0" chart-bottom-margin="60" chart-left-margin="40"
                                         chart-fill-color="darkred" />
                         </div>
                     </div>
@@ -166,7 +166,10 @@
                                     <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
                                         <td>{{forecastName}}</td>
                                         <td>
-                                            <input type="text" class="form-control" ng-model="forecastValue" />
+                                            <input type="text"
+                                                   class="form-control"
+                                                   ng-model="vm.selectedForecast[forecastName]"
+                                                   ng-change="vm.onForecastValueChange(vm.selectedForecast)" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -275,6 +278,12 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="WeightTextBox">Weight</label>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row" ng-repeat="investmentContext in vm.editProperties.investmentContexts">
@@ -304,9 +313,20 @@
                             <div class="form-group">
                                 <input name="AmountTextBox" + $index
                                        ng-model="investmentContext.amount"
+                                       ng-change="vm.onInvestmentAmountChange(vm.editProperties.investmentContexts)"
                                        type="number"
                                        min="0"
                                        max="999999999999"
+                                       class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input readonly
+                                       name="WeightTextBox" + $index
+                                       ng-model="investmentContext.weight"
+                                       type="text"
                                        class="form-control" />
                             </div>
                         </div>

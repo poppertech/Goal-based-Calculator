@@ -1,6 +1,5 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: fill charts with api data
 // TODO: user acceptance test for calculating the probability of portfolio holdings satisfying a goal
 // TODO: add classes for and unit test pso
 
@@ -44,7 +43,7 @@ function CalculatorController(
         setEditProperties();
 
         $scope.$watch(function () { return vm.editProperties }, setLocalStorage, true);
-        $scope.$watch(function () { return vm.selectedForecast }, calculateForecastGraph, true);
+
     }
 
     function setEditProperties() {
@@ -70,33 +69,53 @@ function CalculatorController(
     function getForecastsSuccess(response) {
         vm.editProperties.conditionalForecasts = response.model;
 
-        vm.editProperties.investmentContexts = $filter('filter')(vm.editProperties.conditionalForecasts, function (forecast) {
-            return forecast.parent;
-        });
+        vm.editProperties.investmentContexts = getInitialInvestmentContext(response.model);
 
-        angular.forEach(vm.editProperties.investmentContexts, function (context) {
-            context.initialPrice = 100;
-            context.amount = 1000;
-        });
+        vm.portfolioChartData = getPortfolioChartData(vm.editProperties.investmentContexts);
 
         vm.selectVariable('GDP');
         calculateForecastGraph(vm.selectedForecast);
     }
 
+    function getInitialInvestmentContext(conditionalForecasts) {
+        var investmentContexts = $filter('filter')(conditionalForecasts, function (forecast) {
+            return forecast.parent;
+        });
 
-    vm.portfolioChartData = [
-        { investment: "Bonds", amount: 2704659 },
-        { investment: "Stocks", amount: 612463 }
-    ];
+        angular.forEach(investmentContexts, function (context) {
+            context.initialPrice = 100;
+            context.amount = 1000;
 
-    vm.probabilityChartData = [
-        { date: "Year 1", value: 194.93 },
-        { date: "Year 2", value: 90.75 },
-        { date: "Year 3", value: 214.01 },
-        { date: "Year 4", value: 329.57 },
-        { date: "Year 5", value: 411.23 }
-    ];
+        });
 
+        calculateInvestmentContextWeights(investmentContexts);
+
+        return investmentContexts;
+    }
+
+    function calculateInvestmentContextWeights(investmentContexts) {
+        var portfolioAmount = 0;
+
+        angular.forEach(investmentContexts, function (context) {
+            portfolioAmount += context.amount;
+        });
+
+        angular.forEach(investmentContexts, function (context) {
+            context.weight = ((context.amount / portfolioAmount).toFixed(2)) * 100 + '%';
+        });
+     
+    }
+
+    function getPortfolioChartData(investmentContexts) {
+        
+        var portfolioChartData = [];
+
+        angular.forEach(investmentContexts, function (context) {
+            portfolioChartData.push({ investment: context.name, amount: context.amount });
+        });
+
+        return portfolioChartData;
+    }
 
     vm.onScenarioSelectionChange = function (forecastRegion) {
         var selectedRegion = $filter('filter')(vm.selectedVariable.regions, function (region) {
@@ -106,6 +125,14 @@ function CalculatorController(
         calculateForecastGraph(vm.selectedForecast);
     }
 
+    vm.onInvestmentAmountChange = function (investmentContexts) {
+        calculateInvestmentContextWeights(investmentContexts);
+        vm.portfolioChartData = getPortfolioChartData(investmentContexts);
+    };
+
+    vm.onForecastValueChange = function (selectedForecast) {
+       calculateForecastGraph(selectedForecast);
+    }
 
     function calculateForecastGraph(selectedForecast) {
 
@@ -210,13 +237,19 @@ function CalculatorController(
     }
 
     function postPortfolioSimulationsSuccess(response) {
-        var x = response;
+        var probabilityChartData = [];
+        var probabilityChartDictionary = changeKeysToUpper(response.model);
+        for (var key in probabilityChartDictionary) {
+            var value = probabilityChartDictionary[key];
+            probabilityChartData.push({ date: key, value: value });
+        }
+        vm.probabilityChartData = probabilityChartData;
     }
 
     function postSimulationsSuccess(response) {
 
         angular.forEach(response.model, function (simulationResult) {
-            simulationResult.statistics = changeStatNamesToUpper(simulationResult.statistics);
+            simulationResult.statistics = changeKeysToUpper(simulationResult.statistics);
         });
 
         vm.simulationResults = response.model;
@@ -226,13 +259,13 @@ function CalculatorController(
         vm.simulatedStatistics = selectedSimulationResult.statistics;
     }
 
-    function changeStatNamesToUpper(statistics) {
-        for (var statName in statistics) {
-            var upperStatName = statName.charAt(0).toUpperCase() + statName.substring(1);
-            statistics[upperStatName] = statistics[statName];
-            delete statistics[statName];
+    function changeKeysToUpper(keyValue) {
+        for (var key in keyValue) {
+            var upperKey = key.charAt(0).toUpperCase() + key.substring(1);
+            keyValue[upperKey] = keyValue[key];
+            delete keyValue[key];
         }
-        return statistics;
+        return keyValue;
     }
 
     function getSelectedSimulationResult() {
