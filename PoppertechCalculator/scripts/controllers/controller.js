@@ -1,6 +1,5 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
-// TODO: user acceptance test for calculating the probability of portfolio holdings satisfying a goal
 // TODO: add classes for and unit test pso
 
 
@@ -58,10 +57,10 @@ function CalculatorController(
     }
 
     function initCashForecast() {
-        var cashForecast = [];
+        var cashForecast = [{ date: 'Year ' + 0, value: 0 }];
         var numYears = 10;
-        for (var year = 0; year < numYears + 1; year++) {
-            cashForecast.push({ date: 'Year ' + year, value: 0 });
+        for (var year = 1; year < numYears + 1; year++) {
+            cashForecast.push({ date: 'Year ' + year, value: 200 });
         }
         return cashForecast;
     }

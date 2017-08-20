@@ -13,7 +13,7 @@ namespace PoppertechCalculator.Tests
             //arrange
             var expectedCumulativeReturns = new decimal[,] { {.5m, 1.25m}, {.75m, 2.5m} };
             var initialPrice = 100;
-            var simulations = new decimal[] { 50, 125, 150, 200 };
+            var simulations = new decimal[] { 50, 125, 75, 250 };
             var numCashFlows = 3;
 
             var calculator = new CumulativeReturnsCalculator();

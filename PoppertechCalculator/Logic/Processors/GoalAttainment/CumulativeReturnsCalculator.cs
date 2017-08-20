@@ -46,7 +46,7 @@ namespace PoppertechCalculator.Processors
                 for (int cntTimeSeriesSimulations = 0; cntTimeSeriesSimulations < numTimeSeriesSimulations; cntTimeSeriesSimulations++)
                 {
                     var index = cntCashFlows*numTimeSeriesSimulations + cntTimeSeriesSimulations;
-                    timeSeries[cntCashFlows, cntTimeSeriesSimulations] = timeSeries[cntCashFlows - 1, cntTimeSeriesSimulations] * singlePeriodCumReturns[index];
+                    timeSeries[cntCashFlows, cntTimeSeriesSimulations] = singlePeriodCumReturns[index];
                 }
             }
             return timeSeries;
