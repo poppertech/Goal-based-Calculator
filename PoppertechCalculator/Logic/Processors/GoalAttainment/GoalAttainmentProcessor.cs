@@ -19,7 +19,14 @@ namespace PoppertechCalculator.Processors
             _goalCalculator = goalCalculator;
         }
 
-        public IDictionary<string, decimal> CalculateGoalAttainment(GoalAttainmentContext context)
+        public IDictionary<string, decimal> CalculateGoalAttainmentChartData(GoalAttainmentContext context)
+        {
+            var probabilities = CalculateGoalAttainment(context);
+            var probabilityChartData = probabilities.Select((p, i) => new { Date = "Year " + (i + 1), Probability = p }).ToDictionary(g => g.Date, g => g.Probability);
+            return probabilityChartData;
+        }
+
+        public IEnumerable<decimal> CalculateGoalAttainment(GoalAttainmentContext context)
         {
             var investmentContexts = context.InvestmentContexts;
             var unconditionalSimulations = CalculateUnconditionalSimulations(investmentContexts);
@@ -30,8 +37,7 @@ namespace PoppertechCalculator.Processors
                 CashFlows = context.CashFlows,
             };
             var probabilities = _goalCalculator.CalculateAttainmentProbabilities(portfolioContext);
-            var probabilityChartData = probabilities.Select((p, i) => new { Date = "Year " + (i + 1), Probability = p }).ToDictionary(g => g.Date, g => g.Probability);
-            return probabilityChartData;
+            return probabilities;
         }
 
         private MonteCarloResults CalculateUnconditionalSimulations(IEnumerable<ForecastVariable> forecasts) 

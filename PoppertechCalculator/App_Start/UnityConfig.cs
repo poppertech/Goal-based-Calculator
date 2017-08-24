@@ -1,4 +1,6 @@
 using Microsoft.Practices.Unity;
+using PoppertechCalculator.Logic.Interfaces.Pso;
+using PoppertechCalculator.Logic.Processors.PSO;
 using PoppertechCalculator.Processors;
 using PoppertechCalculator.Repositories;
 using System.Web.Http;
@@ -11,6 +13,8 @@ namespace PoppertechCalculator
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
+
+            container.RegisterType<IPsoCalculations, PsoCalculations>();
 
             container.RegisterType<IGoalAttainmentProcessor, GoalAttainmentProcessor>();
             container.RegisterType<IGoalAttainmentCalculator, GoalAttainmentCalculator>();

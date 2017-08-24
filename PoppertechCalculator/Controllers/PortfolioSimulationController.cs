@@ -25,7 +25,7 @@ namespace PoppertechCalculator.Controllers
         [ResponseType(typeof(Response<IDictionary<string,decimal>>))]
         public IHttpActionResult Post([FromBody] GoalAttainmentContext request)
         {
-            var probabilityChartData = _processor.CalculateGoalAttainment(request);
+            var probabilityChartData = _processor.CalculateGoalAttainmentChartData(request);
             var response = new Response<IDictionary<string, decimal>> { Model = probabilityChartData };
             return Ok(response);
         }

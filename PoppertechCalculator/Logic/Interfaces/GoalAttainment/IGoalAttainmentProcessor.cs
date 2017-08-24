@@ -9,6 +9,7 @@ namespace PoppertechCalculator.Processors
 {
     public interface IGoalAttainmentProcessor
     {
-        IDictionary<string, decimal> CalculateGoalAttainment(GoalAttainmentContext context);
+        IDictionary<string, decimal> CalculateGoalAttainmentChartData(GoalAttainmentContext context);
+        IEnumerable<decimal> CalculateGoalAttainment(GoalAttainmentContext context);
     }
 }

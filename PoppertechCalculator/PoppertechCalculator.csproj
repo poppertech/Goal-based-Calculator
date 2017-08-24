@@ -165,6 +165,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Interfaces\Pso\IPsoCalculations.cs" />
+    <Compile Include="Logic\Processors\PSO\PsoCalculations.cs" />
     <Compile Include="Models\Forecast\Forecast.cs" />
     <Compile Include="Models\Forecast\ForecastRegion.cs" />
     <Compile Include="Models\GoalAttainment\GoalAttainmentContext.cs" />
@@ -172,6 +174,9 @@
     <Compile Include="Models\Histogram\HistogramDatum.cs" />
     <Compile Include="Models\Investment\InvestmentContext.cs" />
     <Compile Include="Models\Investment\InvestmentName.cs" />
+    <Compile Include="Models\PSO\OptimalInvestmentResult.cs" />
+    <Compile Include="Models\PSO\PsoContext.cs" />
+    <Compile Include="Models\PSO\PsoResults.cs" />
     <Compile Include="Models\Simulation\JointSimulationContext.cs" />
     <Compile Include="Models\Simulation\MonteCarloResults.cs" />
     <Compile Include="Models\Portfolio\PortfolioContext.cs" />

@@ -24,7 +24,7 @@ namespace PoppertechCalculator.Tests
             var expectedChartData = new Dictionary<string, decimal>() { { key, value } };
 
             var processor = new Mock<IGoalAttainmentProcessor>();
-            processor.Setup(p => p.CalculateGoalAttainment(It.IsAny<GoalAttainmentContext>())).Returns(expectedChartData);
+            processor.Setup(p => p.CalculateGoalAttainmentChartData(It.IsAny<GoalAttainmentContext>())).Returns(expectedChartData);
 
             var controller = new PortfolioSimulationController(processor.Object);
 

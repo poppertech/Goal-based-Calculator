@@ -1,7 +1,7 @@
 ﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
 
 // TODO: add classes for and unit test pso
-
+// TODO: user acceptance test for pso
 
 angular.module('poppertechCalculatorApp')
     .controller('CalculatorController', CalculatorController)

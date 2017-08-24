@@ -59,7 +59,7 @@ namespace PoppertechCalculator.Tests
             var processor = new GoalAttainmentProcessor(jointSimulator.Object, cumulativeReturnsCalculator.Object, goalCalculator.Object);
 
             //act
-            var probabilityChartData = processor.CalculateGoalAttainment(context);
+            var probabilityChartData = processor.CalculateGoalAttainmentChartData(context);
 
             //assert
             Assert.AreEqual(probabilityChartData[date1], probability1);
