@@ -41,13 +41,6 @@ namespace PoppertechCalculator.Logic.Processors.PSO
 
                 var chartData = _goalAttainmentProcessor.CalculateGoalAttainmentChartData(context);
 
-                var feasibleInvestment1Result = new OptimalInvestmentResult
-                {
-                    Name = investmentContext1.Name,
-                    Amount = investmentContext1.Amount,
-                    Weight = investmentContext1.Amount / budget
-                };
-
                 var feasibleInvestmentResults = context.InvestmentContexts.Select(c =>
                 {
                     return new OptimalInvestmentResult
