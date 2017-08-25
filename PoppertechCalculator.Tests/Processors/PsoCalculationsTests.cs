@@ -42,7 +42,7 @@ namespace PoppertechCalculator.Tests.Processors
                 .Returns(subOptimalChartData2)
                 .Returns(expectedChartData);
 
-            var calculator = new PsoCalculations(processor.Object);
+            var calculator = new PsoCalculationsProcessor(processor.Object);
             
             //act
             var result = calculator.OptimizePortfolio(context);

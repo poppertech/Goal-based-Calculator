@@ -14,7 +14,7 @@ namespace PoppertechCalculator
         {
 			var container = new UnityContainer();
 
-            container.RegisterType<IPsoCalculations, PsoCalculations>();
+            container.RegisterType<IPsoCalculationsProcessor, PsoCalculationsProcessor>();
 
             container.RegisterType<IGoalAttainmentProcessor, GoalAttainmentProcessor>();
             container.RegisterType<IGoalAttainmentCalculator, GoalAttainmentCalculator>();

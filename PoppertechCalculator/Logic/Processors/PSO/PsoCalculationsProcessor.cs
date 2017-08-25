@@ -5,11 +5,11 @@ using PoppertechCalculator.Processors;
 using System.Collections.Generic;
 namespace PoppertechCalculator.Logic.Processors.PSO
 {
-    public class PsoCalculations : IPsoCalculations
+    public class PsoCalculationsProcessor : IPsoCalculationsProcessor
     {
         private readonly IGoalAttainmentProcessor _goalAttainmentProcessor;
 
-        public PsoCalculations(IGoalAttainmentProcessor goalAttainmentProcessor)
+        public PsoCalculationsProcessor(IGoalAttainmentProcessor goalAttainmentProcessor)
         {
             _goalAttainmentProcessor = goalAttainmentProcessor;
         }

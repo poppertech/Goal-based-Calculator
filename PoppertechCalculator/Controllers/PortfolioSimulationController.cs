@@ -13,7 +13,7 @@ namespace PoppertechCalculator.Controllers
     [RoutePrefix("portfolio")]
     public class PortfolioSimulationController : ApiController
     {
-        IGoalAttainmentProcessor _processor;
+        private readonly IGoalAttainmentProcessor _processor;
 
         public PortfolioSimulationController(IGoalAttainmentProcessor processor)
         {

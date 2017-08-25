@@ -162,11 +162,12 @@
     <Compile Include="Controllers\ForecastController.cs" />
     <Compile Include="Controllers\InvestmentSimulationController.cs" />
     <Compile Include="Controllers\PortfolioSimulationController.cs" />
+    <Compile Include="Controllers\PsoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Interfaces\Pso\IPsoCalculations.cs" />
-    <Compile Include="Logic\Processors\PSO\PsoCalculations.cs" />
+    <Compile Include="Logic\Interfaces\Pso\IPsoCalculationsProcessor.cs" />
+    <Compile Include="Logic\Processors\PSO\PsoCalculationsProcessor.cs" />
     <Compile Include="Models\Forecast\Forecast.cs" />
     <Compile Include="Models\Forecast\ForecastRegion.cs" />
     <Compile Include="Models\GoalAttainment\GoalAttainmentContext.cs" />
