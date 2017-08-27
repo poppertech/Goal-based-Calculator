@@ -7,8 +7,6 @@ namespace PoppertechCalculator.Models.PSO
 {
     public class PsoContext:GoalAttainmentContext
     {
-        public decimal PositionLowerBound { get; set; }
-        public decimal PositionUpperBound { get; set; }
-        public decimal Interval { get; set; }
+        public OptimizationContext OptimizationParams { get; set; }
     }
 }

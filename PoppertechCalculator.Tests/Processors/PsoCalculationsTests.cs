@@ -18,10 +18,11 @@ namespace PoppertechCalculator.Tests.Processors
         public void OptimizePortfolioOnSuccessReturnsCorrectResults()
         {
             //arrange
-            var investmentContext1 = new InvestmentContext { Name = "Investment 1", Amount = 4000 };
-            var investmentContext2 = new InvestmentContext { Name = "Investment 2", Amount = 0 };
+            var investmentContext1 = new InvestmentContext { Name = "Investment 1", Amount = 4000, Parent = "Gdp" };
+            var investmentContext2 = new InvestmentContext { Name = "Investment 2", Amount = 0, Parent = "Gdp" };
             var investmentContexts = new[] { investmentContext1, investmentContext2 };
-            var context = new PsoContext() { PositionLowerBound = 1000, PositionUpperBound = 3000, Interval = 1000, InvestmentContexts = investmentContexts };
+            var optimizationContext = new OptimizationContext{LowerBound = 1000, UpperBound = 3000, Interval = 1000};
+            var context = new PsoContext() {OptimizationParams = optimizationContext, InvestmentContexts = investmentContexts };
 
             var optimalInvestment1Amount = 3000m;
             var optimalInvestment2Amount = 1000m;

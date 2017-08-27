@@ -359,21 +359,30 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
-                                <input type="number" class="form-control" name="LowerBoundTextBox">
+                                <input type="number"
+                                       ng-model="vm.editProperties.optimizationParams.lowerBound"
+                                       class="form-control"
+                                       name="LowerBoundTextBox" />
                             </div>
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
-                                <input type="number" class="form-control" id="UpperBoundTextBox">
+                                <input type="number"
+                                       ng-model="vm.editProperties.optimizationParams.upperBound"
+                                       class="form-control"
+                                       name="UpperBoundTextBox"/>
                             </div>
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="MinimumLotTextBox">Minimum Lot Size:</label>
-                                <input type="number" class="form-control" id="MinimumLotTextBox">
+                                <input type="number"
+                                       ng-model="vm.editProperties.optimizationParams.interval"
+                                       class="form-control"
+                                       name="MinimumLotTextBox">
                             </div>
                         </div>
 
@@ -382,8 +391,16 @@
                     <div class="row">
 
                         <div class="col-sm-3 col-sm-offset-9">
-                            <button type="submit" class="btn btn-default btn-lg">Calculate</button>
-                            <button type="button" class="btn btn-danger btn-lg" ng-click="vm.reset()">Reset</button>
+                            <button type="button"
+                                    ng-click="vm.optimizePortfolio(vm.editProperties.optimizationParams, vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
+                                    class="btn btn-default btn-lg">
+                                Calculate
+                            </button>
+                            <button type="button"
+                                    class="btn btn-danger btn-lg"
+                                    ng-click="vm.reset()">
+                                Reset
+                            </button>
                         </div>
 
                     </div>
@@ -403,6 +420,7 @@
     <script src="scripts/services/simulation-api.svc.js"></script>
     <script src="scripts/services/forecast-api.svc.js"></script>
     <script src="scripts/services/portfolio-simulation-api.svc.js"></script>
+    <script src="scripts/services/pso-api.svc.js"></script>
 
     <script src="scripts/directives/d3-pie-chart-dir.js"></script>
     <script src="scripts/directives/d3-area-chart-dir.js"></script>

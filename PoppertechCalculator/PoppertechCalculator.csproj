@@ -143,6 +143,7 @@
     <Content Include="scripts\services\forecast-graph-calculations-svc.js" />
     <Content Include="scripts\services\moment-calculations-svc.js" />
     <Content Include="scripts\services\portfolio-simulation-api.svc.js" />
+    <Content Include="scripts\services\pso-api.svc.js" />
     <Content Include="scripts\services\simulation-api.svc.js" />
     <Content Include="styles\bootstrap-theme.css" />
     <Content Include="styles\bootstrap-theme.min.css" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\Investment\InvestmentContext.cs" />
     <Compile Include="Models\Investment\InvestmentName.cs" />
     <Compile Include="Models\PSO\OptimalInvestmentResult.cs" />
+    <Compile Include="Models\PSO\OptimizationContext.cs" />
     <Compile Include="Models\PSO\PsoContext.cs" />
     <Compile Include="Models\PSO\PsoResults.cs" />
     <Compile Include="Models\Simulation\JointSimulationContext.cs" />

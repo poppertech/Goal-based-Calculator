@@ -24,16 +24,17 @@ namespace PoppertechCalculator.Logic.Processors.PSO
         private IEnumerable<PsoResults> CalculateFeasibleResults(PsoContext context)
         {
             var feasiblePortfolioResults = new List<PsoResults>();
-            var budget = context.InvestmentContexts.Sum(c => c.Amount);
-            var investmentContext1 = context.InvestmentContexts.First();
-            var investmentContext2 = context.InvestmentContexts.Last();
+            var investments = context.InvestmentContexts.Where(c => c.Parent != null);
+            var budget = investments.Sum(c => c.Amount);
+            var investmentContext1 = investments.First();
+            var investmentContext2 = investments.Last();
 
-            for (decimal investment1 = context.PositionLowerBound; investment1 <= context.PositionUpperBound; investment1 = investment1 + context.Interval)
+            for (decimal investment1 = context.OptimizationParams.LowerBound; investment1 <= context.OptimizationParams.UpperBound; investment1 = investment1 + context.OptimizationParams.Interval)
             {
                 var investment2 = budget - investment1;
-                if (investment2 < context.PositionLowerBound)
+                if (investment2 < context.OptimizationParams.LowerBound)
                     break;
-                if (investment2 > context.PositionUpperBound)
+                if (investment2 > context.OptimizationParams.UpperBound)
                     continue;
 
                 investmentContext1.Amount = investment1;
