@@ -1,9 +1,21 @@
-﻿var app = angular.module('poppertechCalculatorApp', ['ngResource']);
+﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ui.bootstrap']);
 
 // TODO: user acceptance test for pso
+// TODO: add form validation on ui
+// TODO: add on-blur ng-model-options to inputs
+// TODO: add web api validation
+// TODO: loading screen
+// TODO: return the probability results graph on load
+// TODO: all initial data should come from the database
+// TODO: deploy
+// TODO: add angular animations for modal
+
+// TODO: write narrative to correspond with calculator
+// TODO: check in excel template files into source control
+// TODO: write linkedin post to direct traffic to calculator
 
 angular.module('poppertechCalculatorApp')
-    .controller('CalculatorController', CalculatorController)
+.controller('CalculatorController', CalculatorController)
 
 CalculatorController.$inject = [
     '$scope',
@@ -14,7 +26,8 @@ CalculatorController.$inject = [
     'simulationApiSvc',
     'portfolioSimulationApiSvc',
     'forecastApiSvc',
-    'psoApiSvc'
+    'psoApiSvc',
+    '$uibModal'
 ];
 
 function CalculatorController(
@@ -26,9 +39,12 @@ function CalculatorController(
     simulationApiSvc,
     portfolioSimulationApiSvc,
     forecastApiSvc,
-    psoApiSvc) {
+    psoApiSvc,
+    $uibModal) {
 
     vm = this;
+
+    vm.loading = true;
 
     vm.reset = reset;
     vm.selectVariable = selectVariable;
@@ -52,9 +68,10 @@ function CalculatorController(
         if (storedEditProperties) {
             vm.editProperties = storedEditProperties;
             getForecastsSuccess({ model: vm.editProperties.conditionalForecasts });
+            vm.loading = false;
         } else {
             vm.editProperties.cashForecast = initCashForecast();
-            forecastApiSvc.getForecasts().then(getForecastsSuccess, postSimulationsFailure);
+            forecastApiSvc.getForecasts().then(getForecastsSuccess, postSimulationsFailure).finally(function () { vm.loading = false });
         }
     }
 

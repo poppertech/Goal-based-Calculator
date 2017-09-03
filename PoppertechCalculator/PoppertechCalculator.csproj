@@ -129,9 +129,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="scripts\angular\angular-resource.js" />
     <Content Include="scripts\angular\angular.js" />
     <Content Include="scripts\angular\angular.min.js" />
+    <Content Include="scripts\controllers\modal-controller.js" />
     <Content Include="scripts\directives\d3-area-chart-dir.js" />
     <Content Include="scripts\directives\d3-column-chart-dir.js" />
     <Content Include="scripts\directives\d3-multi-colored-area-chart-dir.js" />
@@ -139,6 +145,7 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\d3\d3.js" />
     <Content Include="scripts\d3\d3.min.js" />
+    <Content Include="scripts\partials\loading-modal.html" />
     <Content Include="scripts\services\forecast-api.svc.js" />
     <Content Include="scripts\services\forecast-graph-calculations-svc.js" />
     <Content Include="scripts\services\moment-calculations-svc.js" />
@@ -151,7 +158,7 @@
     <Content Include="styles\bootstrap.min.css" />
     <Content Include="styles\site.css" />
     <Content Include="index.html" />
-    <Content Include="scripts\controllers\controller.js" />
+    <Content Include="scripts\controllers\application-controller.js" />
     <Content Include="scripts\application-insights\ai.1.0.7-build00691.js" />
     <Content Include="scripts\application-insights\ai.1.0.7-build00691.min.js" />
     <Content Include="Web.config" />

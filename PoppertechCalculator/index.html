@@ -8,9 +8,27 @@
 
     <script src="scripts/angular/angular.js"></script>
     <script src="scripts/angular/angular-resource.js"></script>
+    <script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
 
 </head>
+
 <body ng-app="poppertechCalculatorApp">
+
+
+    <div ng-controller="ModalDemoCtrl">
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">This is the header</h3>
+            </div>
+            <div class="modal-body">
+                <p>This is the content</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="close()">Close</button>
+            </div>
+        </script>
+    </div>
+    
 
     <div ng-controller="CalculatorController as vm"
          class="container">
@@ -372,7 +390,7 @@
                                 <input type="number"
                                        ng-model="vm.editProperties.optimizationParams.upperBound"
                                        class="form-control"
-                                       name="UpperBoundTextBox"/>
+                                       name="UpperBoundTextBox" />
                             </div>
                         </div>
 
@@ -412,8 +430,8 @@
     </div>
 
     <script src="scripts/d3/d3.js"></script>
-    <script src="scripts/controllers/controller.js"></script>
-
+    <script src="scripts/controllers/application-controller.js"></script>
+    <script src="scripts/controllers/modal-controller.js"></script>
 
     <script src="scripts/services/forecast-graph-calculations-svc.js"></script>
     <script src="scripts/services/moment-calculations-svc.js"></script>
