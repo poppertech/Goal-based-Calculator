@@ -8,6 +8,7 @@
 
     <script src="scripts/angular/angular.js"></script>
     <script src="scripts/angular/angular-resource.js"></script>
+    <script src="scripts/angular/angular-animate.js"></script>
     <script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
 
 </head>
@@ -15,423 +16,412 @@
 <body ng-app="poppertechCalculatorApp">
 
 
-    <div ng-controller="ModalDemoCtrl">
-        <script type="text/ng-template" id="myModalContent.html">
-            <div class="modal-header">
-                <h3 class="modal-title">This is the header</h3>
-            </div>
-            <div class="modal-body">
-                <p>This is the content</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="close()">Close</button>
-            </div>
-        </script>
-    </div>
-    
+    <div ng-controller="CalculatorController as vm">
 
-    <div ng-controller="CalculatorController as vm"
-         class="container">
-
-        <div class="row">
-            <div class="col-sm-12">
-                <h2 class="page-header">Probability of Success</h2>
-            </div>
+        <div ng-hide="vm.hideBackground" class="background animate-hide">
+            <div class="loader"></div>
         </div>
 
-        <div class="panel-group">
+        <div class="container">
 
-            <div class="panel panel-default">
-
-                <div class="panel-heading">
-                    <h3>Dashboard</h3>
-                </div>
-
-                <div class="panel-body">
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Probability of Meeting Cash Needs</h4>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Investment Amounts</h4>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Cash Flow Forecast</h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-4 text-center">
-                            <area-chart chart-data="{{vm.probabilityChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
-                                        chart-right-margin="0" chart-bottom-margin="60" chart-left-margin="40"
-                                        chart-fill-color="darkblue" />
-                        </div>
-
-                        <div class="col-sm-4 text-center">
-                            <pie-chart chart-data="{{vm.portfolioChartData}}" chart-width="350" chart-height="215"
-                                       chart-path-offset="10" chart-label-offset="40" chart-top-margin="0"
-                                       chart-left-margin="0" />
-                        </div>
-
-                        <div class="col-sm-4 text-center">
-                            <area-chart chart-data="{{vm.editProperties.cashForecast}}" chart-width="350" chart-height="215" chart-top-margin="20"
-                                        chart-right-margin="0" chart-bottom-margin="60" chart-left-margin="40"
-                                        chart-fill-color="darkred" />
-                        </div>
-                    </div>
+            <div class=" row">
+                <div class="col-sm-12">
+                    <h2 class="page-header">Probability of Success</h2>
                 </div>
             </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Cash Flow Forecast</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th ng-repeat="forecast in vm.editProperties.cashForecast">
-                                            {{forecast.date}}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td ng-repeat="forecast in vm.editProperties.cashForecast">
-                                            <input ng-model="forecast.value" class="form-control" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="panel-group">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Investment Forecast</h3>
-                </div>
-                <div class="panel-body">
+                <div class="panel panel-default">
 
-                    <div class="row">
-
-                        <div class="col-sm-12">
-                            <h4 class="text-left">1. Choose a variable to forecast</h4>
-                        </div>
-
+                    <div class="panel-heading">
+                        <h3>Dashboard</h3>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-4 text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="215px">
-                                <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal gdp" ng-click="vm.selectVariable('gdp')" ng-class="vm.gdpClass" />
-                                <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal stocks" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
-                                <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal bonds" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
+                    <div class="panel-body">
 
-                                <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.selectVariable('GDP')">US GDP Growth</text>
-                                <text x="290" y="30" class="rect-text Stocks" ng-click="vm.selectVariable('Stocks')">US Stocks</text>
-                                <text x="290" y="130" class="rect-text bonds" ng-click="vm.selectVariable('Bonds')">US Bonds</text>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Probability of Meeting Cash Needs</h4>
+                            </div>
 
-                                <polyline points="150,75 200,75 200,25 250,25" class="connector" />
-                                <polyline points="150,75 200,75 200,125 250,125" class="connector" />
-                            </svg>
-                        </div>
-                    </div>
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Investment Amounts</h4>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4 class="text-left">2. Forecast investment results based on parent outcome</h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-3">
-                            <select class="form-control"
-                                    ng-disabled="!vm.selectedVariable"
-                                    ng-model="vm.forecastRegion"
-                                    ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
-                                    ng-options="option.value as option.text for option in vm.forecastRegionOptions"></select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Forecast Scenarios</h4>
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Cash Flow Forecast</h4>
+                            </div>
                         </div>
 
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Forecast Distribution</h4>
+                        <div class="row">
+                            <div class="col-sm-4 text-center">
+                                <area-chart chart-data="{{vm.probabilityChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                                            chart-right-margin="0" chart-bottom-margin="60" chart-left-margin="40"
+                                            chart-fill-color="darkblue" />
+                            </div>
+
+                            <div class="col-sm-4 text-center">
+                                <pie-chart chart-data="{{vm.portfolioChartData}}" chart-width="350" chart-height="215"
+                                           chart-path-offset="10" chart-label-offset="40" chart-top-margin="0"
+                                           chart-left-margin="0" />
+                            </div>
+
+                            <div class="col-sm-4 text-center">
+                                <area-chart chart-data="{{vm.editProperties.cashForecast}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                                            chart-right-margin="0" chart-bottom-margin="60" chart-left-margin="40"
+                                            chart-fill-color="darkred" />
+                            </div>
                         </div>
-
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Forecast Statistics</h4>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-4">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
-                                        <td>{{forecastName}}</td>
-                                        <td>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   ng-model="vm.selectedForecast[forecastName]"
-                                                   ng-change="vm.onForecastValueChange(vm.selectedForecast)" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="col-sm-4 text-center">
-                            <multi-colored-area-chart chart-data="{{vm.conditionalForecastChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
-                                                      chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40" />
-                        </div>
-
-                        <div class="col-sm-4">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr ng-repeat="(statName, statValue) in vm.conditionalStats">
-                                        <td>{{statName}}</td>
-                                        <td>{{statValue | number: 2}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-sm-4">
-                            <button type="button"
-                                    class="btn btn-default btn-sm pull-left"
-                                    ng-click="vm.simulateInvestments(vm.editProperties.conditionalForecasts)">
-                                <h4 class="text-left">
-                                    3. Simulate investment results
-                                </h4>
-                            </button>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Simulation Histogram</h4>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <h4 class="text-center">Simulation Statistics</h4>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-sm-4"></div>
-
-                        <div class="col-sm-4">
-
-                            <column-chart chart-data="{{vm.histogramChartData}}" chart-width="350" chart-height="215"
-                                          chart-top-margin="20" chart-right-margin="0" chart-bottom-margin="50"
-                                          chart-left-margin="40" />
-
-                        </div>
-
-                        <div class="col-sm-4">
-
-                            <table class="table table-striped" ng-show="vm.simulationResults">
-                                <tbody>
-                                    <tr ng-repeat="(statName, statValue) in vm.simulatedStatistics">
-                                        <td>
-                                            {{statName}}
-                                        </td>
-
-                                        <td>
-                                            {{statValue | number : 2}}
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Portfolio</h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Cash Flow Forecast</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th ng-repeat="forecast in vm.editProperties.cashForecast">
+                                                {{forecast.date}}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td ng-repeat="forecast in vm.editProperties.cashForecast">
+                                                <input ng-model="forecast.value" class="form-control" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
 
-                    <div class="row">
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="InvestmentNameTextBox">Investment</label>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="InitialPriceTextBox">Initial Price</label>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="AmountTextBox">Amount</label>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="WeightTextBox">Weight</label>
-                            </div>
-                        </div>
-
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Investment Forecast</h3>
                     </div>
+                    <div class="panel-body">
 
-                    <div class="row" ng-repeat="investmentContext in vm.editProperties.investmentContexts">
+                        <div class="row">
 
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <input name="InvestmentNameTextBox" + $index
-                                       ng-model="investmentContext.name"
-                                       type="text"
-                                       class="form-control"
-                                       readonly />
+                            <div class="col-sm-12">
+                                <h4 class="text-left">1. Choose a variable to forecast</h4>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-4 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="215px">
+                                    <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal gdp" ng-click="vm.selectVariable('gdp')" ng-class="vm.gdpClass" />
+                                    <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal stocks" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
+                                    <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal bonds" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
+
+                                    <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.selectVariable('GDP')">US GDP Growth</text>
+                                    <text x="290" y="30" class="rect-text Stocks" ng-click="vm.selectVariable('Stocks')">US Stocks</text>
+                                    <text x="290" y="130" class="rect-text bonds" ng-click="vm.selectVariable('Bonds')">US Bonds</text>
+
+                                    <polyline points="150,75 200,75 200,25 250,25" class="connector" />
+                                    <polyline points="150,75 200,75 200,125 250,125" class="connector" />
+                                </svg>
                             </div>
                         </div>
 
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <input name="InitialPriceTextBox" + $index
-                                       ng-model="investmentContext.initialPrice"
-                                       type="number"
-                                       min="0"
-                                       max="999999"
-                                       class="form-control" />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 class="text-left">2. Forecast investment results based on parent outcome</h4>
                             </div>
                         </div>
 
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <input name="AmountTextBox" + $index
-                                       ng-model="investmentContext.amount"
-                                       ng-change="vm.onInvestmentAmountChange(vm.editProperties.investmentContexts)"
-                                       type="number"
-                                       min="0"
-                                       max="999999999999"
-                                       class="form-control" />
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <select class="form-control"
+                                        ng-disabled="!vm.selectedVariable"
+                                        ng-model="vm.forecastRegion"
+                                        ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
+                                        ng-options="option.value as option.text for option in vm.forecastRegionOptions"></select>
                             </div>
                         </div>
 
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <input readonly
-                                       name="WeightTextBox" + $index
-                                       ng-model="investmentContext.weight"
-                                       type="text"
-                                       class="form-control" />
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Forecast Scenarios</h4>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Forecast Distribution</h4>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Forecast Statistics</h4>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
+                                            <td>{{forecastName}}</td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       ng-model="vm.selectedForecast[forecastName]"
+                                                       ng-change="vm.onForecastValueChange(vm.selectedForecast)" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-sm-4 text-center">
+                                <multi-colored-area-chart chart-data="{{vm.conditionalForecastChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
+                                                          chart-right-margin="0" chart-bottom-margin="50" chart-left-margin="40" />
+                            </div>
+
+                            <div class="col-sm-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr ng-repeat="(statName, statValue) in vm.conditionalStats">
+                                            <td>{{statName}}</td>
+                                            <td>{{statValue | number: 2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <button type="button"
+                                        class="btn btn-default btn-sm pull-left"
+                                        ng-click="vm.simulateInvestments(vm.editProperties.conditionalForecasts)">
+                                    <h4 class="text-left">
+                                        3. Simulate investment results
+                                    </h4>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Simulation Histogram</h4>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h4 class="text-center">Simulation Statistics</h4>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-4"></div>
+
+                            <div class="col-sm-4">
+
+                                <column-chart chart-data="{{vm.histogramChartData}}" chart-width="350" chart-height="215"
+                                              chart-top-margin="20" chart-right-margin="0" chart-bottom-margin="50"
+                                              chart-left-margin="40" />
+
+                            </div>
+
+                            <div class="col-sm-4">
+
+                                <table class="table table-striped" ng-show="vm.simulationResults">
+                                    <tbody>
+                                        <tr ng-repeat="(statName, statValue) in vm.simulatedStatistics">
+                                            <td>
+                                                {{statName}}
+                                            </td>
+
+                                            <td>
+                                                {{statValue | number : 2}}
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
                     </div>
+                </div>
 
-                    <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Portfolio</h3>
+                    </div>
+                    <div class="panel-body">
 
-                        <div class="col-sm-3 col-sm-offset-9">
-                            <button type="button"
-                                    ng-click="vm.simulatePortfolio(vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
-                                    class="btn btn-default
+                        <div class="row">
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="InvestmentNameTextBox">Investment</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="InitialPriceTextBox">Initial Price</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="AmountTextBox">Amount</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="WeightTextBox">Weight</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" ng-repeat="investmentContext in vm.editProperties.investmentContexts">
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="InvestmentNameTextBox" + $index
+                                           ng-model="investmentContext.name"
+                                           type="text"
+                                           class="form-control"
+                                           readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="InitialPriceTextBox" + $index
+                                           ng-model="investmentContext.initialPrice"
+                                           type="number"
+                                           min="0"
+                                           max="999999"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="AmountTextBox" + $index
+                                           ng-model="investmentContext.amount"
+                                           ng-change="vm.onInvestmentAmountChange(vm.editProperties.investmentContexts)"
+                                           type="number"
+                                           min="0"
+                                           max="999999999999"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input readonly
+                                           name="WeightTextBox" + $index
+                                           ng-model="investmentContext.weight"
+                                           type="text"
+                                           class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-3 col-sm-offset-9">
+                                <button type="button"
+                                        ng-click="vm.simulatePortfolio(vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
+                                        class="btn btn-default
                                     btn-lg">
-                                Simulate
-                            </button>
-                        </div>
+                                    Simulate
+                                </button>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Optimization</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
+                                    <input type="number"
+                                           ng-model="vm.editProperties.optimizationParams.lowerBound"
+                                           class="form-control"
+                                           name="LowerBoundTextBox" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
+                                    <input type="number"
+                                           ng-model="vm.editProperties.optimizationParams.upperBound"
+                                           class="form-control"
+                                           name="UpperBoundTextBox" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="MinimumLotTextBox">Minimum Lot Size:</label>
+                                    <input type="number"
+                                           ng-model="vm.editProperties.optimizationParams.interval"
+                                           class="form-control"
+                                           name="MinimumLotTextBox">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-3 col-sm-offset-9">
+                                <button type="button"
+                                        ng-click="vm.optimizePortfolio(vm.editProperties.optimizationParams, vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
+                                        class="btn btn-default btn-lg">
+                                    Calculate
+                                </button>
+                                <button type="button"
+                                        class="btn btn-danger btn-lg"
+                                        ng-click="vm.reset()">
+                                    Reset
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Optimization</h3>
-                </div>
-                <div class="panel-body">
-
-                    <div class="row">
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
-                                <input type="number"
-                                       ng-model="vm.editProperties.optimizationParams.lowerBound"
-                                       class="form-control"
-                                       name="LowerBoundTextBox" />
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
-                                <input type="number"
-                                       ng-model="vm.editProperties.optimizationParams.upperBound"
-                                       class="form-control"
-                                       name="UpperBoundTextBox" />
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="MinimumLotTextBox">Minimum Lot Size:</label>
-                                <input type="number"
-                                       ng-model="vm.editProperties.optimizationParams.interval"
-                                       class="form-control"
-                                       name="MinimumLotTextBox">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-sm-3 col-sm-offset-9">
-                            <button type="button"
-                                    ng-click="vm.optimizePortfolio(vm.editProperties.optimizationParams, vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
-                                    class="btn btn-default btn-lg">
-                                Calculate
-                            </button>
-                            <button type="button"
-                                    class="btn btn-danger btn-lg"
-                                    ng-click="vm.reset()">
-                                Reset
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
         </div>
-
     </div>
 
     <script src="scripts/d3/d3.js"></script>
     <script src="scripts/controllers/application-controller.js"></script>
-    <script src="scripts/controllers/modal-controller.js"></script>
 
     <script src="scripts/services/forecast-graph-calculations-svc.js"></script>
     <script src="scripts/services/moment-calculations-svc.js"></script>

@@ -1,16 +1,15 @@
-﻿.rect-normal{
+﻿.rect-normal {
     stroke-width: 3;
     stroke: rgb(0,0,0);
 }
 
-.rect-selected{
+.rect-selected {
     stroke-width: 4;
-    stroke: orange; 
+    stroke: orange;
 }
 
 .level1-rect {
     fill: rgb(100, 100, 200);
-
 }
 
 .level2-rect {
@@ -43,10 +42,48 @@
     font-size: 16px;
 }
 
-.row svg{
-    overflow:visible;
+.row svg {
+    overflow: visible;
 }
 
-.pie-chart-label{
+.pie-chart-label {
     font-weight: bold;
+}
+
+.background {
+    background-color: rgba(0,0,0,0.5);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 4;
+}
+
+.animate-hide.ng-hide {
+    opacity: 0;
+}
+
+.animate-hide.ng-hide-add {
+    transition: all linear .1s;
+}
+
+.loader {
+    position: absolute;
+    left: 47%;
+    top: 47%;
+    border: 12px solid #f3f3f3; /* Light grey */
+    border-top: 12px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
