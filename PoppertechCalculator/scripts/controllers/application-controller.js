@@ -1,8 +1,7 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap']);
 
+// TODO: only cache inputs when the respective form is valid
 // TODO: user acceptance test for pso
-// TODO: add form validation on ui
-// TODO: add on-blur ng-model-options to inputs
 // TODO: add web api validation
 // TODO: return the probability results graph on load
 // TODO: all initial data should come from the database
@@ -41,13 +40,16 @@ function CalculatorController(
     vm = this;
 
     vm.hideBackground = false;
+    vm.editProperties = { optimizationParams: { lowerBound: 1000, upperBound: 3000, interval: 1000 } };
 
     vm.reset = reset;
     vm.selectVariable = selectVariable;
     vm.simulateInvestments = simulateInvestments;
     vm.simulatePortfolio = simulatePortfolio;
     vm.optimizePortfolio = optimizePortfolio;
-    vm.editProperties = { optimizationParams: { lowerBound: 1000, upperBound: 3000, interval: 1000 } };
+    vm.onScenarioSelectionChange = onScenarioSelectionChange;
+    vm.onInvestmentAmountChange = onInvestmentAmountChange;
+    vm.onForecastValueChange = onForecastValueChange;
 
     activate()
 
@@ -131,7 +133,13 @@ function CalculatorController(
         return portfolioChartData;
     }
 
-    vm.onScenarioSelectionChange = function (forecastRegion) {
+    function onScenarioSelectionChange(forecastRegion) {
+
+        if (!isValidForecast(selectedForecast)) {
+            vm.SelectedForecastForm.$invalid = true;
+            return;
+        }
+
         var selectedRegion = $filter('filter')(vm.selectedVariable.regions, function (region) {
             return region.name === forecastRegion;
         })[0];
@@ -139,13 +147,33 @@ function CalculatorController(
         calculateForecastGraph(vm.selectedForecast);
     }
 
-    vm.onInvestmentAmountChange = function (investmentContexts) {
+    function onInvestmentAmountChange(investmentContexts) {
         calculateInvestmentContextWeights(investmentContexts);
         vm.portfolioChartData = getPortfolioChartData(investmentContexts);
     };
 
-    vm.onForecastValueChange = function (selectedForecast) {
+    function onForecastValueChange(selectedForecast) {
+        if (!isValidForecast(selectedForecast)) {
+            vm.SelectedForecastForm.$invalid = true;
+            return;
+        }
         calculateForecastGraph(selectedForecast);
+    }
+
+    function isValidForecast(selectedForecast) {
+        if (selectedForecast.minimum >= selectedForecast.worst) {
+            return false;
+        }
+        if (selectedForecast.worst >= selectedForecast.likely) {
+            return false;
+        }
+        if (selectedForecast.likely >= selectedForecast.best) {
+            return false;
+        }
+        if (selectedForecast.best >= selectedForecast.maximum) {
+            return false;
+        }
+        return true;
     }
 
     function calculateForecastGraph(selectedForecast) {
@@ -163,6 +191,11 @@ function CalculatorController(
     }
 
     function selectVariable(variableName) {
+
+        if (vm.selectedForecast && (!isValidForecast(vm.selectedForecast) || vm.SelectedForecastForm.$invalid)) {
+            vm.SelectedForecastForm.$invalid = true;
+            return;
+        }
 
         vm.selectedVariable = $filter('filter')(vm.editProperties.conditionalForecasts, function (variable) {
             return variable.name === variableName;
@@ -241,19 +274,27 @@ function CalculatorController(
     }
 
     function simulateInvestments(conditionalForecasts) {
+        vm.hideBackground = false;
         simulationApiSvc.postSimulations(conditionalForecasts).then(postSimulationsSuccess, postSimulationsFailure)
+            .finally(function () { vm.hideBackground = true; });
     }
 
     function simulatePortfolio(cashFlows, conditionalForecasts) {
+        vm.hideBackground = false;
         var cashFlowValues = cashFlows.map(function (cashFlow) { return cashFlow.value });
         var goalAttainmentContext = { cashFlows: cashFlowValues, investmentContexts: conditionalForecasts };
-        portfolioSimulationApiSvc.postSimulations(goalAttainmentContext).then(postPortfolioSimulationsSuccess, postSimulationsFailure);
+        portfolioSimulationApiSvc.postSimulations(goalAttainmentContext)
+            .then(postPortfolioSimulationsSuccess, postSimulationsFailure)
+            .finally(function () { vm.hideBackground = true; });
     }
 
     function optimizePortfolio(optimizationParams, cashFlows, conditionalForecasts) {
+        vm.hideBackground = false;
         var cashFlowValues = cashFlows.map(function (cashFlow) { return cashFlow.value });
         var psoContext = { cashFlows: cashFlowValues, investmentContexts: conditionalForecasts, OptimizationParams: optimizationParams };
-        psoApiSvc.postPso(psoContext).then(postPsoSuccess, postSimulationsFailure);
+        psoApiSvc.postPso(psoContext)
+            .then(postPsoSuccess, postSimulationsFailure)
+            .finally(function () { vm.hideBackground = true; });;
     }
 
     function postPsoSuccess(response) {

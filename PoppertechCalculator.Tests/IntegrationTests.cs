@@ -9,7 +9,7 @@ namespace PoppertechCalculator.Tests
     public class IntegrationTests
     {
         [TestMethod]
-        public void GetUniformRandByRegionReturnsOnSuccessReturnsRand()
+        public void GetUniformRandByRegionOnSuccessReturnsRand()
         {
             // INTEGRATION TEST
 
@@ -18,6 +18,19 @@ namespace PoppertechCalculator.Tests
 
             //act
             var result = repository.GetUniformRands("GDP", null);
+
+        }
+
+        [TestMethod]
+        public void GetPortfolioResultsOnSuccessReturnsResults()
+        {
+            // INTEGRATION TEST
+
+            //arrange
+            var repository = new PortfolioResultsRepository();
+
+            //act
+            var result = repository.GetPortfolioResults();
 
         }
     }

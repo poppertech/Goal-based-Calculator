@@ -152,6 +152,7 @@
     <Compile Include="Models\Histogram\HistogramDatum.cs" />
     <Compile Include="Models\Investment\InvestmentContext.cs" />
     <Compile Include="Models\Investment\InvestmentName.cs" />
+    <Compile Include="Models\Portfolio\PortfolioResult.cs" />
     <Compile Include="Models\PSO\OptimalInvestmentResult.cs" />
     <Compile Include="Models\PSO\OptimizationContext.cs" />
     <Compile Include="Models\PSO\PsoContext.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Logic\Processors\Simulations\SimulationProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IUniformRandomRepository.cs" />
+    <Compile Include="Repositories\PortfolioResultsRepository.cs" />
     <Compile Include="Repositories\UniformRandomRepository.cs" />
   </ItemGroup>
   <ItemGroup>

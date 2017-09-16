@@ -26,7 +26,7 @@
 
             <div class=" row">
                 <div class="col-sm-12">
-                    <h2 class="page-header">Probability of Success</h2>
+                    <h2 class="page-header">Poppertech Calculator</h2>
                 </div>
             </div>
 
@@ -81,26 +81,39 @@
                         <h3>Cash Flow Forecast</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th ng-repeat="forecast in vm.editProperties.cashForecast">
-                                                {{forecast.date}}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td ng-repeat="forecast in vm.editProperties.cashForecast">
-                                                <input ng-model="forecast.value" class="form-control" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <ng-form name="vm.CashFlowForm">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th ng-repeat="forecast in vm.editProperties.cashForecast">
+                                                    {{forecast.date}}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td ng-repeat="forecast in vm.editProperties.cashForecast">
+                                                    <input type="number"
+                                                           ng-model="forecast.value"
+                                                           ng-model-options="{ updateOn: 'blur'}"
+                                                           class=" form-control"
+                                                           min="-99999999"
+                                                           max="99999999"
+                                                           required />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-12 help-block" ng-if="vm.CashFlowForm.$invalid">
+                                    Cash flows are required and must be between -99,999,999 and 99,999,999
+                                </div>
+                            </div>
+                        </ng-form>
                     </div>
                 </div>
 
@@ -144,7 +157,7 @@
                         <div class="row">
                             <div class="form-group col-sm-3">
                                 <select class="form-control"
-                                        ng-disabled="!vm.selectedVariable"
+                                        ng-disabled="!vm.selectedVariable || vm.SelectedForecastForm.$invalid"
                                         ng-model="vm.forecastRegion"
                                         ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
                                         ng-options="option.value as option.text for option in vm.forecastRegionOptions"></select>
@@ -169,21 +182,34 @@
 
                         <div class="row">
 
-                            <div class="form-group col-sm-4">
-                                <table class="table table-striped">
-                                    <tbody>
-                                        <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
-                                            <td>{{forecastName}}</td>
-                                            <td>
-                                                <input type="text"
-                                                       class="form-control"
-                                                       ng-model="vm.selectedForecast[forecastName]"
-                                                       ng-change="vm.onForecastValueChange(vm.selectedForecast)" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <ng-form name="vm.SelectedForecastForm">
+
+                                <div class="row">
+                                    <div class="col-sm-12 help-block" ng-if="vm.SelectedForecastForm.$invalid">
+                                        &nbsp; Forecasts are required, must be between 0 and 1000, and in ascending order
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-4">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
+                                                <td>{{forecastName}}</td>
+                                                <td>
+                                                    <input type="number"
+                                                           class="form-control"
+                                                           ng-model="vm.selectedForecast[forecastName]"
+                                                           ng-model-options="{ updateOn: 'blur'}"
+                                                           ng-change="vm.onForecastValueChange(vm.selectedForecast)"
+                                                           required
+                                                           min="0"
+                                                           max="1000" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-form>
 
                             <div class="col-sm-4 text-center">
                                 <multi-colored-area-chart chart-data="{{vm.conditionalForecastChartData}}" chart-width="350" chart-height="215" chart-top-margin="20"
@@ -207,7 +233,8 @@
                             <div class="col-sm-4">
                                 <button type="button"
                                         class="btn btn-default btn-sm pull-left"
-                                        ng-click="vm.simulateInvestments(vm.editProperties.conditionalForecasts)">
+                                        ng-click="vm.simulateInvestments(vm.editProperties.conditionalForecasts)"
+                                        ng-disabled="vm.SelectedForecastForm.$invalid">
                                     <h4 class="text-left">
                                         3. Simulate investment results
                                     </h4>
@@ -295,57 +322,74 @@
 
                         </div>
 
-                        <div class="row" ng-repeat="investmentContext in vm.editProperties.investmentContexts">
+                        <ng-form name="vm.PortfolioForm">
 
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input name="InvestmentNameTextBox" + $index
-                                           ng-model="investmentContext.name"
-                                           type="text"
-                                           class="form-control"
-                                           readonly />
+                            <div class="row" ng-repeat="investmentContext in vm.editProperties.investmentContexts">
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input name="InvestmentNameTextBox" + $index
+                                               ng-model="investmentContext.name"
+                                               type="text"
+                                               class="form-control"
+                                               readonly />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input name="InitialPriceTextBox" + $index
+                                               ng-model="investmentContext.initialPrice"
+                                               ng-model-options="{ updateOn: 'blur'}"
+                                               type="number"
+                                               min="1"
+                                               max="1000"
+                                               class="form-control"
+                                               required />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input name="AmountTextBox" + $index
+                                               ng-model="investmentContext.amount"
+                                               ng-model-options="{ updateOn: 'blur'}"
+                                               ng-change="vm.onInvestmentAmountChange(vm.editProperties.investmentContexts)"
+                                               type="number"
+                                               min="0"
+                                               max="99999999"
+                                               class="form-control"
+                                               required />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input readonly
+                                               name="WeightTextBox" + $index
+                                               ng-model="investmentContext.weight"
+                                               type="text"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 help-block" ng-if="vm.PortfolioForm.$invalid">
+                                    Investment initial prices and amounts are required.
+                                    Initial prices must be between 1 and 1000.
+                                    Amounts must be between 0 and 99,999,999
                                 </div>
                             </div>
 
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input name="InitialPriceTextBox" + $index
-                                           ng-model="investmentContext.initialPrice"
-                                           type="number"
-                                           min="0"
-                                           max="999999"
-                                           class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input name="AmountTextBox" + $index
-                                           ng-model="investmentContext.amount"
-                                           ng-change="vm.onInvestmentAmountChange(vm.editProperties.investmentContexts)"
-                                           type="number"
-                                           min="0"
-                                           max="999999999999"
-                                           class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input readonly
-                                           name="WeightTextBox" + $index
-                                           ng-model="investmentContext.weight"
-                                           type="text"
-                                           class="form-control" />
-                                </div>
-                            </div>
-
-                        </div>
+                        </ng-form>
 
                         <div class="row">
 
                             <div class="col-sm-3 col-sm-offset-9">
                                 <button type="button"
+                                        ng-disabled="vm.CashFlowForm.$invalid || vm.SelectedForecastForm.$invalid || vm.PortfolioForm.$invalid"
                                         ng-click="vm.simulatePortfolio(vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
                                         class="btn btn-default
                                     btn-lg">
@@ -363,44 +407,70 @@
                     </div>
                     <div class="panel-body">
 
-                        <div class="row">
+                        <ng-form name="vm.OptimizationForm">
 
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
-                                    <input type="number"
-                                           ng-model="vm.editProperties.optimizationParams.lowerBound"
-                                           class="form-control"
-                                           name="LowerBoundTextBox" />
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
+                                        <input type="number"
+                                               ng-model="vm.editProperties.optimizationParams.lowerBound"
+                                               ng-model-options="{ updateOn: 'blur'}"
+                                               class="form-control"
+                                               name="LowerBoundTextBox"
+                                               min="0"
+                                               max="{{99999999 - vm.editProperties.optimizationParams.interval}}"
+                                               required />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
+                                        <input type="number"
+                                               ng-model="vm.editProperties.optimizationParams.upperBound"
+                                               ng-model-options="{ updateOn: 'blur'}"
+                                               class="form-control"
+                                               name="UpperBoundTextBox"
+                                               min="{{vm.editProperties.optimizationParams.lowerBound + vm.editProperties.optimizationParams.interval}}"
+                                               max="99999999"
+                                               required />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="MinimumLotTextBox">Minimum Lot Size:</label>
+                                        <input type="number"
+                                               ng-model="vm.editProperties.optimizationParams.interval"
+                                               ng-model-options="{ updateOn: 'blur'}"
+                                               class="form-control"
+                                               name="MinimumLotTextBox"
+                                               min="1"
+                                               max="9999999"
+                                               required>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 help-block" ng-if="vm.OptimizationForm.$invalid">
+                                    Optimization lower bound, upper bound, and interval parameters are all required.
+                                    The lower bound must be greater than zero and less than the upper bound.
+                                    The upper bound must be less than 99,999,999.
+                                    There must be at least one interval for the optimization to be valid.
                                 </div>
                             </div>
 
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
-                                    <input type="number"
-                                           ng-model="vm.editProperties.optimizationParams.upperBound"
-                                           class="form-control"
-                                           name="UpperBoundTextBox" />
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="MinimumLotTextBox">Minimum Lot Size:</label>
-                                    <input type="number"
-                                           ng-model="vm.editProperties.optimizationParams.interval"
-                                           class="form-control"
-                                           name="MinimumLotTextBox">
-                                </div>
-                            </div>
-
-                        </div>
+                        </ng-form>
 
                         <div class="row">
 
                             <div class="col-sm-3 col-sm-offset-9">
                                 <button type="button"
+                                        ng-disabled="vm.CashFlowForm.$invalid || vm.SelectedForecastForm.$invalid || vm.PortfolioForm.$invalid || vm.OptimizationForm.$invalid"
                                         ng-click="vm.optimizePortfolio(vm.editProperties.optimizationParams, vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
                                         class="btn btn-default btn-lg">
                                     Calculate
