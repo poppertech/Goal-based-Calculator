@@ -33,5 +33,18 @@ namespace PoppertechCalculator.Tests
             var result = repository.GetPortfolioResults();
 
         }
+
+        [TestMethod]
+        public void GetForecastVariablesOnSuccessReturnsDTO()
+        {
+            // INTEGRATION TEST
+
+            //arrange
+            var repository = new ForecastVariableRepository();
+
+            //act
+            var result = repository.GetForecastVariables();
+
+        }
     }
 }
