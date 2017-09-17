@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PoppertechCalculator.Models;
 using Moq;
 using PoppertechCalculator.Processors;
+using PoppertechCalculator.Repositories;
 
 namespace PoppertechCalculator.Tests
 {
@@ -56,7 +57,7 @@ namespace PoppertechCalculator.Tests
             var goalCalculator = new Mock<IGoalAttainmentCalculator>();
             goalCalculator.Setup(c => c.CalculateAttainmentProbabilities(It.IsAny<PortfolioContext>())).Returns(probabilities);
 
-            var processor = new GoalAttainmentProcessor(jointSimulator.Object, cumulativeReturnsCalculator.Object, goalCalculator.Object);
+            var processor = new GoalAttainmentProcessor(jointSimulator.Object, cumulativeReturnsCalculator.Object, goalCalculator.Object, null);
 
             //act
             var probabilityChartData = processor.CalculateGoalAttainmentChartData(context);
@@ -66,5 +67,27 @@ namespace PoppertechCalculator.Tests
             Assert.AreEqual(probabilityChartData[date2], probability2);
 
         }
+
+        [TestMethod]
+        public void GetGoalAttainmentChartDataOnSuccessReturnsProbabilityChartData()
+        {
+            //arrange
+            var date = "year 1";
+            var probability = .5m;
+            var dictionary = new Dictionary<string, decimal>() { { date, probability } };
+            var repository = new Mock<IPortfolioResultsRepository>();
+            repository.Setup(r => r.GetPortfolioResults()).Returns(dictionary);
+
+            var processor = new GoalAttainmentProcessor(null, null, null, repository.Object);
+
+            //act
+            var probabilityChartData = processor.GetGoalAttainmentChartData();
+
+            //assert
+            Assert.AreEqual(probabilityChartData[date], probability);
+
+
+        }
+
     }
 }

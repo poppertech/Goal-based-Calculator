@@ -20,6 +20,16 @@ namespace PoppertechCalculator.Controllers
             _processor = processor;
         }
 
+        [HttpGet]
+        [Route("")]
+        [ResponseType(typeof(Response<IDictionary<string, decimal>>))]
+        public IHttpActionResult Get()
+        {
+            var probabilityChartData = _processor.GetGoalAttainmentChartData();
+            var response = new Response<IDictionary<string, decimal>> { Model = probabilityChartData };
+            return Ok(response);
+        }
+
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(Response<IDictionary<string,decimal>>))]

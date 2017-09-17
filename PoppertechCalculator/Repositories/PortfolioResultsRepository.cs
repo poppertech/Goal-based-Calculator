@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PoppertechCalculator.Repositories
 {
-    public class PortfolioResultsRepository : DbContext
+    public class PortfolioResultsRepository : DbContext, IPortfolioResultsRepository
     {
         public PortfolioResultsRepository()
             : base(System.Configuration.ConfigurationManager.ConnectionStrings["ProbicastCalculator"].ConnectionString)

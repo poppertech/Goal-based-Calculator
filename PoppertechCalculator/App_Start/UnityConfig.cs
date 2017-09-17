@@ -16,6 +16,7 @@ namespace PoppertechCalculator
 
             container.RegisterType<IPsoCalculationsProcessor, PsoCalculationsProcessor>();
 
+            container.RegisterType<IPortfolioResultsRepository, PortfolioResultsRepository>();
             container.RegisterType<IGoalAttainmentProcessor, GoalAttainmentProcessor>();
             container.RegisterType<IGoalAttainmentCalculator, GoalAttainmentCalculator>();
             container.RegisterType<ICumulativeReturnsCalculator, CumulativeReturnsCalculator>();

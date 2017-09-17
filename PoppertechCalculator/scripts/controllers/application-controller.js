@@ -1,9 +1,8 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap']);
 
-// TODO: only cache inputs when the respective form is valid
+// TODO: remove year 0 from the cash flow forecast
 // TODO: user acceptance test for pso
 // TODO: add web api validation
-// TODO: return the probability results graph on load
 // TODO: all initial data should come from the database
 // TODO: deploy
 
@@ -18,6 +17,7 @@ CalculatorController.$inject = [
     '$scope',
     '$window',
     '$filter',
+    '$q',
     'forecastGraphCalculationsSvc',
     'momentCalculationsSvc',
     'simulationApiSvc',
@@ -30,6 +30,7 @@ function CalculatorController(
     $scope,
     $window,
     $filter,
+    $q,
     forecastGraphCalculationsSvc,
     momentCalculationsSvc,
     simulationApiSvc,
@@ -68,9 +69,17 @@ function CalculatorController(
             getForecastsSuccess({ model: vm.editProperties.conditionalForecasts });
             vm.hideBackground = true;
         } else {
+            var promises = [];
             vm.editProperties.cashForecast = initCashForecast();
-            forecastApiSvc.getForecasts().then(getForecastsSuccess, postSimulationsFailure).finally(function () { vm.hideBackground = true });
+            promises.push(forecastApiSvc.getForecasts());
+            promises.push(portfolioSimulationApiSvc.getSimulations());
+            $q.all(promises).then(initializeRequestsSuccess, postSimulationsFailure).finally(function () { vm.hideBackground = true });
         }
+    }
+
+    function initializeRequestsSuccess(responses) {
+        getForecastsSuccess(responses[0]);
+        postPortfolioSimulationsSuccess(responses[1]);
     }
 
     function initCashForecast() {
@@ -361,7 +370,10 @@ function CalculatorController(
     }
 
     function setLocalStorage(editProperties) {
-        $window.localStorage.setItem('editProperties', angular.toJson(editProperties))
+        if (vm.CashFlowForm.$valid && vm.SelectedForecastForm.$valid && vm.PortfolioForm.$valid && vm.OptimizationForm.$valid)
+        {
+            $window.localStorage.setItem('editProperties', angular.toJson(editProperties));
+        }
     }
 
     function getLocalStorage() {

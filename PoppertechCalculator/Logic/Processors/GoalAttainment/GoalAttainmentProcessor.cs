@@ -1,4 +1,5 @@
 ﻿using PoppertechCalculator.Models;
+using PoppertechCalculator.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,22 @@ namespace PoppertechCalculator.Processors
         private IJointSimulator _jointSimulator;
         private ICumulativeReturnsCalculator _cumulativeReturnsCalculator;
         private IGoalAttainmentCalculator _goalCalculator;
+        private IPortfolioResultsRepository _repository;
 
-        public GoalAttainmentProcessor(IJointSimulator jointSimulator, ICumulativeReturnsCalculator cumulativeReturnsCalculator, IGoalAttainmentCalculator goalCalculator)
+        public GoalAttainmentProcessor(IJointSimulator jointSimulator, 
+            ICumulativeReturnsCalculator cumulativeReturnsCalculator, 
+            IGoalAttainmentCalculator goalCalculator,
+            IPortfolioResultsRepository repository)
         {
             _jointSimulator = jointSimulator;
             _cumulativeReturnsCalculator = cumulativeReturnsCalculator;
             _goalCalculator = goalCalculator;
+            _repository = repository;
+        }
+
+        public IDictionary<string, decimal> GetGoalAttainmentChartData()
+        {
+            return _repository.GetPortfolioResults();
         }
 
         public IDictionary<string, decimal> CalculateGoalAttainmentChartData(GoalAttainmentContext context)
