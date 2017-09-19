@@ -143,7 +143,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Interfaces\ForecastGraph\IForecastProcessor.cs" />
     <Compile Include="Logic\Interfaces\Pso\IPsoCalculationsProcessor.cs" />
+    <Compile Include="Logic\Processors\ForecastGraph\ForecastProcessor.cs" />
     <Compile Include="Logic\Processors\PSO\PsoCalculationsProcessor.cs" />
     <Compile Include="Models\Forecast\Forecast.cs" />
     <Compile Include="Models\Forecast\ForecastRegion.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Logic\Processors\Simulations\SimulationProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ForecastVariableRepository.cs" />
+    <Compile Include="Repositories\IForecastVariableRepository.cs" />
     <Compile Include="Repositories\IPortfolioResultsRepository.cs" />
     <Compile Include="Repositories\IUniformRandomRepository.cs" />
     <Compile Include="Repositories\PortfolioResultsRepository.cs" />

@@ -1,5 +1,6 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap']);
 
+// TODO: add parent to forecast data
 // TODO: remove year 0 from the cash flow forecast
 // TODO: user acceptance test for pso
 // TODO: add web api validation

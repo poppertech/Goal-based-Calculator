@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PoppertechCalculator.Repositories
 {
-    public class ForecastVariableRepository: DbContext
+    public class ForecastVariableRepository : DbContext, IForecastVariableRepository
     {
         public ForecastVariableRepository()
             : base(System.Configuration.ConfigurationManager.ConnectionStrings["ProbicastCalculator"].ConnectionString)
