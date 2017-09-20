@@ -1,5 +1,7 @@
 using Microsoft.Practices.Unity;
+using PoppertechCalculator.Logic.Interfaces.ForecastGraph;
 using PoppertechCalculator.Logic.Interfaces.Pso;
+using PoppertechCalculator.Logic.Processors.ForecastGraph;
 using PoppertechCalculator.Logic.Processors.PSO;
 using PoppertechCalculator.Processors;
 using PoppertechCalculator.Repositories;
@@ -15,6 +17,8 @@ namespace PoppertechCalculator
 			var container = new UnityContainer();
 
             container.RegisterType<IPsoCalculationsProcessor, PsoCalculationsProcessor>();
+            container.RegisterType<IForecastVariableRepository, ForecastVariableRepository>();
+            container.RegisterType<IForecastProcessor, ForecastProcessor>();
 
             container.RegisterType<IPortfolioResultsRepository, PortfolioResultsRepository>();
             container.RegisterType<IGoalAttainmentProcessor, GoalAttainmentProcessor>();

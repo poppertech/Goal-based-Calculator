@@ -14,5 +14,6 @@ namespace PoppertechCalculator.Models
         public string Region { get; set; }
         public string ForecastType { get; set;}
         public decimal Forecast { get; set; }
+        public string Parent { get; set; }
     }
 }
