@@ -1,6 +1,7 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap']);
 
 // TODO: remove year 0 from the cash flow forecast
+// TODO: end-to-end test initial forecast data retrieval
 // TODO: user acceptance test for pso
 // TODO: add web api validation
 // TODO: deploy
