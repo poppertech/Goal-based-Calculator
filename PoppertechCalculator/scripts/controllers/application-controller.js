@@ -1,4 +1,4 @@
-﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap']);
+﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
 // TODO: remove year 0 from the cash flow forecast
 // TODO: end-to-end test initial forecast data retrieval
@@ -18,6 +18,7 @@ CalculatorController.$inject = [
     '$window',
     '$filter',
     '$q',
+    'toastr',
     'forecastGraphCalculationsSvc',
     'momentCalculationsSvc',
     'simulationApiSvc',
@@ -31,6 +32,7 @@ function CalculatorController(
     $window,
     $filter,
     $q,
+    toastr,
     forecastGraphCalculationsSvc,
     momentCalculationsSvc,
     simulationApiSvc,
@@ -80,6 +82,7 @@ function CalculatorController(
     function initializeRequestsSuccess(responses) {
         getForecastsSuccess(responses[0]);
         postPortfolioSimulationsSuccess(responses[1]);
+
     }
 
     function initCashForecast() {
@@ -142,7 +145,7 @@ function CalculatorController(
         return portfolioChartData;
     }
 
-    function onScenarioSelectionChange(forecastRegion) {
+    function onScenarioSelectionChange(forecastRegion, selectedForecast) {
 
         if (!isValidForecast(selectedForecast)) {
             vm.SelectedForecastForm.$invalid = true;
@@ -310,6 +313,7 @@ function CalculatorController(
         vm.probabilityChartData = getProbabilityChartData(response.model.chartData);
         vm.portfolioChartData = getPortfolioChartData(response.model.optimalInvestments);
         vm.editProperties.investmentContexts = getInvestmentContext(vm.editProperties.investmentContexts, response.model.optimalInvestments);
+        toastr.success('Investment amounts and probabilities have been updated', 'Optimization success');
     }
 
     function getInvestmentContext(investmentContexts, optimalInvestments) {
@@ -325,6 +329,7 @@ function CalculatorController(
 
     function postPortfolioSimulationsSuccess(response) {
         vm.probabilityChartData = getProbabilityChartData(response.model);
+        toastr.success('Probabilities have been updated', 'Portfolio simulation success');
     }
 
     function getProbabilityChartData(chartData) {
@@ -348,6 +353,8 @@ function CalculatorController(
 
         vm.histogramChartData = selectedSimulationResult.histogramsData;
         vm.simulatedStatistics = selectedSimulationResult.statistics;
+
+        toastr.success('Histogram and statistics have been updated', 'Investment simulations success');
     }
 
     function changeKeysToUpper(keyValue) {
@@ -366,12 +373,13 @@ function CalculatorController(
     }
 
     function postSimulationsFailure(err) {
-        var x = err;
+        angular.forEach(err.data, function (errorMessage) {
+            toastr.error(errorMessage);
+        });
     }
 
     function setLocalStorage(editProperties) {
-        if (vm.CashFlowForm.$valid && vm.SelectedForecastForm.$valid && vm.PortfolioForm.$valid && vm.OptimizationForm.$valid)
-        {
+        if (vm.CashFlowForm.$valid && vm.SelectedForecastForm.$valid && vm.PortfolioForm.$valid && vm.OptimizationForm.$valid) {
             $window.localStorage.setItem('editProperties', angular.toJson(editProperties));
         }
     }

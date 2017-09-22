@@ -101,7 +101,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\angular-toastr.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="scripts\angular-toastr\angular-toastr.tpls.js" />
     <Content Include="scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="scripts\angular-ui\ui-bootstrap.js" />
@@ -134,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\JsonContentNegotiator.cs" />
+    <Compile Include="App_Start\ModelValidationErrorHandlerFilterAttribute.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ForecastController.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Logic\Processors\PSO\PsoCalculationsProcessor.cs" />
     <Compile Include="Models\Forecast\Forecast.cs" />
     <Compile Include="Models\Forecast\ForecastRegion.cs" />
+    <Compile Include="Models\Forecast\ForecastValidationAttribute.cs" />
     <Compile Include="Models\Forecast\ForecastVariableDTO.cs" />
     <Compile Include="Models\GoalAttainment\GoalAttainmentContext.cs" />
     <Compile Include="Models\Histogram\HistogramContext.cs" />

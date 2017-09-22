@@ -15,6 +15,8 @@ namespace PoppertechCalculator
             var jsonFormatter = new JsonMediaTypeFormatter();
             config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
 
+            config.Filters.Add(new ModelValidationErrorHandlerFilterAttribute());
+
             // Web API routes
             config.MapHttpAttributeRoutes();
         }

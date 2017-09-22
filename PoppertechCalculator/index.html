@@ -4,12 +4,14 @@
 
     <link href="styles/bootstrap.css" rel="stylesheet" />
     <link href="styles/bootstrap-theme.css" rel="stylesheet" />
+    <link href="Content/angular-toastr.css" rel="stylesheet" />
     <link href="styles/site.css" rel="stylesheet" />
 
     <script src="scripts/angular/angular.js"></script>
     <script src="scripts/angular/angular-resource.js"></script>
     <script src="scripts/angular/angular-animate.js"></script>
     <script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="scripts/angular-toastr/angular-toastr.tpls.js"></script>
 
 </head>
 
@@ -159,7 +161,7 @@
                                 <select class="form-control"
                                         ng-disabled="!vm.selectedVariable || vm.SelectedForecastForm.$invalid"
                                         ng-model="vm.forecastRegion"
-                                        ng-change="vm.onScenarioSelectionChange(vm.forecastRegion)"
+                                        ng-change="vm.onScenarioSelectionChange(vm.forecastRegion, vm.selectedForecast)"
                                         ng-options="option.value as option.text for option in vm.forecastRegionOptions"></select>
                             </div>
                         </div>
@@ -203,7 +205,7 @@
                                                            ng-change="vm.onForecastValueChange(vm.selectedForecast)"
                                                            required
                                                            min="0"
-                                                           max="1000" />
+                                                           max="10000" />
                                                 </td>
                                             </tr>
                                         </tbody>

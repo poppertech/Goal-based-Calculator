@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.ModelBinding;
 
 namespace PoppertechCalculator.Controllers
 {
@@ -23,12 +24,15 @@ namespace PoppertechCalculator.Controllers
         [HttpPost]
         [Route("")]
         [ResponseType(typeof(Response<IEnumerable<SimulationResults>>))]
-        public IHttpActionResult Post([FromBody] ForecastVariable[] request)
+        public IHttpActionResult Post([FromBody] IEnumerable<ForecastVariable> request)
         {
 
             var simulationsResults = _processor.SimulateInvestments(request);
             var response = new Response<IEnumerable<SimulationResults>> { Model = simulationsResults };
             return Ok(response);
+            
         }
+
+
     }
 }
