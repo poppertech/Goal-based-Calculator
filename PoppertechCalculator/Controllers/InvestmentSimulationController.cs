@@ -26,7 +26,6 @@ namespace PoppertechCalculator.Controllers
         [ResponseType(typeof(Response<IEnumerable<SimulationResults>>))]
         public IHttpActionResult Post([FromBody] IEnumerable<ForecastVariable> request)
         {
-
             var simulationsResults = _processor.SimulateInvestments(request);
             var response = new Response<IEnumerable<SimulationResults>> { Model = simulationsResults };
             return Ok(response);

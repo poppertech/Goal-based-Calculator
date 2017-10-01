@@ -19,7 +19,7 @@ namespace PoppertechCalculator.Tests
             var investmentContext1 = new PortfolioInvestmentContext() { Amount = 80, Weight = .4m, TimeSeriesReturns = returns1 };
             var investmentContext2 = new PortfolioInvestmentContext() {Amount = 120, Weight = .6m, TimeSeriesReturns = returns2 };
             var investmentContexts = new[] { investmentContext1, investmentContext2 };
-            var cashFlows = new decimal[] {0, 200, 10, 20 };
+            var cashFlows = new decimal[] {200, 10, 20 };
             var portfolioContext = new PortfolioContext() {
                 InvestmentContexts = investmentContexts,
                 CashFlows = cashFlows

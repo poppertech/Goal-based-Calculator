@@ -1,14 +1,12 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: remove year 0 from the cash flow forecast
-// TODO: end-to-end test initial forecast data retrieval
 // TODO: user acceptance test for pso
-// TODO: add web api validation
 // TODO: deploy
 
-// TODO: write narrative to correspond with calculator
-// TODO: check in excel template files into source control
-// TODO: write linkedin post to direct traffic to calculator
+// TODO: create constant for all ui strings
+// TODO: create resource with all api strings
+// TODO: create static class with all validation constants
+// TODO: configure dynamic ip address restrictions to prevent DDOS attacks
 
 angular.module('poppertechCalculatorApp')
 .controller('CalculatorController', CalculatorController)
@@ -43,7 +41,6 @@ function CalculatorController(
     vm = this;
 
     vm.hideBackground = false;
-    vm.editProperties = { optimizationParams: { lowerBound: 1000, upperBound: 3000, interval: 1000 } };
 
     vm.reset = reset;
     vm.selectVariable = selectVariable;
@@ -61,17 +58,17 @@ function CalculatorController(
         setEditProperties();
 
         $scope.$watch(function () { return vm.editProperties }, setLocalStorage, true);
-
+        $scope.$watch(function () { return vm.probabilityChartData }, setLocalStorage, true);
     }
 
     function setEditProperties() {
-        var storedEditProperties = getLocalStorage();
-        if (storedEditProperties) {
-            vm.editProperties = storedEditProperties;
+        getLocalStorage();
+        if (vm.editProperties) {
             getForecastsSuccess({ model: vm.editProperties.conditionalForecasts });
             vm.hideBackground = true;
         } else {
             var promises = [];
+            vm.editProperties = { optimizationParams: { lowerBound: 1000, upperBound: 3000, interval: 1000 } };
             vm.editProperties.cashForecast = initCashForecast();
             promises.push(forecastApiSvc.getForecasts());
             promises.push(portfolioSimulationApiSvc.getSimulations());
@@ -86,7 +83,7 @@ function CalculatorController(
     }
 
     function initCashForecast() {
-        var cashForecast = [{ date: 'Year ' + 0, value: 0 }];
+        var cashForecast = [];
         var numYears = 10;
         for (var year = 1; year < numYears + 1; year++) {
             cashForecast.push({ date: 'Year ' + year, value: 400 });
@@ -155,6 +152,7 @@ function CalculatorController(
         var selectedRegion = $filter('filter')(vm.selectedVariable.regions, function (region) {
             return region.name === forecastRegion;
         })[0];
+
         vm.selectedForecast = selectedRegion.forecast;
         calculateForecastGraph(vm.selectedForecast);
     }
@@ -215,6 +213,7 @@ function CalculatorController(
 
         selectVariableRegion(variableName);
         selectVariableClass(variableName);
+        calculateForecastGraph(vm.selectedForecast);
         setSimulationResults();
 
     }
@@ -378,18 +377,23 @@ function CalculatorController(
         });
     }
 
-    function setLocalStorage(editProperties) {
+    function setLocalStorage() {
         if (vm.CashFlowForm.$valid && vm.SelectedForecastForm.$valid && vm.PortfolioForm.$valid && vm.OptimizationForm.$valid) {
-            $window.localStorage.setItem('editProperties', angular.toJson(editProperties));
+            $window.localStorage.setItem('editProperties', angular.toJson(vm.editProperties));
+        }
+        if (vm.probabilityChartData && vm.probabilityChartData.length > 0) {
+            $window.localStorage.setItem('probabilityChartData', angular.toJson(vm.probabilityChartData));
         }
     }
 
     function getLocalStorage() {
-        return angular.fromJson($window.localStorage.getItem('editProperties'));
+        vm.editProperties = angular.fromJson($window.localStorage.getItem('editProperties'));
+        vm.probabilityChartData = angular.fromJson($window.localStorage.getItem('probabilityChartData'));
     }
 
     function reset() {
         $window.localStorage.removeItem('editProperties');
+        $window.localStorage.removeItem('probabilityChartData');
         activate();
     }
 

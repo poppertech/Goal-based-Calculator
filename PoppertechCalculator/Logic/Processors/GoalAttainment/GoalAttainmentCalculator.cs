@@ -16,7 +16,7 @@ namespace PoppertechCalculator.Processors
             
             var portfolioSimulations = InitializePortfolioSimulations(portfolioContext);
 
-            portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows, 0);
+            portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, 0, 0);
             
             var cumReturns = InitializeCumulativeReturns(portfolioContext);
 
@@ -25,7 +25,7 @@ namespace PoppertechCalculator.Processors
             for (int cntPeriod = 1; cntPeriod < numPeriods; cntPeriod++)
             {
                 investmentsSimulations = CalculateInvestmentSimulations(investmentsSimulations, cumReturns, portfolioSimulations, weights, cntPeriod);
-                portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows, cntPeriod);
+                portfolioSimulations = CalculatePortfolioSimulations(portfolioSimulations, investmentsSimulations, portfolioContext.CashFlows[cntPeriod-1], cntPeriod);
             }
 
             var attainmentProbabilities = CalculateProbabilities(portfolioSimulations);
@@ -81,12 +81,10 @@ namespace PoppertechCalculator.Processors
             return simulations;
         }
 
-        private static decimal[,] CalculatePortfolioSimulations(decimal[,] portfolioSimulations, decimal[,,] investmentsSimulations, IList<decimal> cashFlows, int cntPeriod)
+        private static decimal[,] CalculatePortfolioSimulations(decimal[,] portfolioSimulations, decimal[,,] investmentsSimulations, decimal cashFlow, int cntPeriod)
         {
             var numInvestments = investmentsSimulations.GetUpperBound(0) + 1;
             var numSimulations = investmentsSimulations.GetUpperBound(2) + 1;
-
-            var cashFlow = cashFlows[cntPeriod];
 
             for (var cntInvestment = 0; cntInvestment < numInvestments; cntInvestment++)
             {
@@ -98,7 +96,7 @@ namespace PoppertechCalculator.Processors
 
             for (int cntSimulation = 0; cntSimulation < numSimulations; cntSimulation++)
             {
-                var portfolioSimulationBase = portfolioSimulations[cntPeriod, cntSimulation] - cashFlows[cntPeriod];
+                var portfolioSimulationBase = portfolioSimulations[cntPeriod, cntSimulation] - cashFlow;
                 if (portfolioSimulationBase <= 0 || (cntPeriod >= 1 && portfolioSimulations[cntPeriod - 1, cntSimulation] <= 0))
                 {
                     portfolioSimulations[cntPeriod, cntSimulation] = 0;

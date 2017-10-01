@@ -10,12 +10,16 @@ namespace PoppertechCalculator.Models
     {
         [Range(0,1000)]
         public decimal Minimum { get; set; }
+
         [Range(0, 1000)]
         public decimal Worst { get; set; }
+
         [Range(0, 1000)]
         public decimal Likely { get; set; }
+
         [Range(0, 1000)]
         public decimal Best { get; set; }
+
         [Range(0, 1000)]
         public decimal Maximum { get; set; }
     }

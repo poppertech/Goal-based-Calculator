@@ -22,6 +22,7 @@ namespace PoppertechCalculator.Models
         public string Name { get; set; }
 
         [Required]
+        [MinLength(1)]
         public IList<ForecastRegion> Regions { get; set; }
 
         [StringLength(16)]

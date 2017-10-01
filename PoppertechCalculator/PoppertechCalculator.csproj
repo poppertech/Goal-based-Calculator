@@ -154,6 +154,7 @@
     <Compile Include="Models\Forecast\ForecastRegion.cs" />
     <Compile Include="Models\Forecast\ForecastValidationAttribute.cs" />
     <Compile Include="Models\Forecast\ForecastVariableDTO.cs" />
+    <Compile Include="Models\GoalAttainment\CashFlowValidationAttribute.cs" />
     <Compile Include="Models\GoalAttainment\GoalAttainmentContext.cs" />
     <Compile Include="Models\Histogram\HistogramContext.cs" />
     <Compile Include="Models\Histogram\HistogramDatum.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Models\Portfolio\PortfolioResult.cs" />
     <Compile Include="Models\PSO\OptimalInvestmentResult.cs" />
     <Compile Include="Models\PSO\OptimizationContext.cs" />
+    <Compile Include="Models\PSO\OptimizationParamsValidationAttribute.cs" />
     <Compile Include="Models\PSO\PsoContext.cs" />
     <Compile Include="Models\PSO\PsoResults.cs" />
     <Compile Include="Models\Simulation\JointSimulationContext.cs" />
