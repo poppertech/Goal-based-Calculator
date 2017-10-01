@@ -24,8 +24,8 @@ namespace PoppertechCalculator.Tests.Processors
             var optimizationContext = new OptimizationContext{LowerBound = 1000, UpperBound = 3000, Interval = 1000};
             var context = new PsoContext() {OptimizationParams = optimizationContext, InvestmentContexts = investmentContexts };
 
-            var optimalInvestment1Amount = 3000m;
-            var optimalInvestment2Amount = 1000m;
+            var optimalInvestment1Amount = 2000m;
+            var optimalInvestment2Amount = 2000m;
             var optimalInvestment1 = new OptimalInvestmentResult {Name = "Investment 1", Amount = optimalInvestment1Amount };
             var optimalInvestment2 = new OptimalInvestmentResult { Name = "Investment 2", Amount = optimalInvestment2Amount };
             var optimalInvestments = new[] { optimalInvestment1, optimalInvestment2 };
@@ -40,8 +40,8 @@ namespace PoppertechCalculator.Tests.Processors
             var processor = new Mock<IGoalAttainmentProcessor>();
             processor.SetupSequence(p => p.CalculateGoalAttainmentChartData(It.IsAny<GoalAttainmentContext>()))
                 .Returns(subOptimalChartData1)
-                .Returns(subOptimalChartData2)
-                .Returns(expectedChartData);
+                .Returns(expectedChartData)
+                .Returns(subOptimalChartData2);
 
             var calculator = new PsoCalculationsProcessor(processor.Object);
             

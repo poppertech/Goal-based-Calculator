@@ -17,7 +17,7 @@ namespace PoppertechCalculator.Models
             this.Amount = other.Amount;
         }
 
-        [Range(1, 1000)]
+        [Range(0, 1000)]
         public decimal InitialPrice { get; set; }
 
         [Range(0, 99999999)]

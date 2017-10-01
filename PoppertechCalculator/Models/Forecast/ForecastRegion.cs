@@ -8,7 +8,6 @@ namespace PoppertechCalculator.Models
 {
     public class ForecastRegion
     {
-        [Required]
         [StringLength(16)]
         public string Name { get; set; }
 

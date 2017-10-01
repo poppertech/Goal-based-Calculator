@@ -42,16 +42,17 @@ namespace PoppertechCalculator.Logic.Processors.PSO
 
                 var chartData = _goalAttainmentProcessor.CalculateGoalAttainmentChartData(context);
 
-                var feasibleInvestmentResults = context.InvestmentContexts.Select(c =>
+                var feasibleInvestmentResults = new List<OptimalInvestmentResult>();
+                foreach (var investmentContext in investments)
                 {
-                    return new OptimalInvestmentResult
+                    var optimalInvestmentResult = new OptimalInvestmentResult
                     {
-                        Name = c.Name,
-                        Amount = c.Amount,
-                        Weight = c.Amount / budget
+                        Name = investmentContext.Name,
+                        Amount = investmentContext.Amount,
+                        Weight = investmentContext.Amount / budget
                     };
+                    feasibleInvestmentResults.Add(optimalInvestmentResult);
                 }
-                );
 
                 var feasiblePortfolioResult = new PsoResults
                 {

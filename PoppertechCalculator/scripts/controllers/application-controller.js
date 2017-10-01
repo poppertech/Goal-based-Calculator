@@ -1,6 +1,5 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: user acceptance test for pso
 // TODO: deploy
 
 // TODO: create constant for all ui strings

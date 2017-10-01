@@ -10,12 +10,10 @@ namespace PoppertechCalculator.Models
     public class GoalAttainmentContext
     {
         [Required]
-        [MinLength(1)]
         [CashFlowValidation]
         public IList<decimal> CashFlows { get; set; }
 
         [Required]
-        [MinLength(1)]
         public IEnumerable<InvestmentContext> InvestmentContexts { get; set; }
     }
 }
