@@ -1,11 +1,26 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: deploy
+// TODO: change the model to be stocks --> bonds
 
 // TODO: create constant for all ui strings
 // TODO: create resource with all api strings
 // TODO: create static class with all validation constants
 // TODO: configure dynamic ip address restrictions to prevent DDOS attacks
+// TODO: limit the number of required calculations for portfolio optimization
+// TODO: put $ signs next to dollar amounts
+// TODO: implement sliders for intervals
+// TODO: minimum lot size to interval
+// TODO: change the cash flow title to required cash flow
+// TODO: change the forecast drop down labels from Left Tail to US GDP Left Tail
+
+// TODO: Change entity framework to remove stored procs
+// TODO: determine best architectural pattern for network calcs
+// TODO: check database project into source control
+
+// TODO: CI/CD
+// TODO: Angular 2
+// TODO: .Net Core
+
 
 angular.module('poppertechCalculatorApp')
 .controller('CalculatorController', CalculatorController)
@@ -97,24 +112,21 @@ function CalculatorController(
 
         vm.portfolioChartData = getPortfolioChartData(vm.editProperties.investmentContexts);
 
-        vm.selectVariable('GDP');
+        vm.selectVariable('Stocks');
         calculateForecastGraph(vm.selectedForecast);
     }
 
     function getInitialInvestmentContext(conditionalForecasts) {
-        var investmentContexts = $filter('filter')(conditionalForecasts, function (forecast) {
-            return forecast.parent;
-        });
 
-        angular.forEach(investmentContexts, function (context) {
+        angular.forEach(conditionalForecasts, function (context) {
             context.initialPrice = 100;
             context.amount = 2000;
 
         });
 
-        calculateInvestmentContextWeights(investmentContexts);
+        calculateInvestmentContextWeights(conditionalForecasts);
 
-        return investmentContexts;
+        return conditionalForecasts;
     }
 
     function calculateInvestmentContextWeights(investmentContexts) {
@@ -219,11 +231,8 @@ function CalculatorController(
 
     function selectVariableRegion(variableName) {
         switch (variableName) {
-            case 'GDP':
-                setUnconditionalRegion();
-                break;
             case 'Stocks':
-                setRegionToLeftTail();
+                setUnconditionalRegion();
                 break;
             case 'Bonds':
                 setRegionToLeftTail();
@@ -233,14 +242,10 @@ function CalculatorController(
 
     function selectVariableClass(variableName) {
 
-        vm.gdpClass = "rect-normal";
         vm.stocksClass = "rect-normal";
         vm.bondsClass = "rect-normal";
 
         switch (variableName) {
-            case 'GDP':
-                vm.gdpClass = 'rect-selected';
-                break;
             case 'Stocks':
                 vm.stocksClass = 'rect-selected';
                 break;

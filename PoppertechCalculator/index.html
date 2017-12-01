@@ -136,16 +136,14 @@
                         <div class="row">
                             <div class="col-sm-8 col-sm-offset-4 text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="215px">
-                                    <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal gdp" ng-click="vm.selectVariable('gdp')" ng-class="vm.gdpClass" />
-                                    <rect x="250" y="0" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal stocks" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
-                                    <rect x="250" y="100" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal bonds" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
+                                    <rect x="0" y="50" width="150" height="50" rx="15" ry="15" class="level1-rect rect-normal" ng-click="vm.selectVariable('stocks')" ng-class="vm.stocksClass" />
+                                    <rect x="250" y="50" width="150" height="50" rx="15" ry="15" class="level2-rect rect-normal" ng-click="vm.selectVariable('bonds')" ng-class="vm.bondsClass" />
 
-                                    <text x="17.5" y="80" class="rect-text gdp" ng-click="vm.selectVariable('GDP')">US GDP Growth</text>
-                                    <text x="290" y="30" class="rect-text Stocks" ng-click="vm.selectVariable('Stocks')">US Stocks</text>
-                                    <text x="290" y="130" class="rect-text bonds" ng-click="vm.selectVariable('Bonds')">US Bonds</text>
+                                    <text x="40" y="80" class="rect-text stocks" ng-click="vm.selectVariable('Stocks')">US Stocks</text>
+                                    <text x="290" y="80" class="rect-text bonds" ng-click="vm.selectVariable('Bonds')">US Bonds</text>
 
-                                    <polyline points="150,75 200,75 200,25 250,25" class="connector" />
-                                    <polyline points="150,75 200,75 200,125 250,125" class="connector" />
+                                    <polyline points="150,75 250,75 250,75 250,75" class="connector" />
+                                    <polyline points="235,60 250,75 250,75 235,90" class="connector" />
                                 </svg>
                             </div>
                         </div>

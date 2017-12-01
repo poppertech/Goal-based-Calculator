@@ -41,6 +41,7 @@ namespace PoppertechCalculator.Processors
         {
             var investmentContexts = context.InvestmentContexts;
             var unconditionalSimulations = CalculateUnconditionalSimulations(investmentContexts);
+            var unconditionalContext = CalculateUnconditionalPortfolioInvestmentContext(investmentContexts, unconditionalSimulations, context.CashFlows.Count());
             var portfolioInvestmentContexts = CalculateConditionalSimulations(investmentContexts, unconditionalSimulations.AreaNumbers, context.CashFlows.Count());
             var portfolioContext = new PortfolioContext
             {
@@ -58,11 +59,23 @@ namespace PoppertechCalculator.Processors
             return unConditionalSimulations;
         }
 
+        private IList<PortfolioInvestmentContext> CalculateUnconditionalPortfolioInvestmentContext(IEnumerable<InvestmentContext> investmentContexts, MonteCarloResults unConditionalSimulations, int numCashFlows)
+        {
+            var unconditionalContext = investmentContexts.Where(f => string.IsNullOrWhiteSpace(f.Parent)).ToArray();
+            var initialPrice = unconditionalContext[0].InitialPrice;
+            var portfolioValue = investmentContexts.Select(c => c.Amount).Sum();
+            var timeSeries = _cumulativeReturnsCalculator.CalculateTimeSeriesReturns(initialPrice, unConditionalSimulations.Simulations, numCashFlows);
+            var portfolioInvestmentContext = new PortfolioInvestmentContext(unconditionalContext[0]);
+            portfolioInvestmentContext.TimeSeriesReturns = timeSeries;
+            portfolioInvestmentContext.Weight = portfolioInvestmentContext.Amount / portfolioValue;
+            return new List<PortfolioInvestmentContext>() { portfolioInvestmentContext };
+        }
+
         private IList<PortfolioInvestmentContext> CalculateConditionalSimulations(IEnumerable<InvestmentContext> investmentContexts, IList<int> unConditionalAreaNumbers, int numCashFlows)
         {
             var conditionalContexts = investmentContexts.Where(f => !string.IsNullOrWhiteSpace(f.Parent)).ToArray();
             var portfolioInvestmentContexts = new PortfolioInvestmentContext[conditionalContexts.Length];
-            var portfolioValue = conditionalContexts.Select(c => c.Amount).Sum();
+            var portfolioValue = investmentContexts.Select(c => c.Amount).Sum();
 
             for (int cnt = 0; cnt < conditionalContexts.Length; cnt++)
             {

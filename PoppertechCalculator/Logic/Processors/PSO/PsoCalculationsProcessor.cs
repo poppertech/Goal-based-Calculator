@@ -24,7 +24,7 @@ namespace PoppertechCalculator.Logic.Processors.PSO
         private IEnumerable<PsoResults> CalculateFeasibleResults(PsoContext context)
         {
             var feasiblePortfolioResults = new List<PsoResults>();
-            var investments = context.InvestmentContexts.Where(c => c.Parent != null);
+            var investments = context.InvestmentContexts;
             var budget = investments.Sum(c => c.Amount);
             var investmentContext1 = investments.First();
             var investmentContext2 = investments.Last();
@@ -72,7 +72,7 @@ namespace PoppertechCalculator.Logic.Processors.PSO
             foreach (var feasibleResult in feasibleResults)
             {
                 var probability = feasibleResult.ChartData.Values.Last();
-                if (probability > maxProbability)
+                if (probability >= maxProbability)
                 {
                     maxProbability = probability;
                     optimalResult = feasibleResult;
