@@ -39,10 +39,13 @@ namespace PoppertechCalculator.Processors
 
         public IEnumerable<decimal> CalculateGoalAttainment(GoalAttainmentContext context)
         {
+            var portfolioInvestmentContexts = new List<PortfolioInvestmentContext>();
             var investmentContexts = context.InvestmentContexts;
             var unconditionalSimulations = CalculateUnconditionalSimulations(investmentContexts);
             var unconditionalContext = CalculateUnconditionalPortfolioInvestmentContext(investmentContexts, unconditionalSimulations, context.CashFlows.Count());
-            var portfolioInvestmentContexts = CalculateConditionalSimulations(investmentContexts, unconditionalSimulations.AreaNumbers, context.CashFlows.Count());
+            portfolioInvestmentContexts.AddRange(unconditionalContext);
+            var conditionalContexts = CalculateConditionalSimulations(investmentContexts, unconditionalSimulations.AreaNumbers, context.CashFlows.Count());
+            portfolioInvestmentContexts.AddRange(conditionalContexts);
             var portfolioContext = new PortfolioContext
             {
                 InvestmentContexts = portfolioInvestmentContexts,

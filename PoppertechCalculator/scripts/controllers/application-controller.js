@@ -1,6 +1,6 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: change the model to be stocks --> bonds
+// TODO: change application so that default assumptions are based on historical data 
 
 // TODO: create constant for all ui strings
 // TODO: create resource with all api strings
