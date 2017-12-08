@@ -66,8 +66,8 @@ namespace PoppertechCalculator.Processors
                 var regions = conditionalForecast.Regions.ToList();
                 var jointSimulations = _jointSimulator.CalculateJointSimulations(unConditionalAreaNumbers, conditionalForecast.Name, regions);
                 histogramContext.Simulations = jointSimulations.Simulations;
-                histogramContext.GlobalXMin = regions[0].Forecast.Minimum;
-                histogramContext.GlobalXMax = regions[regions.Count() - 1].Forecast.Maximum;
+                histogramContext.GlobalXMin = regions.Select(r => r.Forecast.Minimum).Min();
+                histogramContext.GlobalXMax = regions.Select(r => r.Forecast.Maximum).Max();
                 var simulationResult = GetSimulationResults(conditionalForecast.Name, histogramContext);
 
                 simulationResults[cnt] = simulationResult;

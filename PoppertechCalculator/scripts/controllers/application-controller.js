@@ -1,6 +1,7 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: change application so that default assumptions are based on historical data 
+// TODO: fix the histogram bug
+// TODO: check the calculations for the new defaults
 
 // TODO: create constant for all ui strings
 // TODO: create resource with all api strings
