@@ -1,6 +1,5 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: fix the histogram bug
 // TODO: check the calculations for the new defaults
 
 // TODO: create constant for all ui strings
@@ -101,7 +100,7 @@ function CalculatorController(
         var cashForecast = [];
         var numYears = 10;
         for (var year = 1; year < numYears + 1; year++) {
-            cashForecast.push({ date: 'Year ' + year, value: 400 });
+            cashForecast.push({ date: 'Year ' + year, value: 600 });
         }
         return cashForecast;
     }
