@@ -1,15 +1,11 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: put $ signs next to dollar amounts
-// TODO: minimum lot size to interval
-
 // TODO: configure dynamic ip address restrictions to prevent DDOS attacks
 // TODO: limit the number of required calculations for portfolio optimization
 // TODO: create constant for all ui strings
 // TODO: create resource with all api strings
 // TODO: create static class with all validation constants
 // TODO: implement sliders for intervals
-// TODO: change the cash flow title to required cash flow
 // TODO: change the forecast drop down labels from Left Tail to US GDP Left Tail
 
 // TODO: Change entity framework to remove stored procs
@@ -136,7 +132,7 @@ function CalculatorController(
         });
 
         angular.forEach(investmentContexts, function (context) {
-            context.weight = ((context.amount / portfolioAmount).toFixed(2)) * 100 + '%';
+            context.weight = ((context.amount / portfolioAmount).toFixed(2)) * 100;
         });
 
     }

@@ -36,10 +36,11 @@ function multiColoredAreaChartDirective() {
                 var xValues = data.map(function (d) { return d.x; });
 
                 var x = d3.scaleLinear()
+                    .nice()
                     .domain([d3.min(xValues), d3.max(xValues)])
                     .range([0, width]);
 
-                var y = d3.scaleLinear().rangeRound([height, 0]);
+                var y = d3.scaleLinear().nice().rangeRound([height, 0]);
 
                 var area = d3.area()
                     .x(function (d) { return x(d.x); })
@@ -49,7 +50,7 @@ function multiColoredAreaChartDirective() {
                 y.domain([0, d3.max(data, function (d) { return d.y; })]);
                 area.y0(y(0));
 
-                var xAxis = d3.axisBottom(x).ticks(xValues.length);
+                var xAxis = d3.axisBottom(x).ticks(10);
                 var yAxis = d3.axisLeft(y).ticks(5).tickSizeOuter(0);;
 
                 for (var cnt = 0; cnt < data.length - 1; cnt++) {

@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="col-sm-4">
-                                <h4 class="text-center">Cash Flow Forecast</h4>
+                                <h4 class="text-center">Required Cash Flow ($)</h4>
                             </div>
                         </div>
 
@@ -80,7 +80,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3>Cash Flow Forecast</h3>
+                        <h3>Cash Flow Forecast ($)</h3>
                     </div>
                     <div class="panel-body">
                         <ng-form name="vm.CashFlowForm">
@@ -150,7 +150,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <h4 class="text-left">2. Forecast investment results based on parent outcome</h4>
+                                <h4 class="text-left">2. Forecast $100 investment value based on parent outcome</h4>
                             </div>
                         </div>
 
@@ -194,7 +194,7 @@
                                     <table class="table table-striped">
                                         <tbody>
                                             <tr ng-repeat="(forecastName, forecastValue) in vm.selectedForecast">
-                                                <td>{{forecastName}}</td>
+                                                <td>{{forecastName[0].toUpperCase() + forecastName.slice(1)}}</td>
                                                 <td>
                                                     <input type="number"
                                                            class="form-control"
@@ -220,7 +220,7 @@
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr ng-repeat="(statName, statValue) in vm.conditionalStats">
-                                            <td>{{statName}}</td>
+                                            <td>{{statName[0].toUpperCase() + statName.slice(1)}}</td>
                                             <td>{{statValue | number: 2}}</td>
                                         </tr>
                                     </tbody>
@@ -304,19 +304,13 @@
 
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="InitialPriceTextBox">Initial Price</label>
+                                    <label for="AmountTextBox">Amount (%)</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="AmountTextBox">Amount</label>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="WeightTextBox">Weight</label>
+                                    <label for="WeightTextBox">Weight (%)</label>
                                 </div>
                             </div>
 
@@ -333,19 +327,6 @@
                                                type="text"
                                                class="form-control"
                                                readonly />
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input name="InitialPriceTextBox" + $index
-                                               ng-model="investmentContext.initialPrice"
-                                               ng-model-options="{ updateOn: 'blur'}"
-                                               type="number"
-                                               min="1"
-                                               max="1000"
-                                               class="form-control"
-                                               required />
                                     </div>
                                 </div>
 
@@ -387,12 +368,11 @@
 
                         <div class="row">
 
-                            <div class="col-sm-3 col-sm-offset-9">
+                            <div class="col-sm-1 col-sm-offset-8">
                                 <button type="button"
                                         ng-disabled="vm.CashFlowForm.$invalid || vm.SelectedForecastForm.$invalid || vm.PortfolioForm.$invalid"
                                         ng-click="vm.simulatePortfolio(vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
-                                        class="btn btn-default
-                                    btn-lg">
+                                        class="btn btn-default btn-lg pull-right">
                                     Simulate
                                 </button>
                             </div>
@@ -413,7 +393,7 @@
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="LowerBoundTextBox">Position Size Lower Bound:</label>
+                                        <label for="LowerBoundTextBox">Position Size Lower Bound ($):</label>
                                         <input type="number"
                                                ng-model="vm.editProperties.optimizationParams.lowerBound"
                                                ng-model-options="{ updateOn: 'blur'}"
@@ -427,7 +407,7 @@
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="UpperBoundTextBox">Position Size Upper Bound:</label>
+                                        <label for="UpperBoundTextBox">Position Size Upper Bound ($):</label>
                                         <input type="number"
                                                ng-model="vm.editProperties.optimizationParams.upperBound"
                                                ng-model-options="{ updateOn: 'blur'}"
@@ -441,7 +421,7 @@
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="MinimumLotTextBox">Minimum Lot Size:</label>
+                                        <label for="MinimumLotTextBox">Interval between Scenarios:</label>
                                         <input type="number"
                                                ng-model="vm.editProperties.optimizationParams.interval"
                                                ng-model-options="{ updateOn: 'blur'}"
@@ -468,15 +448,18 @@
 
                         <div class="row">
 
-                            <div class="col-sm-3 col-sm-offset-9">
+                            <div class="col-sm-1 col-sm-offset-7">
                                 <button type="button"
                                         ng-disabled="vm.CashFlowForm.$invalid || vm.SelectedForecastForm.$invalid || vm.PortfolioForm.$invalid || vm.OptimizationForm.$invalid"
                                         ng-click="vm.optimizePortfolio(vm.editProperties.optimizationParams, vm.editProperties.cashForecast, vm.editProperties.conditionalForecasts)"
-                                        class="btn btn-default btn-lg">
+                                        class="btn btn-default btn-lg pull-right">
                                     Calculate
                                 </button>
+                            </div>
+
+                            <div class="col-sm-1">
                                 <button type="button"
-                                        class="btn btn-danger btn-lg"
+                                        class="btn btn-danger btn-lg pull-right"
                                         ng-click="vm.reset()">
                                     Reset
                                 </button>

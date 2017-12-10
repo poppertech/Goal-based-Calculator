@@ -51,7 +51,7 @@
                 area.y0(y(0));
 
                 var xAxis = d3.axisBottom(x).ticks(xValues.length);
-                var yAxis = d3.axisLeft(y).tickSizeOuter(0);
+                var yAxis = d3.axisLeft(y).ticks(5).tickSizeOuter(0);
 
                 g.append("path")
                     .datum(data)
