@@ -1,5 +1,7 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
+// TODO: deploy latest changes
+
 // TODO: create constant for all ui strings
 // TODO: create resource with all api strings
 // TODO: create static class with all validation constants
@@ -73,7 +75,7 @@ function CalculatorController(
             vm.hideBackground = true;
         } else {
             var promises = [];
-            vm.editProperties = { optimizationParams: { lowerBound: 1000, upperBound: 3000, interval: 1000 } };
+            vm.editProperties = { optimizationParams: { lowerBound: 100000, upperBound: 300000, interval: 100000 } };
             vm.editProperties.cashForecast = initCashForecast();
             promises.push(forecastApiSvc.getForecasts());
             promises.push(portfolioSimulationApiSvc.getSimulations());
@@ -91,7 +93,7 @@ function CalculatorController(
         var cashForecast = [];
         var numYears = 10;
         for (var year = 1; year < numYears + 1; year++) {
-            cashForecast.push({ date: 'Year ' + year, value: 600 });
+            cashForecast.push({ date: 'Year ' + year, value: 60000 });
         }
         return cashForecast;
     }
@@ -111,7 +113,7 @@ function CalculatorController(
 
         angular.forEach(conditionalForecasts, function (context) {
             context.initialPrice = 100;
-            context.amount = 2000;
+            context.amount = 200000;
 
         });
 
