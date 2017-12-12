@@ -1,12 +1,8 @@
 ﻿angular.module('poppertechCalculatorApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'toastr']);
 
-// TODO: configure dynamic ip address restrictions to prevent DDOS attacks
-// TODO: limit the number of required calculations for portfolio optimization
 // TODO: create constant for all ui strings
 // TODO: create resource with all api strings
 // TODO: create static class with all validation constants
-// TODO: implement sliders for intervals
-// TODO: change the forecast drop down labels from Left Tail to US GDP Left Tail
 
 // TODO: Change entity framework to remove stored procs
 // TODO: determine best architectural pattern for network calcs
@@ -276,10 +272,10 @@ function CalculatorController(
 
     function getConditionalForecastRegionOptions() {
         return [
-                { text: "Left Tail", value: "LeftTail" },
-                { text: "Left Normal", value: "LeftNormal" },
-                { text: "Right Normal", value: "RightNormal" },
-                { text: "Right Tail", value: "RightTail" }
+                { text: "Stocks Left Tail", value: "LeftTail" },
+                { text: "Stocks Left Normal", value: "LeftNormal" },
+                { text: "Stocks Right Normal", value: "RightNormal" },
+                { text: "Stocks Right Tail", value: "RightTail" }
         ];
     }
 
@@ -299,12 +295,24 @@ function CalculatorController(
     }
 
     function optimizePortfolio(optimizationParams, cashFlows, conditionalForecasts) {
+        if (!isValidOptimization(optimizationParams)) {
+            vm.OptimizationForm.$invalid = true;
+            return;
+        }
         vm.hideBackground = false;
         var cashFlowValues = cashFlows.map(function (cashFlow) { return cashFlow.value });
         var psoContext = { cashFlows: cashFlowValues, investmentContexts: conditionalForecasts, OptimizationParams: optimizationParams };
         psoApiSvc.postPso(psoContext)
             .then(postPsoSuccess, postSimulationsFailure)
             .finally(function () { vm.hideBackground = true; });;
+    }
+
+    function isValidOptimization(optimizationParams) {
+        var numOptimizations = (optimizationParams.upperBound - optimizationParams.lowerBound) / optimizationParams.interval;
+        if (numOptimizations > 10) {
+            return false;
+        }
+        return true;
     }
 
     function postPsoSuccess(response) {
